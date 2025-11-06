@@ -4,6 +4,6 @@
 import oryConfig from "@/ory.config";
 import { createOryMiddleware } from "@ory/nextjs/middleware";
 
-export const middleware = async () => createOryMiddleware(oryConfig)
+export const middleware = createOryMiddleware(oryConfig)
 
 export const config = {}
