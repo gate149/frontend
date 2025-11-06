@@ -1,0 +1,26 @@
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th,
+.table td {
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+@media (min-width: $mantine-breakpoint-sm) {
+    .table th,
+    .table td {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+}
+
+@media (min-width: $mantine-breakpoint-lg) {
+    .table th,
+    .table td {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+}

@@ -1,0 +1,119 @@
+.input {
+    min-height: 245px;
+    height: 245px;
+    padding: var(--mantine-spacing-sm);
+    border: none;
+    resize: none;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.code {
+    width: 565px;
+    height: fit-content;
+    background-color: light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-8));
+    padding: var(--mantine-spacing-md);
+    border-radius: var(--mantine-radius-default);
+}
+
+.dropZone {
+    position: relative;
+    height: 253px; /* Фиксированная высота */
+    border: 2px dashed light-dark(var(--mantine-color-gray-4), var(--mantine-color-dark-3));
+    border-radius: var(--mantine-radius-default);
+    background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-6));
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+    padding: 4px;
+    box-sizing: border-box;
+}
+
+.code[data-dragging="true"] .dropZone {
+    border-color: var(--mantine-color-blue-6);
+    background-color: light-dark(
+            var(--mantine-color-blue-0),
+            var(--mantine-color-blue-9)
+    );
+}
+
+.dragOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: light-dark(
+            var(--mantine-color-blue-0),
+            var(--mantine-color-blue-9)
+    );
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+}
+
+.code[data-dragging="true"] .dragOverlay {
+    opacity: 1;
+}
+
+.fileAttached {
+    padding: var(--mantine-spacing-sm);
+    height: 245px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.fileInfo {
+    display: flex;
+    align-items: center;
+    gap: var(--mantine-spacing-sm);
+}
+
+.deleteButton {
+    position: absolute;
+    top: var(--mantine-spacing-xs);
+    right: var(--mantine-spacing-xs);
+}
+
+.pinFileLabel {}
+.pinFileSection {}
+.pinFileRoot {}
+
+@media (max-width: 768px) {
+}
+
+@media (max-width: $mantine-breakpoint-lg) {
+    .dropZone {
+        height: 130px;
+        padding: 4px;
+    }
+
+    .input {
+        min-height: 122px;
+        height: 122px;
+        padding: var(--mantine-spacing-xs);
+    }
+
+    .fileAttached {
+        height: 122px;
+        padding: var(--mantine-spacing-xs);
+    }
+
+    .pinFileLabel {
+        display: none;
+    }
+
+    .pinFileSection {
+        margin: 0
+    }
+
+    .pinFileRoot {
+        padding: 0 12px;
+    }
+
+    .code {
+        width: 320px;
+    }
+}

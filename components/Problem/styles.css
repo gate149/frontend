@@ -1,0 +1,59 @@
+.container {
+    max-width: 800px;
+    padding: 0 10px 10px 10px;
+    hyphens: auto;
+    overflow-wrap: break-word;
+    text-rendering: optimizeLegibility;
+    font-kerning: normal;
+    color: var(--mantine-color-text);
+}
+
+.content {
+    & table {
+        margin: 1em 0;
+        overflow-x: auto;
+        font-variant-numeric: lining-nums tabular-nums;
+    }
+
+    & table & caption {
+        margin-bottom: 0.75em;
+    }
+
+    & table, & th, & td {
+        border: 1px solid var(--mantine-color-text);
+        border-collapse: collapse;
+    }
+
+    & th {
+        padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+
+    & td {
+        padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+
+    .center {
+        display: flex;
+        justify-content: center;
+    }
+
+    & ul, & ol {
+        margin: 0;
+    }
+
+    & p {
+        margin: 0.75em;
+    }
+
+    & p {
+        line-height: 1.2;
+    }
+
+    & a {
+        color: var(--mantine-color-text);
+    }
+
+    & a:visited {
+        color: var(--mantine-color-text);
+    }
+}

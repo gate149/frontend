@@ -1,0 +1,52 @@
+.header {
+    height: 70px;
+    padding-left: var(--mantine-spacing-md);
+    padding-right: var(--mantine-spacing-md);
+    border-bottom: 1px solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+}
+
+.link {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding-left: var(--mantine-spacing-md);
+    padding-right: var(--mantine-spacing-md);
+    text-decoration: none;
+    color: var(--mantine-color-text);
+    font-weight: 500;
+    font-size: var(--mantine-font-size-sm);
+
+    @mixin hover {
+        background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
+    }
+
+    @media (max-width: $mantine-breakpoint-sm) {
+        padding-left: var(--mantine-spacing-xs);
+        padding-right: var(--mantine-spacing-xs);
+    }
+}
+
+.icon {
+    width: 22px;
+    height: 22px;
+}
+
+.dark {
+    @mixin dark {
+        display: none;
+    }
+
+    @mixin light {
+        display: block;
+    }
+}
+
+.light {
+    @mixin light {
+        display: none;
+    }
+
+    @mixin dark {
+        display: block;
+    }
+}
