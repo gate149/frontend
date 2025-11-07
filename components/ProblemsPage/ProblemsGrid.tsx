@@ -5,9 +5,10 @@ import { ProblemCard } from "./ProblemCard";
 type Props = {
   problems: ProblemsListItem[];
   isAuthenticated: boolean;
+  owner?: string;
 };
 
-export function ProblemsGrid({ problems, isAuthenticated }: Props) {
+export function ProblemsGrid({ problems, isAuthenticated, owner }: Props) {
   if (problems.length === 0) {
     return (
       <Center py="xl">
@@ -15,6 +16,9 @@ export function ProblemsGrid({ problems, isAuthenticated }: Props) {
       </Center>
     );
   }
+
+  // Show edit button only in "My Problems" section
+  const showEditButton = isAuthenticated && owner === "me";
 
   return (
     <SimpleGrid
@@ -25,7 +29,7 @@ export function ProblemsGrid({ problems, isAuthenticated }: Props) {
         <ProblemCard
           key={problem.id}
           problem={problem}
-          isAuthenticated={isAuthenticated}
+          showEditButton={showEditButton}
         />
       ))}
     </SimpleGrid>

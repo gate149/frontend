@@ -26,7 +26,7 @@ const ProblemsContent = async ({
 }) => {
   // Fetch problems and user data on server
   const [problemsData, userData] = await Promise.all([
-    getProblems(page, 12, undefined, undefined, owner),
+    getProblems(page, 20, undefined, undefined, owner),
     getMe(),
   ]);
 

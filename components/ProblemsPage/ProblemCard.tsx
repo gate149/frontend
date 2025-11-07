@@ -9,10 +9,10 @@ import classes from "./ProblemCard.module.css";
 
 type Props = {
   problem: ProblemsListItem;
-  isAuthenticated: boolean;
+  showEditButton: boolean;
 };
 
-export function ProblemCard({ problem, isAuthenticated }: Props) {
+export function ProblemCard({ problem, showEditButton }: Props) {
   const router = useRouter();
 
   return (
@@ -43,8 +43,8 @@ export function ProblemCard({ problem, isAuthenticated }: Props) {
                 {problem.title}
               </Title>
             </Stack>
-            {/* Edit button */}
-            {isAuthenticated && (
+            {/* Edit button - only in "My Problems" section */}
+            {showEditButton && (
               <ActionIcon
                 variant="subtle"
                 size="lg"

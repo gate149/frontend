@@ -1,6 +1,5 @@
 "use client";
 
-import { DefaultLayout } from "@/components/Layout";
 import {
   Anchor,
   AppShellHeader,
@@ -92,20 +91,7 @@ const ProblemForm = ({ problem, onSubmitFn, onUploadFn }: Props) => {
   };
 
   return (
-    <DefaultLayout
-      stylesConfig={{
-        footer: {
-          position: "static",
-          bottom: "auto",
-          width: "100%",
-          zIndex: "auto",
-        },
-        main: {
-          paddingTop: 70,
-          paddingBottom: `var(--mantine-spacing-lg)`,
-        },
-      }}
-    >
+    <>
       <AppShellHeader>
         <Group h="100%" px="md" justify="space-between">
           <Group gap="sm">
@@ -320,7 +306,7 @@ const ProblemForm = ({ problem, onSubmitFn, onUploadFn }: Props) => {
           </Button>
         </Stack>
       </Modal>
-    </DefaultLayout>
+    </>
   );
 };
 

@@ -1,5 +1,6 @@
 import {UpdateProblem} from "@/app/problems/[problem_id]/edit/actions";
 import {ProblemForm} from "@/components/ProblemsPage/ProblemForm";
+import {DefaultLayout} from "@/components/Layout";
 import {getProblem, uploadProblem as uploadProblemAction,} from "@/lib/actions";
 import {Metadata} from "next";
 import {notFound} from "next/navigation";
@@ -53,11 +54,26 @@ const Page = async (props: Props) => {
   const problem = response.problem;
 
   return (
-    <ProblemForm
-      problem={problem}
-      onSubmitFn={UpdateProblem}
-      onUploadFn={onUploadFn}
-    />
+    <DefaultLayout
+      stylesConfig={{
+        footer: {
+          position: "static",
+          bottom: "auto",
+          width: "100%",
+          zIndex: "auto",
+        },
+        main: {
+          paddingTop: 70,
+          paddingBottom: `var(--mantine-spacing-lg)`,
+        },
+      }}
+    >
+      <ProblemForm
+        problem={problem}
+        onSubmitFn={UpdateProblem}
+        onUploadFn={onUploadFn}
+      />
+    </DefaultLayout>
   );
 };
 

@@ -6,7 +6,7 @@ export function ProblemsGridSkeleton() {
       cols={{ base: 1, xs: 2, sm: 2, md: 3, lg: 4, xl: 4 }}
       spacing={{ base: "xs", sm: "sm", md: "md" }}
     >
-      {Array.from({ length: 12 }).map((_, index) => (
+      {Array.from({ length: 20 }).map((_, index) => (
         <Card
           key={index}
           shadow="xs"

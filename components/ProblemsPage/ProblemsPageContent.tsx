@@ -33,7 +33,11 @@ export function ProblemsPageContent({
 
   return (
     <>
-      <ProblemsGrid problems={filteredProblems} isAuthenticated={isAuthenticated} />
+      <ProblemsGrid 
+        problems={filteredProblems} 
+        isAuthenticated={isAuthenticated}
+        owner={owner}
+      />
       {pagination.total > 1 && (
         <Stack align="center">
           <NextPagination
