@@ -10,7 +10,7 @@ async function getOrySession() {
     
     const ory = new FrontendApi(
       new Configuration({
-        basePath: process.env.NEXT_PUBLIC_ORY_SDK_URL || "http://localhost:4433",
+        basePath: process.env.ORY_SDK_URL || "http://steins.ru/kratos/public",
         baseOptions: {
           withCredentials: true,
         },

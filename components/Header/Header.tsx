@@ -18,40 +18,17 @@ import {
   useMantineColorScheme,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { Configuration, FrontendApi } from "@ory/client-fetch";
 import { useSession } from "@ory/elements-react/client";
 import { IconMoon, IconSun, IconUser } from "@tabler/icons-react";
 import cx from "clsx";
 import NextImage from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import React from "react";
+import { LogoutLink } from "../LogoutLink";
 import classes from "./styles.module.css";
-
-const kratos = new FrontendApi(
-  new Configuration({
-    basePath: process.env.NEXT_PUBLIC_ORY_SDK_URL,
-    credentials: "include",
-  })
-);
 
 const Profile = () => {
   const { session, isLoading: isPending } = useSession();
-  const router = useRouter();
-
-  const handleLogout = async () => {
-    if (!session) {
-        return;
-    }
-
-    try {
-      const logoutFlow = await kratos.createBrowserLogoutFlow();
-
-      router.push(logoutFlow.logout_url);
-    } catch (err: any) {
-      console.error("Logout error:", err);
-    }
-  };
 
   if (isPending) {
     return (
@@ -67,17 +44,23 @@ const Profile = () => {
   if (session) {
     return (
       <Group justify="flex-end">
-        <Button variant="default" visibleFrom="sm" onClick={handleLogout}>
+        <LogoutLink variant="default" visibleFrom="sm">
           Выйти
-        </Button>
-        <Avatar
-          component={Link}
-          href={`/users/${session.identity.id}`} // FIXME
-          color="gray"
-          size="60"
-        >
-          <IconUser size="32" />
-        </Avatar>
+        </LogoutLink>
+        {session.identity ? (
+          <Avatar
+            component={Link}
+            href={`/users/${session.identity.id}`}
+            color="gray"
+            size="60"
+          >
+            <IconUser size="32" />
+          </Avatar>
+        ) : (
+          <Avatar color="gray" size="60">
+            <IconUser size="32" />
+          </Avatar>
+        )}
       </Group>
     );
   }
@@ -107,7 +90,7 @@ const Header = ({
 
   return (
     <>
-          <div className={classes.header}>
+      <div className={classes.header}>
         <Group justify="space-between" h="100%" maw="1920px" mx="auto">
           <Burger
             opened={drawerOpened}
