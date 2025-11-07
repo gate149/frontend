@@ -18,9 +18,9 @@ import {
   Title,
 } from "@mantine/core";
 import { Suspense } from "react";
-import { ContestsFilter } from "./ContestsFilter";
-import { ContestsSearchInput } from "./ContestsSearchInput";
-import { ContestsTable } from "./ContestsTable";
+import { ContestsFilter } from "@/components/ContestsFilter";
+import { ContestsSearchInput } from "@/components/ContestsSearchInput";
+import { ContestsTable } from "@/components/ContestsTable";
 
 export const metadata = {
   title: "Контесты",
