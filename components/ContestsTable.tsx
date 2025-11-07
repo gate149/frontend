@@ -9,7 +9,7 @@ import {
   TableTr,
 } from "@mantine/core";
 import { useRouter } from "next/navigation";
-import type { Contest } from "../../../contracts/tester/v1";
+import type { Contest } from "../../contracts/tester/v1";
 
 export function ContestsTable({ contests }: { contests: Contest[] }) {
   const router = useRouter();
