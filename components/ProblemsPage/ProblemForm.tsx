@@ -25,7 +25,7 @@ import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import * as testerv1 from "../../contracts/tester/v1/tester";
+import * as testerv1 from "../../../contracts/tester/v1/tester";
 
 type Props = {
   problem: testerv1.Problem;

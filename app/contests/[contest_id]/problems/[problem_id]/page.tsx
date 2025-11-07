@@ -6,6 +6,7 @@ import {
   getContestProblem,
   getSolutions,
 } from "@/lib/actions";
+import { HeaderWithSession } from "@/components/HeaderWithSession";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { TaskWrapper } from "./TaskWrapper";
@@ -63,6 +64,7 @@ const Page = async (props: Props) => {
       solutions={solutions}
       problemId={params.problem_id}
       contestId={params.contest_id}
+      header={<HeaderWithSession />}
     />
   );
 };

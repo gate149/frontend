@@ -1,6 +1,10 @@
-import { ProblemsList } from "@/components/ProblemsList";
+import { CreateProblemForm } from "@/components/CreateProblemForm";
+import { DefaultLayout } from "@/components/Layout";
+import { ProblemsDataWrapper } from "@/components/ProblemsPage/ProblemsDataWrapper";
+import { ProblemsOwnerFilter } from "@/components/ProblemsPage/ProblemsOwnerFilter";
+import { ProblemsPageWrapper } from "@/components/ProblemsPage/ProblemsPageWrapper";
 import { getMe, getProblems } from "@/lib/actions";
-import { Alert, Center, Stack } from "@mantine/core";
+import { Alert, Center, Container, Stack } from "@mantine/core";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { Metadata } from "next";
 
@@ -45,12 +49,14 @@ const ProblemsContent = async ({
   const isAuthenticated = !!userData?.user;
 
   return (
-    <Stack gap="md">
-      {/* <ProblemsFilter /> */} // FIXME: incorrect placement
-      <ProblemsList
+    <Stack gap="lg">
+      <ProblemsOwnerFilter isAuthenticated={isAuthenticated} />
+      {owner === "me" && <CreateProblemForm isAuthenticated={isAuthenticated} />}
+      <ProblemsDataWrapper
         problems={problemsData.problems}
         pagination={problemsData.pagination}
         isAuthenticated={isAuthenticated}
+        owner={owner}
       />
     </Stack>
   );
@@ -61,7 +67,15 @@ const Page = async (props: Props) => {
   const page = Number(resolvedSearchParams.page) || 1;
   const owner = resolvedSearchParams.owner;
 
-  return <ProblemsContent page={page} owner={owner} />;
+  return (
+    <DefaultLayout>
+      <Container size="xl" py="xl">
+        <ProblemsPageWrapper>
+          <ProblemsContent page={page} owner={owner} />
+        </ProblemsPageWrapper>
+      </Container>
+    </DefaultLayout>
+  );
 };
 
 export default Page;

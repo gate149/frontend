@@ -3,7 +3,9 @@
 import React from 'react';
 import {Pagination} from '@mantine/core';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import * as testerv1 from '../../contracts/tester/v1';
+import { usePageTransition } from './ProblemsPage/ProblemsPageWrapper';
 
 interface NextPaginationProps {
     pagination: testerv1.Pagination;
@@ -12,6 +14,9 @@ interface NextPaginationProps {
 }
 
 const NextPagination = ({pagination, baseUrl, queryParams = {}}: NextPaginationProps) => {
+    const router = useRouter();
+    const { startTransition } = usePageTransition();
+
     // Helper function to build query string
     const buildQueryString = (params: Record<string, string | number | undefined>) => {
         const validParams = Object.entries(params)
@@ -20,9 +25,18 @@ const NextPagination = ({pagination, baseUrl, queryParams = {}}: NextPaginationP
         return validParams.length > 0 ? `?${validParams.join('&')}` : '';
     };
 
+    const navigateToPage = (page: number, e: React.MouseEvent) => {
+        e.preventDefault();
+        const url = `${baseUrl}${buildQueryString({...queryParams, page})}`;
+        startTransition(() => {
+            router.push(url);
+        });
+    };
+
     const getItemProps = (page: number) => ({
         component: Link,
         href: `${baseUrl}${buildQueryString({...queryParams, page})}`,
+        onClick: (e: React.MouseEvent) => navigateToPage(page, e),
     });
 
     const getControlProps = (control: 'first' | 'previous' | 'last' | 'next') => {
@@ -31,6 +45,7 @@ const NextPagination = ({pagination, baseUrl, queryParams = {}}: NextPaginationP
             return {
                 component: Link,
                 href: `${baseUrl}${buildQueryString({...queryParams, page: nextPage})}`,
+                onClick: (e: React.MouseEvent) => navigateToPage(nextPage, e),
             };
         }
 
@@ -39,6 +54,7 @@ const NextPagination = ({pagination, baseUrl, queryParams = {}}: NextPaginationP
             return {
                 component: Link,
                 href: `${baseUrl}${buildQueryString({...queryParams, page: prevPage})}`,
+                onClick: (e: React.MouseEvent) => navigateToPage(prevPage, e),
             };
         }
 

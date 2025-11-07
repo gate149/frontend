@@ -1,6 +1,6 @@
 import { CreateContestForm } from "@/components/CreateContestForm";
 import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
+import { HeaderWithSession } from "@/components/HeaderWithSession";
 import { Layout } from "@/components/Layout";
 import { getContests, getMe } from "@/lib/actions";
 import {
@@ -151,7 +151,7 @@ const ContestsPage = async ({ searchParams }: Params) => {
       }}
     >
       <AppShellHeader>
-        <Header drawerContent={managementControls} />
+        <HeaderWithSession drawerContent={managementControls} />
       </AppShellHeader>
       <AppShellMain>
         <Suspense

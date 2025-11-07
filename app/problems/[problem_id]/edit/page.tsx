@@ -1,5 +1,5 @@
 import {UpdateProblem} from "@/app/problems/[problem_id]/edit/actions";
-import {ProblemForm} from "@/components/ProblemForm";
+import {ProblemForm} from "@/components/ProblemsPage/ProblemForm";
 import {getProblem, uploadProblem as uploadProblemAction,} from "@/lib/actions";
 import {Metadata} from "next";
 import {notFound} from "next/navigation";

@@ -1,7 +1,7 @@
 import { CreateParticipantForm } from "@/components/CreateParticipantForm";
 import { CreateTaskForm } from "@/components/CreateTaskForm";
 import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
+import { HeaderWithSession } from "@/components/HeaderWithSession";
 import { Layout } from "@/components/Layout";
 import { Call } from "@/lib/api";
 import {
@@ -91,7 +91,7 @@ const Contest = ({ contest, problems }: ContestProps) => {
       }}
     >
       <AppShellHeader>
-        <Header drawerContent={managementControls} />
+        <HeaderWithSession drawerContent={managementControls} />
       </AppShellHeader>
       <AppShellMain>
         <Container
@@ -270,7 +270,10 @@ const Page = async ({ params }: Props) => {
     }
 
     return (
-      <Contest contest={response.contest} problems={response.problems || []} />
+      <Contest 
+        contest={response.contest} 
+        problems={response.problems || []} 
+      />
     );
   } catch (error) {
     console.error("❌ Failed to load contest:", error);

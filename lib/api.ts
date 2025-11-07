@@ -3,7 +3,7 @@
 import { cookies } from "next/headers";
 import { tester } from "../../contracts/tester/v1/tester";
 
-async function getOrySession() {
+export async function getOrySession() {
   try {
     const { FrontendApi, Configuration } = await import("@ory/client");
     const cookieStore = await cookies();

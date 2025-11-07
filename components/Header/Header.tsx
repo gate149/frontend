@@ -23,24 +23,57 @@ import { IconMoon, IconSun, IconUser } from "@tabler/icons-react";
 import cx from "clsx";
 import NextImage from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { LogoutLink } from "../LogoutLink";
 import classes from "./styles.module.css";
 
-const Profile = () => {
-  const { session, isLoading: isPending } = useSession();
+const Profile = ({ initialSession }: { initialSession: any }) => {
+  const { session: clientSession, isLoading: isPending } = useSession();
+  const [session, setSession] = useState(initialSession);
+  const hasUpdated = useRef(false);
+  
+  // Update session only once after useSession completes first load
+  // This prevents multiple re-renders and flashing
+  useEffect(() => {
+    if (!isPending && !hasUpdated.current) {
+      hasUpdated.current = true;
+      
+      // Check if session state actually changed
+      const wasAuth = !!initialSession;
+      const isAuth = !!clientSession;
+      const sameUser = initialSession?.identity?.id === clientSession?.identity?.id;
+      
+      // IMPORTANT: Only update in these specific safe cases:
+      
+      // Case 1: Both authenticated with same user → no update needed (prevents flashing)
+      if (wasAuth && isAuth && sameUser) {
+        return;
+      }
+      
+      // Case 2: Both NOT authenticated → no update needed
+      if (!wasAuth && !isAuth) {
+        return;
+      }
+      
+      // Case 3: Was NOT auth, now IS auth → update to show user info
+      if (!wasAuth && isAuth) {
+        setSession(clientSession);
+        return;
+      }
+      
+      // Case 4: Was auth, now NOT auth (logged out) → ONLY update if we're certain
+      // Don't switch to "not authenticated" if we started as authenticated
+      // This prevents false logouts due to slow API or timing issues
+      // User should explicitly log out, not be logged out by client state mismatch
+      if (wasAuth && !isAuth) {
+        // Keep showing authenticated state - server said we're authenticated
+        // If user really logged out, they'll see it on next page load
+        return;
+      }
+    }
+  }, [isPending, clientSession, initialSession]);
 
-  if (isPending) {
-    return (
-      <Group justify="flex-end">
-        <Button component={Link} href="/auth/login" variant="default">
-          Войти
-        </Button>
-        <Skeleton height="60" circle />
-      </Group>
-    );
-  }
-
+  // Show authenticated UI if we have session data (from SSR or client)
   if (session) {
     return (
       <Group justify="flex-end">
@@ -65,20 +98,42 @@ const Profile = () => {
     );
   }
 
-  // Fallback for no session or error
-  return (
-    <Group justify="flex-end">
-      <Button component={Link} href="/auth/login" variant="default">
-        Войти
-      </Button>
-    </Group>
-  );
+  // Show "Войти" when not authenticated
+  if (!session) {
+    // During initial load, show optimistic UI only if initialSession suggested authenticated user
+    if (!hasUpdated.current && initialSession) {
+      return (
+        <Group justify="flex-end">
+          <LogoutLink variant="default" visibleFrom="sm">
+            Выйти
+          </LogoutLink>
+          <Avatar color="gray" size="60">
+            <IconUser size="32" />
+          </Avatar>
+        </Group>
+      );
+    }
+    
+    // Otherwise show login button
+    return (
+      <Group justify="flex-end">
+        <Button component={Link} href="/auth/login" variant="default">
+          Войти
+        </Button>
+      </Group>
+    );
+  }
+
+  // This should never be reached, but adding for completeness
+  return null;
 };
 
 const Header = ({
   drawerContent,
+  initialSession,
 }: {
   drawerContent?: React.ReactNode;
+  initialSession?: any;
 } = {}) => {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
@@ -160,7 +215,7 @@ const Header = ({
                 stroke={1.5}
               />
             </ActionIcon>
-            <Profile />
+            <Profile initialSession={initialSession || null} />
           </Group>
         </Group>
       </div>

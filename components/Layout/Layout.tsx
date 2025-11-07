@@ -4,7 +4,6 @@ import {AppShell, AppShellFooter, AppShellHeader, AppShellMain, AppShellProps, r
 import React from "react";
 import {Footer} from "@/components/Footer";
 import {useHeadroom} from "@mantine/hooks";
-import {Header} from "../Header";
 
 type LayoutProps = {
     children: React.ReactNode;
@@ -14,6 +13,7 @@ type LayoutProps = {
     navbarConfig?: AppShellProps["navbar"];
     stylesConfig?: AppShellProps["styles"];
     paddingConfig?: AppShellProps["padding"];
+    header?: React.ReactNode;
 };
 
 const Layout = ({
@@ -56,11 +56,11 @@ const Layout = ({
     );
 };
 
-const DefaultLayout = ({children, ...props}: LayoutProps) => {
+const DefaultLayoutClient = ({children, header, ...props}: LayoutProps) => {
     return (
         <Layout {...props}>
             <AppShellHeader>
-                <Header/>
+                {header}
             </AppShellHeader>
             <AppShellMain>{children}</AppShellMain>
             <AppShellFooter withBorder={false}>
@@ -70,4 +70,4 @@ const DefaultLayout = ({children, ...props}: LayoutProps) => {
     );
 };
 
-export {Layout, DefaultLayout};
+export {Layout, DefaultLayoutClient};

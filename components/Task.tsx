@@ -21,7 +21,6 @@ import type {ContestProblemListItem, Contest, ContestProblem, SolutionsListItem}
 import {Problem} from "@/components/Problem";
 import {numberToLetters, StateColor, StateString} from '@/lib/lib';
 import {Layout} from "@/components/Layout";
-import {Header} from "@/components/Header";
 import {Footer} from "@/components/Footer";
 
 type PageProps = {
@@ -30,9 +29,10 @@ type PageProps = {
     task: ContestProblem,
     solutions: SolutionsListItem[],
     onSubmit: (solution: FormData, language: string) => Promise<number | null>
+    header: React.ReactNode
 }
 
-const Task = ({tasks, contest, task, onSubmit, solutions}: PageProps) => {
+const Task = ({tasks, contest, task, onSubmit, solutions, header}: PageProps) => {
     return (
         <Layout
             navbarConfig={{
@@ -45,7 +45,7 @@ const Task = ({tasks, contest, task, onSubmit, solutions}: PageProps) => {
             }}
         >
             <AppShellHeader>
-                <Header/>
+                {header}
             </AppShellHeader>
             <AppShellNavbar
                 style={{padding: "var(--mantine-spacing-xs) var(--mantine-spacing-md)"}}
