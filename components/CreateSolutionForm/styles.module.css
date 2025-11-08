@@ -9,11 +9,8 @@
 }
 
 .code {
-    width: 565px;
+    width: 485px;
     height: fit-content;
-    background-color: light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-8));
-    padding: var(--mantine-spacing-md);
-    border-radius: var(--mantine-radius-default);
 }
 
 .dropZone {

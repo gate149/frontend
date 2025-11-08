@@ -1,5 +1,4 @@
-"use server";
-
+import { cache } from "react";
 import { numberToLetters } from "@/lib/lib";
 import {
   getContest,
@@ -9,15 +8,24 @@ import {
 import { HeaderWithSession } from "@/components/HeaderWithSession";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { TaskWrapper } from "./TaskWrapper";
+import { Task } from "@/components/Task";
 
 type Props = {
   params: Promise<{ contest_id: string; problem_id: string }>;
 };
 
+// Cache getContestProblem to avoid duplicate calls in generateMetadata and Page
+const getCachedContestProblem = cache(
+  (problemId: string, contestId: string) =>
+    getContestProblem(problemId, contestId)
+);
+
 const generateMetadata = async (props: Props): Promise<Metadata> => {
   const params = await props.params;
-  const problem = await getContestProblem(params.problem_id, params.contest_id);
+  const problem = await getCachedContestProblem(
+    params.problem_id,
+    params.contest_id
+  );
 
   if (!problem?.problem) {
     return {
@@ -38,7 +46,7 @@ const Page = async (props: Props) => {
 
   const [problemResponse, contestResponse, solutionsResponse] =
     await Promise.all([
-      getContestProblem(params.problem_id, params.contest_id),
+      getCachedContestProblem(params.problem_id, params.contest_id),
       getContest(params.contest_id),
       getSolutions({
         page: 1,
@@ -57,7 +65,7 @@ const Page = async (props: Props) => {
   const solutions = solutionsResponse?.solutions || [];
 
   return (
-    <TaskWrapper
+    <Task
       task={problemResponse.problem}
       contest={contestResponse.contest}
       tasks={contestResponse.problems || []}

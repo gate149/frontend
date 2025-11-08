@@ -1,13 +1,7 @@
 "use server";
 
 import { createSolution } from "@/lib/actions";
-
-// Language mapping: golang = 10, cpp = 20, python = 30
-const LANGUAGE_MAP: Record<string, number> = {
-  golang: 10,
-  cpp: 20,
-  python: 30,
-};
+import { LANGUAGE_MAP } from "@/lib/constants";
 
 export async function submitSolution(
   problemId: string,

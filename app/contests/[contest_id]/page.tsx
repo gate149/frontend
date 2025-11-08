@@ -7,23 +7,19 @@ import {
   AppShellHeader,
   AppShellMain,
   Box,
-  Button,
   Center,
   Container,
-  Group,
   Stack,
   Text,
-  Title,
 } from "@mantine/core";
-import { IconDeviceDesktop, IconMail, IconPuzzle, IconSend, IconSettings, IconUsers } from "@tabler/icons-react";
 import { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import type {
   Contest,
   ContestProblemListItem,
 } from "../../../../contracts/tester/v1";
 import { ContestProblemsTable } from "./ContestProblemsTable";
+import { ContestHotbar } from "@/components/ContestHotbar";
 
 type Props = {
   params: Promise<{ contest_id: string }>;
@@ -68,64 +64,7 @@ const Contest = ({ contest, problems }: ContestProps) => {
           px={{ base: "xs", sm: "md", md: "lg" }}
         >
           {/* Header Section */}
-          <Stack gap="md" mb="lg" style={{ maxWidth: "740px", margin: "0 auto" }}>
-            <Title order={1} size="h3">
-              🏆 {contest.title}
-            </Title>
-            <Group gap="sm">
-              <Button
-                component={Link}
-                href={`/contests/${contest.id}`}
-                variant="filled"
-                size="sm"
-                leftSection={<IconPuzzle size={16} />}
-                visibleFrom="sm"
-              >
-                Задачи
-              </Button>
-              <Button
-                component={Link}
-                href={`/contests/${contest.id}/submit`}
-                variant="default"
-                size="sm"
-                leftSection={<IconSend size={16} />}
-                visibleFrom="sm"
-              >
-                Послать решение
-              </Button>
-              <Button
-                component={Link}
-                href={`/solutions?contestId=${contest.id}&order=-1`}
-                variant="default"
-                size="sm"
-                leftSection={<IconMail size={16} />}
-                visibleFrom="sm"
-              >
-                Посылки
-              </Button>
-              <Button
-                component={Link}
-                href={`/contests/${contest.id}/monitor`}
-                variant="default"
-                size="sm"
-                leftSection={<IconDeviceDesktop size={16} />}
-                visibleFrom="sm"
-              >
-                Монитор
-              </Button>
-              <Button
-                component={Link}
-                href={`/contests/${contest.id}/manage`}
-                variant="filled"
-                color="violet"
-                size="sm"
-                leftSection={<IconSettings size={16} />}
-                visibleFrom="sm"
-              >
-                Управление
-              </Button>
-            </Group>
-          </Stack>
+          <ContestHotbar contest={contest} activeTab="tasks" showManageButton={true} />
 
           {/* Tasks Section */}
           {problems.length === 0 ? (
