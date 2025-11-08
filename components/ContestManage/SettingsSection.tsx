@@ -68,15 +68,6 @@ export function SettingsSection({ contest }: SettingsSectionProps) {
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <form onSubmit={form.onSubmit(handleSave)}>
         <Stack gap="md">
-          <div>
-            <Title order={3} size="h4" mb="xs">
-              Настройки контеста
-            </Title>
-            <Text size="sm" c="dimmed">
-              Измените основные параметры контеста
-            </Text>
-          </div>
-
           <TextInput
             label="Название"
             placeholder="Введите название контеста"

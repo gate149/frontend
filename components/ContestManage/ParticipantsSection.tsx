@@ -159,15 +159,6 @@ export function ParticipantsSection({ contestId }: ParticipantsSectionProps) {
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Stack gap="md">
-        <div>
-          <Title order={3} size="h4" mb="xs">
-            Участники контеста
-          </Title>
-          <Text size="sm" c="dimmed">
-            Добавьте или удалите участников контеста
-          </Text>
-        </div>
-
         {/* Add Participant Form */}
         <Card withBorder padding="md">
           <Stack gap="sm">

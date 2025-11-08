@@ -137,15 +137,6 @@ export function ProblemsSection({
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Stack gap="md">
-        <div>
-          <Title order={3} size="h4" mb="xs">
-            Задачи контеста
-          </Title>
-          <Text size="sm" c="dimmed">
-            Добавьте или удалите задачи из контеста
-          </Text>
-        </div>
-
         {/* Add Problem Form */}
         <Card withBorder padding="md">
           <Stack gap="sm">

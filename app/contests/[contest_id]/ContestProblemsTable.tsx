@@ -1,8 +1,7 @@
 "use client";
 
 import { numberToLetters } from "@/lib/lib";
-import { Badge, Box, Button, Table, Text } from "@mantine/core";
-import Link from "next/link";
+import { Box, Flex, Table, Text } from "@mantine/core";
 import { useRouter } from "next/navigation";
 import type { ContestProblemListItem } from "../../../../contracts/tester/v1";
 
@@ -29,16 +28,13 @@ export function ContestProblemsTable({
   const router = useRouter();
 
   return (
-    <Box style={{ overflowX: "auto" }}>
-      <Table striped highlightOnHover>
+    <Box style={{ overflowX: "auto", maxWidth: "740px", margin: "0 auto" }}>
+      <Table striped highlightOnHover withTableBorder withColumnBorders>
         <Table.Thead>
           <Table.Tr>
-            <Table.Th>Позиция</Table.Th>
+            <Table.Th style={{ width: "50px", textAlign: "center" }}>#</Table.Th>
             <Table.Th>Название</Table.Th>
-            <Table.Th>ID</Table.Th>
-            <Table.Th>Лимит времени</Table.Th>
-            <Table.Th>Лимит памяти</Table.Th>
-            <Table.Th style={{ width: "120px" }}></Table.Th>
+            <Table.Th style={{ width: "80px", textAlign: "center" }}>Баллы</Table.Th>
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
@@ -52,39 +48,19 @@ export function ContestProblemsTable({
                 style={{ cursor: "pointer" }}
                 onClick={() => router.push(problemUrl)}
               >
-                <Table.Td>
+                <Table.Td style={{ textAlign: "center" }}>
                   <Text fw={500}>{numberToLetters(problem.position)}</Text>
                 </Table.Td>
                 <Table.Td>
-                  <Text fw={500}>{problem.title}</Text>
+                  <Flex justify="space-between" align="center" gap="md">
+                    <Text fw={500}>{problem.title}</Text>
+                    <Text c="dimmed" size="sm" style={{ whiteSpace: "nowrap" }}>
+                      {formatTimeLimit(problem.time_limit)}, {formatMemoryLimit(problem.memory_limit)}
+                    </Text>
+                  </Flex>
                 </Table.Td>
-                <Table.Td>
-                  <Badge size="sm" variant="light" color="grape">
-                    {problem.problem_id?.toString().slice(0, 8)}
-                  </Badge>
-                </Table.Td>
-                <Table.Td>
-                  <Text c="dimmed" size="sm">
-                    {formatTimeLimit(problem.time_limit)}
-                  </Text>
-                </Table.Td>
-                <Table.Td>
-                  <Text c="dimmed" size="sm">
-                    {formatMemoryLimit(problem.memory_limit)}
-                  </Text>
-                </Table.Td>
-                <Table.Td>
-                  <Button
-                    size="xs"
-                    variant="light"
-                    component={Link}
-                    href={problemUrl}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                    }}
-                  >
-                    Открыть
-                  </Button>
+                <Table.Td style={{ textAlign: "center" }}>
+                  {/* Баллы - will be populated when backend integration is ready */}
                 </Table.Td>
               </Table.Tr>
             );

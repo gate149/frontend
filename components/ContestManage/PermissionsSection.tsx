@@ -166,15 +166,6 @@ export function PermissionsSection({ contestId }: PermissionsSectionProps) {
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Stack gap="md">
-        <div>
-          <Title order={3} size="h4" mb="xs">
-            Права доступа
-          </Title>
-          <Text size="sm" c="dimmed">
-            Управление правами пользователей на контест
-          </Text>
-        </div>
-
         {/* Add Permission Form */}
         <Card withBorder padding="md">
           <Stack gap="sm">
