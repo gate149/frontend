@@ -6,16 +6,14 @@ import {
   Card,
   Stack,
   Switch,
-  Text,
   TextInput,
-  Title,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 import { IconCheck, IconX } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import type * as corev1 from "../../../contracts/core/v1/core";
+import type * as corev1 from "../../../contracts/core/v1";
 
 interface SettingsSectionProps {
   contest: corev1.Contest;
@@ -27,9 +25,9 @@ export function SettingsSection({ contest }: SettingsSectionProps) {
 
   const form = useForm({
     initialValues: {
-      title: contest.title || "",
-      is_private: contest.is_private ?? true,
-      monitor_enabled: contest.monitor_enabled ?? false,
+      title: contest.title,
+      is_private: contest.is_private,
+      monitor_enabled: contest.monitor_enabled,
     },
   });
 
