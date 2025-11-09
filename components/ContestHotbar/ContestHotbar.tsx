@@ -68,19 +68,12 @@ export function ContestHotbar({ contest, activeTab, showManageButton = false }: 
           <Button
             component={Link}
             href={`/contests/${contest.id}/manage`}
-            variant={activeTab === "manage" ? "filled" : "default"}
-            color={activeTab === "manage" ? "violet" : undefined}
+            variant="filled"
+            color="violet"
             size="sm"
             leftSection={<IconSettings size={16} />}
             visibleFrom="sm"
-            styles={activeTab !== "manage" ? { 
-              root: { 
-                backgroundColor: 'var(--mantine-color-violet-5)',
-                '&:hover': {
-                  backgroundColor: 'var(--mantine-color-violet-6)'
-                }
-              } 
-            } : undefined}
+            opacity={activeTab === "manage" ? 1 : 0.85}
           >
             Управление
           </Button>
