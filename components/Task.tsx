@@ -85,12 +85,8 @@ const Task = ({tasks, contest, task, solutions, problemId, contestId, header}: P
 
                     {/* Main Content */}
                     <Box style={{ flex: 1 }}>
-                        <Box>
-                            <Container size="lg" pl="xl">
-                                <ContestHotbar contest={contest} />
-                            </Container>
-                        </Box>
-                        <Container size="lg" pl={64}>
+                        <Container size="lg">
+                            <ContestHotbar contest={contest} showManageButton={false} />
                             <Problem problem={task} letter={numberToLetters(task.position)}/>
                         </Container>
                     </Box>

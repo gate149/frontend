@@ -7,12 +7,11 @@ import {
   AppShellHeader,
   AppShellMain,
   Container,
-  Stack,
-  Text,
-  Title,
 } from "@mantine/core";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { ContestHotbar } from "@/components/ContestHotbar";
+import { SubmitSolutionClient } from "./SubmitSolutionClient";
 
 type Props = {
   params: Promise<{ contest_id: string }>;
@@ -28,7 +27,7 @@ export const generateMetadata = async ({
       client.default.getContest({ contestId: contest_id })
     );
     return {
-      title: `Послать решение - ${response?.contest?.title || "Контест"}`,
+      title: response?.contest?.title || "Контест",
       description: response?.contest?.title || "",
     };
   } catch (error) {
@@ -67,14 +66,14 @@ const Page = async ({ params }: Props) => {
             pb={{ base: "md", sm: "lg", md: "xl" }}
             px={{ base: "xs", sm: "md", md: "lg" }}
           >
-            <Stack gap="lg" mb="lg">
-              <Title order={1} size="h3">
-                📤 Послать решение - {response.contest.title}
-              </Title>
-              <Text c="dimmed">
-                Форма для отправки решения будет здесь
-              </Text>
-            </Stack>
+            <ContestHotbar 
+              contest={response.contest} 
+              activeTab="submit"
+            />
+            <SubmitSolutionClient 
+              contest={response.contest}
+              problems={response.problems || []}
+            />
           </Container>
         </AppShellMain>
         <AppShellFooter withBorder={false}>

@@ -9,7 +9,7 @@
 }
 
 .code {
-    width: 485px;
+    width: 100%;
     height: fit-content;
 }
 
@@ -74,14 +74,34 @@
     right: var(--mantine-spacing-xs);
 }
 
-.pinFileLabel {}
-.pinFileSection {}
-.pinFileRoot {}
+.pinFileLabel {
+    /* Used for Mantine Button classNames */
+}
+.pinFileSection {
+    /* Used for Mantine Button classNames */
+}
+.pinFileRoot {
+    /* Used for Mantine Button classNames */
+}
+
+/* Large variant for submit page */
+.codeLarge .input {
+    min-height: 500px;
+    height: 500px;
+}
+
+.codeLarge .dropZone {
+    height: 508px;
+}
+
+.codeLarge .fileAttached {
+    height: 500px;
+}
 
 @media (max-width: 768px) {
 }
 
-@media (max-width: $mantine-breakpoint-lg) {
+@media (max-width: var(--mantine-breakpoint-lg)) {
     .dropZone {
         height: 130px;
         padding: 4px;
@@ -111,6 +131,6 @@
     }
 
     .code {
-        width: 320px;
+        width: 100%;
     }
 }

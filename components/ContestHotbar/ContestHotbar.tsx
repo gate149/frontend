@@ -17,7 +17,7 @@ type ContestHotbarProps = {
   showManageButton?: boolean;
 };
 
-export function ContestHotbar({ contest, activeTab, showManageButton = false }: ContestHotbarProps) {
+export function ContestHotbar({ contest, activeTab, showManageButton = true }: ContestHotbarProps) {
   return (
     <Stack gap="md" mb="lg" style={{ maxWidth: "740px", margin: "0 auto" }}>
       <Title order={1} size="h3">

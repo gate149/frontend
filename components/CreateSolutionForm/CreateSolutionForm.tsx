@@ -20,9 +20,11 @@ const languages = ["python", "cpp", "golang"];
 
 type Props = {
     onSubmit: (solution: FormData, language: string) => Promise<number | null>;
+    problemSelect?: React.ReactNode;
+    large?: boolean;
 };
 
-const CreateSolutionForm = ({ onSubmit }: Props) => {
+const CreateSolutionForm = ({ onSubmit, problemSelect, large = false }: Props) => {
     const [file, setFile] = useState<File | null>(null);
     const [isDragging, setIsDragging] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -111,13 +113,14 @@ const CreateSolutionForm = ({ onSubmit }: Props) => {
             onSubmit={form.onSubmit((values) => mutation.mutate(values))}
         >
             <Stack
-                className={classes.code}
+                className={`${classes.code} ${large ? classes.codeLarge : ''}`}
                 onDrop={handleDrop}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
                 data-dragging={isDragging}
             >
                 <Group justify="space-between">
+                    {problemSelect && problemSelect}
                     <Select
                         data={languages}
                         allowDeselect={false}
