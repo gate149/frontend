@@ -3,7 +3,6 @@
 import {AppShell, AppShellFooter, AppShellHeader, AppShellMain, AppShellProps, rem,} from "@mantine/core";
 import React from "react";
 import {Footer} from "@/components/Footer";
-import {useHeadroom} from "@mantine/hooks";
 
 type LayoutProps = {
     children: React.ReactNode;
@@ -18,11 +17,14 @@ type LayoutProps = {
 
 const Layout = ({
                     children,
-                    headerConfig = {height: 70}, // Значения по умолчанию
+                    headerConfig = undefined, // Значения по умолчанию
                     footerConfig = {height: 0},
                     navbarConfig = undefined,
                     asideConfig = undefined,
                     stylesConfig = {
+                        header: {
+                            position: "static",
+                        },
                         footer: {
                             position: "static",
                             bottom: "auto",
@@ -30,21 +32,14 @@ const Layout = ({
                             zIndex: "auto",
                         },
                         main: {
-                            paddingTop: `calc(${rem(70)} + var(--mantine-spacing-md))`,
                             paddingBottom: `var(--mantine-spacing-lg)`,
                         },
                     },
                     paddingConfig = "md",
                 }: LayoutProps) => {
-    const pinned = useHeadroom({fixedAt: 150});
-
     return (
         <AppShell
-            header={{
-                ...headerConfig,
-                height: headerConfig?.height ?? 70,
-                collapsed: !pinned,
-            }}
+            header={headerConfig}
             footer={footerConfig}
             aside={asideConfig}
             navbar={navbarConfig}
