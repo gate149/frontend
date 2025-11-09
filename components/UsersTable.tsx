@@ -20,7 +20,7 @@ export function UsersTable({ users, pagination, search, role }: Props) {
 
   // Ensure pagination values are numbers
   const currentPage = Number(pagination.page) || 1;
-  const currentPageSize = Number(pagination.pageSize) || 10;
+  const currentPageSize = (pagination as any).pageSize || 10;
   const totalUsers = Number(pagination.total) || 0;
 
   const getRoleColor = (role: string) => {
@@ -83,22 +83,18 @@ export function UsersTable({ users, pagination, search, role }: Props) {
         </Table.Tbody>
       </Table>
 
-      <Stack align="center" gap="md">
-        <Text size="sm" c="dimmed">
-          Показано {(currentPage - 1) * currentPageSize + 1}-
-          {Math.min(currentPage * currentPageSize, totalUsers)} из{" "}
-          {totalUsers} пользователей
-        </Text>
-        <NextPagination
-          pagination={{
-            page: currentPage,
-            pageSize: currentPageSize,
-            total: Math.ceil(totalUsers / currentPageSize),
-          }}
-          baseUrl="/users"
-          queryParams={queryParams}
-        />
-      </Stack>
+      {Math.ceil(totalUsers / currentPageSize) > 1 && (
+        <Stack align="center" gap="md">
+          <NextPagination
+            pagination={{
+              page: currentPage,
+              total: Math.ceil(totalUsers / currentPageSize),
+            }}
+            baseUrl="/users"
+            queryParams={queryParams}
+          />
+        </Stack>
+      )}
     </>
   );
 }

@@ -49,6 +49,7 @@ const CreateContestForm = ({
         size="sm"
         variant="light"
         leftSection={<IconPlus size={16} />}
+        fullWidth
       >
         Контест
       </Button>

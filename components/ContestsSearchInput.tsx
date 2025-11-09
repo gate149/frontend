@@ -13,13 +13,18 @@ export function ContestsSearchInput() {
 
   const updateURL = useCallback(
     (newSearch: string) => {
-      const urlParams = new URLSearchParams();
-      if (newSearch) urlParams.set("search", newSearch);
+      const urlParams = new URLSearchParams(searchParams);
+      urlParams.delete("page"); // Reset to page 1 when searching
+      if (newSearch) {
+        urlParams.set("search", newSearch);
+      } else {
+        urlParams.delete("search");
+      }
 
       const query = urlParams.toString();
       router.push(`/contests${query ? `?${query}` : ""}`);
     },
-    [router]
+    [router, searchParams]
   );
 
   useEffect(() => {

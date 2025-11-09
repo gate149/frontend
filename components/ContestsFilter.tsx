@@ -24,7 +24,7 @@ export function ContestsFilter() {
       value={owner}
       onChange={handleChange}
       data={[
-        { label: "Все публичные", value: "all" },
+        { label: "Все контесты", value: "all" },
         { label: "Мои контесты", value: "me" },
       ]}
     />

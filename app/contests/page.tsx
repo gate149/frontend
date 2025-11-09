@@ -4,15 +4,14 @@ import { HeaderWithSession } from "@/components/HeaderWithSession";
 import { Layout } from "@/components/Layout";
 import { getContests, getMe } from "@/lib/actions";
 import {
-  AppShellAside,
   AppShellFooter,
   AppShellHeader,
   AppShellMain,
   Box,
   Center,
   Container,
-  Divider,
-  Group,
+  Paper,
+  Skeleton,
   Stack,
   Text,
   Title,
@@ -71,56 +70,74 @@ const ContestsContent = async ({
   const contests = data.contests || [];
   const total = data.pagination?.total || 0;
 
-  // Compact management controls for mobile
-  const compactManagementControls = (
-    <Group gap="sm" wrap="wrap" justify="flex-start">
-      <CreateContestForm isAuthenticated={isAuthenticated} />
-    </Group>
-  );
-
   if (contests.length === 0) {
     return (
-      <Container size="xl" py="xl">
-        <Box mb="lg" hiddenFrom="lg">
-          {compactManagementControls}
+      <Box style={{ display: "flex", gap: "32px", alignItems: "flex-start" }}>
+        <Box style={{ flex: 1, marginLeft: "344px" }}>
+          <Container size="md" pb="xl" mx="auto">
+            <Stack gap="lg">
+              <ContestsFilter />
+              <ContestsSearchInput />
+              <Center py="xl">
+                <Text c="dimmed">
+                  {search && search.trim()
+                    ? "Контесты по вашему запросу не найдены"
+                    : "Контесты не найдены"}
+                </Text>
+              </Center>
+            </Stack>
+          </Container>
         </Box>
-        <Stack gap="lg">
-          <Title order={1}>Контесты</Title>
-          <ContestsSearchInput />
-          <Center py="xl">
-            <Text c="dimmed">
-              {search && search.trim()
-                ? "Контесты по вашему запросу не найдены"
-                : "Контесты не найдены"}
-            </Text>
-          </Center>
-        </Stack>
-      </Container>
+        <Box style={{ width: "280px", marginRight: "32px" }}>
+          <Paper
+            shadow="sm"
+            radius="md"
+            p="md"
+            withBorder
+            bg="var(--mantine-color-gray-light)"
+          >
+            <Stack gap="md">
+              <Title order={4} size="h5">
+                ⚙️ Управление
+              </Title>
+              <CreateContestForm isAuthenticated={isAuthenticated} />
+            </Stack>
+          </Paper>
+        </Box>
+      </Box>
     );
   }
 
   return (
-    <Container size="xl" pb="xl">
-      <Box mb="lg" hiddenFrom="lg">
-        {compactManagementControls}
+    <Box style={{ display: "flex", gap: "32px", alignItems: "flex-start" }}>
+      <Box style={{ flex: 1, marginLeft: "344px" }}>
+        <Container size="md" pb="xl" mx="auto">
+          <Stack gap="lg">
+            <ContestsFilter />
+
+            <ContestsSearchInput />
+
+            <ContestsTable contests={contests} />
+          </Stack>
+        </Container>
       </Box>
-      <Stack gap="lg">
-        <Title order={1}>Контесты</Title>
-
-        <ContestsFilter />
-
-        <ContestsSearchInput />
-
-        <ContestsTable contests={contests} />
-
-        <Stack align="center" gap="md">
-          <Text size="sm" c="dimmed">
-            Показано {(page - 1) * pageSize + 1}-
-            {Math.min(page * pageSize, total)} из {total} контестов
-          </Text>
-        </Stack>
-      </Stack>
-    </Container>
+      <Box style={{ width: "280px", marginRight: "32px" }}>
+        <Paper
+          shadow="sm"
+          radius="md"
+          p="md"
+          withBorder
+          bg="var(--mantine-color-gray-light)"
+        >
+          <Stack gap="md">
+            <Title order={4} size="h5">
+              ⚙️ Управление
+            </Title>
+            <CreateContestForm isAuthenticated={isAuthenticated} />
+          </Stack>
+        </Paper>
+      </Box>
+    </Box>
   );
 };
 
@@ -129,42 +146,41 @@ const ContestsPage = async ({ searchParams }: Params) => {
   const userData = await getMe();
   const isAuthenticated = !!userData?.user;
 
-  // Management controls for sidebar
-  const managementControls = (
-    <Stack gap="md">
-      <Title order={4} size="h5">
-        ⚙️ Управление
-      </Title>
-      <Divider />
-      <Stack gap="8px">
-        <CreateContestForm isAuthenticated={isAuthenticated} />
-      </Stack>
-    </Stack>
-  );
-
   return (
-    <Layout
-      asideConfig={{
-        width: 280,
-        breakpoint: "lg",
-        collapsed: { mobile: true, desktop: false },
-      }}
-    >
+    <Layout>
       <AppShellHeader>
-        <HeaderWithSession drawerContent={managementControls} />
+        <HeaderWithSession />
       </AppShellHeader>
       <AppShellMain>
         <Suspense
           fallback={
-            <Container size="xl" py="xl">
-              <Stack gap="lg">
-                <Title order={1}>Контесты</Title>
-                <ContestsSearchInput />
-                <Center py="xl">
-                  <Text>Загрузка...</Text>
-                </Center>
-              </Stack>
-            </Container>
+            <Box style={{ display: "flex", gap: "32px", alignItems: "flex-start" }}>
+              <Box style={{ flex: 1, marginLeft: "344px" }}>
+                <Container size="md" pb="xl" mx="auto">
+                  <Stack gap="lg">
+                    <ContestsFilter />
+                    <ContestsSearchInput />
+                    <Skeleton height={200} radius="sm" />
+                  </Stack>
+                </Container>
+              </Box>
+              <Box style={{ width: "280px", marginRight: "32px" }}>
+                <Paper
+                  shadow="sm"
+                  radius="md"
+                  p="md"
+                  withBorder
+                  bg="var(--mantine-color-gray-light)"
+                >
+                  <Stack gap="md">
+                    <Title order={4} size="h5">
+                      ⚙️ Управление
+                    </Title>
+                    <CreateContestForm isAuthenticated={isAuthenticated} />
+                  </Stack>
+                </Paper>
+              </Box>
+            </Box>
           }
         >
           <ContestsContent
@@ -173,11 +189,6 @@ const ContestsPage = async ({ searchParams }: Params) => {
           />
         </Suspense>
       </AppShellMain>
-      <AppShellAside withBorder={false} visibleFrom="lg">
-        <Stack px="16" py="16" gap="lg">
-          {managementControls}
-        </Stack>
-      </AppShellAside>
       <AppShellFooter withBorder={false}>
         <Footer />
       </AppShellFooter>

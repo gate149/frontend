@@ -14,12 +14,12 @@ export function UsersSearchInput() {
   const updateURL = useCallback(
     (newSearch: string) => {
       const params = new URLSearchParams(searchParams);
+      params.delete("page"); // Reset to first page on search
       if (newSearch) {
         params.set("search", newSearch);
       } else {
         params.delete("search");
       }
-      params.delete("page"); // Reset to first page on search
 
       const query = params.toString();
       router.push(`/users${query ? `?${query}` : ""}`);
