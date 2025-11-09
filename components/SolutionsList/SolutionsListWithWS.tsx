@@ -2,7 +2,7 @@
 
 import React, {useEffect, useRef, useState} from 'react';
 import {SolutionsList} from '@/components/SolutionsList';
-import type {SolutionsListItem} from '../../../contracts/tester/v1';
+import type {SolutionsListItem} from '../../../contracts/core/v1';
 
 const MessageTypeCreate = "CREATE";
 const MessageTypeUpdate = "UPDATE";

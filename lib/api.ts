@@ -1,7 +1,7 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { tester } from "../../contracts/tester/v1/tester";
+import { core } from "../../contracts/core/v1/core";
 
 export async function getOrySession() {
   try {
@@ -43,7 +43,7 @@ export async function getOrySession() {
 }
 
 export const Call = async <T>(
-  method: (client: tester) => Promise<T>,
+  method: (client: core) => Promise<T>,
 ): Promise<T> => {
   const headers: Record<string, string> = {};
   
@@ -65,7 +65,7 @@ export const Call = async <T>(
     headers: Object.keys(headers),
   });
 
-  const client = new tester({
+  const client = new core({
     BASE: baseUrl,
     HEADERS: headers,
     CREDENTIALS: "include",

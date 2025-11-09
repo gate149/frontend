@@ -4,7 +4,7 @@ import { useState } from "react";
 import type {
   Pagination as PaginationType,
   ProblemsListItem,
-} from "../../../contracts/tester/v1";
+} from "../../../contracts/core/v1";
 import { ProblemsGridSkeleton } from "./ProblemsGridSkeleton";
 import { ProblemsPageContent } from "./ProblemsPageContent";
 import { usePageTransition } from "./ProblemsPageWrapper";

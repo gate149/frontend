@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import type {
   Pagination as PaginationType,
   User,
-} from "../../contracts/tester/v1";
+} from "../../contracts/core/v1";
 import { NextPagination } from "./Pagination";
 
 type Props = {

@@ -4,11 +4,11 @@ import React from 'react';
 import {Pagination} from '@mantine/core';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import * as testerv1 from '../../contracts/tester/v1';
+import * as corev1 from '../../contracts/core/v1';
 import { usePageTransition } from './ProblemsPage/ProblemsPageWrapper';
 
 interface NextPaginationProps {
-    pagination: testerv1.Pagination;
+    pagination: corev1.Pagination;
     baseUrl: string;
     queryParams?: Record<string, string | number | undefined>;
 }

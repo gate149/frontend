@@ -14,7 +14,7 @@ import {
 import {Metadata} from "next";
 import {DefaultLayout} from "@/components/Layout";
 import {numberToLetters} from "@/lib/lib";
-import * as testerv1 from "../../../../../contracts/tester/v1";
+import * as corev1 from "../../../../../contracts/core/v1";
 import {getMonitor} from "@/lib/actions";
 import styles from "./style.module.css";
 
@@ -34,7 +34,7 @@ interface Participant {
     tasks: { [key: string]: Task | null };
 }
 
-const getScore = (attempt: testerv1.ProblemAttempts): string | null => {
+const getScore = (attempt: corev1.ProblemAttempts): string | null => {
     if (attempt.state === 200) {
         return attempt.failed_attempts > 0 ? `+${attempt.failed_attempts}` : '+';
     } else if (attempt.state === 1) {
@@ -64,7 +64,7 @@ const Page = async ({params}: PageProps) => {
         );
     }
 
-    const participants: Participant[] = monitor.participants.map((p: testerv1.ParticipantsStat) => {
+    const participants: Participant[] = monitor.participants.map((p: corev1.ParticipantsStat) => {
         const tasks: { [key: string]: Task | null } = {};
         monitor.summary.forEach(s => {
             const attempt = p.attempts.find(a => a.problem_id === s.problem_id);

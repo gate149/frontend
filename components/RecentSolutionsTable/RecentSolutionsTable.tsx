@@ -2,7 +2,7 @@
 
 import { Anchor, Table, Text } from "@mantine/core";
 import Link from "next/link";
-import type { SolutionsListItem } from "../../../contracts/tester/v1";
+import type { SolutionsListItem } from "../../../contracts/core/v1";
 import { StateColor, StateString } from "@/lib/lib";
 
 type RecentSolutionsTableProps = {

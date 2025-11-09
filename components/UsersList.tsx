@@ -14,11 +14,11 @@ import {
 } from "@mantine/core";
 import { IconPencil } from "@tabler/icons-react";
 import Link from "next/link";
-import * as testerv1 from "../../contracts/tester/v1/tester";
+import * as corev1 from "../../contracts/core/v1/core";
 
 type UsersListProps = {
-  users: testerv1.User[];
-  pagination: testerv1.Pagination;
+  users: corev1.User[];
+  pagination: corev1.Pagination;
 };
 
 const roles = ["Студент", "Преподаватель", "Администратор"];

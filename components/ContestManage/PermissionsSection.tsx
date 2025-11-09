@@ -21,7 +21,7 @@ import { notifications } from "@mantine/notifications";
 import { IconPlus, IconTrash, IconX } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import type * as testerv1 from "../../../contracts/tester/v1";
+import type * as corev1 from "../../../contracts/core/v1";
 
 interface PermissionsSectionProps {
   contestId: string;
@@ -40,7 +40,7 @@ export function PermissionsSection({ contestId }: PermissionsSectionProps) {
 
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedQuery] = useDebouncedValue(searchQuery, 300);
-  const [searchResults, setSearchResults] = useState<testerv1.User[]>([]);
+  const [searchResults, setSearchResults] = useState<corev1.User[]>([]);
   const [searching, setSearching] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [selectedRelation, setSelectedRelation] = useState<string>("moderator");

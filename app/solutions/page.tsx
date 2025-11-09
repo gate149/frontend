@@ -94,7 +94,7 @@ const Page = async ({searchParams}: PageProps) => {
     };
 
     const token = 'access-token' in solutionsData ? solutionsData['access-token'] : undefined;
-    const wsUrl = process.env.NEXT_PUBLIC_WS_TESTER_URL! + "/solutions";
+    const wsUrl = process.env.NEXT_PUBLIC_WS_core_URL! + "/solutions";
 
     return (
         <DefaultLayout>

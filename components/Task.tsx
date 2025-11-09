@@ -18,7 +18,7 @@ import {
 } from "@mantine/core";
 import {CreateSolutionForm} from "@/components/CreateSolutionForm";
 import Link from "next/link";
-import type {ContestProblemListItem, Contest, ContestProblem, SolutionsListItem} from "../../contracts/tester/v1";
+import type {ContestProblemListItem, Contest, ContestProblem, SolutionsListItem} from "../../contracts/core/v1";
 import {Problem} from "@/components/Problem";
 import {numberToLetters} from '@/lib/lib';
 import {Layout} from "@/components/Layout";

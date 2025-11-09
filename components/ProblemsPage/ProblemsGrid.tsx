@@ -1,5 +1,5 @@
 import { Center, SimpleGrid, Text } from "@mantine/core";
-import type { ProblemsListItem } from "../../../contracts/tester/v1";
+import type { ProblemsListItem } from "../../../contracts/core/v1";
 import { ProblemCard } from "./ProblemCard";
 
 type Props = {
