@@ -6,7 +6,7 @@ import { UsersSearchInput } from "@/components/UsersSearchInput";
 import { UsersTable } from "@/components/UsersTable";
 import { getUsers } from "@/lib/actions";
 import { Center, Container, Group, Skeleton, Stack, Text, Title } from "@mantine/core";
-import type { User, Pagination } from "../../contracts/tester/v1";
+import type { User, Pagination } from "../../contracts/core/v1";
 
 type UsersContentProps = {
   page: number;
