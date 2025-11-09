@@ -9,7 +9,7 @@ import {
   IconSettings,
 } from "@tabler/icons-react";
 import Link from "next/link";
-import type { Contest } from "../../../contracts/tester/v1";
+import type { Contest } from "../../../contracts/core/v1";
 
 type ContestHotbarProps = {
   contest: Contest;

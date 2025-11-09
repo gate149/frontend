@@ -8,7 +8,7 @@ import {Box, Button, Container, Group, Stack, Title} from "@mantine/core";
 import {IconArrowLeft, IconLock, IconPuzzle, IconSettings, IconUsers} from "@tabler/icons-react";
 import Link from "next/link";
 import {notFound} from "next/navigation";
-import type {Contest, ContestProblemListItem,} from "../../../../../contracts/tester/v1";
+import type {Contest, ContestProblemListItem,} from "../../../../../contracts/core/v1";
 import React from "react";
 
 // Constants for sections

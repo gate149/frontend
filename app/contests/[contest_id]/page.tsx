@@ -17,7 +17,7 @@ import { notFound } from "next/navigation";
 import type {
   Contest,
   ContestProblemListItem,
-} from "../../../../contracts/tester/v1";
+} from "../../../../contracts/core/v1";
 import { ContestProblemsTable } from "./ContestProblemsTable";
 import { ContestHotbar } from "@/components/ContestHotbar";
 

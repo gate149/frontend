@@ -3,7 +3,7 @@
 import { numberToLetters } from "@/lib/lib";
 import { Box, Flex, Table, Text } from "@mantine/core";
 import { useRouter } from "next/navigation";
-import type { ContestProblemListItem } from "../../../../contracts/tester/v1";
+import type { ContestProblemListItem } from "../../../../contracts/core/v1";
 
 type ContestProblemsTableProps = {
   contestId: string | number;

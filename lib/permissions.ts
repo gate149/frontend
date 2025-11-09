@@ -1,4 +1,4 @@
-import type { Contest, Problem, User } from "../../contracts/tester/v1/tester";
+import type { Contest, Problem, User } from "../../contracts/core/v1/core";
 
 /**
  * Permission checker utilities for frontend

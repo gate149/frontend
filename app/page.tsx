@@ -306,7 +306,7 @@ export default function Page() {
                       </ThemeIcon>
                       <div>
                         <Text fw={500} size="sm">
-                          Tester Backend
+                          core Backend
                         </Text>
                         <Text c="dimmed" size="xs">
                           Go REST API

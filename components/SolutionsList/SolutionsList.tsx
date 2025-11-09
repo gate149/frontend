@@ -4,7 +4,7 @@ import {Table, TableTbody, TableTd, TableTh, TableThead, TableTr, Text} from "@m
 import {LangString, ProblemTitle, StateColor, StateString, TimeBeautify} from "@/lib/lib";
 import Link from "next/link";
 import React from "react";
-import type {SolutionsListItem} from "../../../contracts/tester/v1";
+import type {SolutionsListItem} from "../../../contracts/core/v1";
 import styles from "./styles.module.css";
 
 interface SolutionsListProps {

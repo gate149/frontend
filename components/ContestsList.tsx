@@ -15,12 +15,12 @@ import {
     Title
 } from "@mantine/core";
 import Link from "next/link";
-import * as testerv1 from "../../contracts/tester/v1";
+import * as corev1 from "../../contracts/core/v1";
 import {DefaultLayout} from "@/components/Layout";
 
 type Props = {
-    contests: testerv1.Contest[],
-    pagination: testerv1.Pagination,
+    contests: corev1.Contest[],
+    pagination: corev1.Pagination,
 }
 
 const ContestsList = ({contests, pagination}: Props) => {

@@ -15,10 +15,10 @@ import { notifications } from "@mantine/notifications";
 import { IconCheck, IconX } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import type * as testerv1 from "../../../contracts/tester/v1/tester";
+import type * as corev1 from "../../../contracts/core/v1/core";
 
 interface SettingsSectionProps {
-  contest: testerv1.Contest;
+  contest: corev1.Contest;
 }
 
 export function SettingsSection({ contest }: SettingsSectionProps) {

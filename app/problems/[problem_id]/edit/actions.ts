@@ -1,7 +1,7 @@
 "use server";
 
 import { updateProblem as updateProblemAction } from "@/lib/actions";
-import * as testerv1 from "../../../../../contracts/tester/v1";
+import * as corev1 from "../../../../../contracts/core/v1";
 
 export const UpdateProblem = async (
   id: string,
@@ -18,7 +18,7 @@ export const UpdateProblem = async (
 ) => {
   try {
     // Build request object, only including defined and non-empty fields
-    const request: testerv1.UpdateProblemRequest = {};
+    const request: corev1.UpdateProblemRequest = {};
     
     if (data.title !== undefined && data.title !== "") request.title = data.title;
     if (data.time_limit !== undefined) request.time_limit = data.time_limit;

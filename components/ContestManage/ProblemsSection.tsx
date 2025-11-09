@@ -25,11 +25,11 @@ import { notifications } from "@mantine/notifications";
 import { IconCheck, IconPlus, IconTrash, IconX } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import type * as testerv1 from "../../../contracts/tester/v1";
+import type * as corev1 from "../../../contracts/core/v1";
 
 interface ProblemsSectionProps {
   contestId: string;
-  initialProblems: Array<testerv1.ContestProblemListItem>;
+  initialProblems: Array<corev1.ContestProblemListItem>;
 }
 
 export function ProblemsSection({
@@ -40,7 +40,7 @@ export function ProblemsSection({
   const [problems, setProblems] = useState(initialProblems);
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedQuery] = useDebouncedValue(searchQuery, 300);
-  const [searchResults, setSearchResults] = useState<testerv1.Problem[]>([]);
+  const [searchResults, setSearchResults] = useState<corev1.Problem[]>([]);
   const [searching, setSearching] = useState(false);
   const [selectedProblemId, setSelectedProblemId] = useState<string | null>(
     null

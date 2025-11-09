@@ -26,7 +26,7 @@ import { notifications } from "@mantine/notifications";
 import { IconCheck, IconPlus, IconTrash, IconX } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import type * as testerv1 from "../../../contracts/tester/v1";
+import type * as corev1 from "../../../contracts/core/v1";
 
 interface ParticipantsSectionProps {
   contestId: string;
@@ -34,14 +34,14 @@ interface ParticipantsSectionProps {
 
 export function ParticipantsSection({ contestId }: ParticipantsSectionProps) {
   const router = useRouter();
-  const [participants, setParticipants] = useState<testerv1.User[]>([]);
+  const [participants, setParticipants] = useState<corev1.User[]>([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
 
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedQuery] = useDebouncedValue(searchQuery, 300);
-  const [searchResults, setSearchResults] = useState<testerv1.User[]>([]);
+  const [searchResults, setSearchResults] = useState<corev1.User[]>([]);
   const [searching, setSearching] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [adding, setAdding] = useState(false);

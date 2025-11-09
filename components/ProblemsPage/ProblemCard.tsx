@@ -4,7 +4,7 @@ import { ActionIcon, Card, Group, Stack, Text, Title } from "@mantine/core";
 import { IconPencil } from "@tabler/icons-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import type { ProblemsListItem } from "../../../contracts/tester/v1";
+import type { ProblemsListItem } from "../../../contracts/core/v1";
 import classes from "./ProblemCard.module.css";
 
 type Props = {

@@ -4,7 +4,7 @@ import { Stack } from "@mantine/core";
 import type {
   Pagination as PaginationType,
   ProblemsListItem,
-} from "../../../contracts/tester/v1";
+} from "../../../contracts/core/v1";
 import { NextPagination } from "../Pagination";
 import { ProblemsGrid } from "./ProblemsGrid";
 
