@@ -33,7 +33,6 @@ export default async function UsersPage({ searchParams }: Props) {
         fallback={
           <Container size="xl" py="xl">
             <Stack gap="lg">
-              <Title order={1}>Пользователи</Title>
 
               <Group grow>
                 <UsersSearchInput />

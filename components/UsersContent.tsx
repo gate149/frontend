@@ -65,7 +65,6 @@ export function UsersContent({ page, search, role }: UsersContentProps) {
   return (
     <Container size="xl" py="xl">
       <Stack gap="lg">
-        <Title order={1}>Пользователи</Title>
 
         <Group grow>
           <UsersSearchInput />

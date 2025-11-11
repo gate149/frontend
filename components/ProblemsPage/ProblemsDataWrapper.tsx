@@ -1,17 +1,17 @@
 "use client";
 
-import { useState } from "react";
 import type {
+  Problem,
   Pagination as PaginationType,
-  ProblemsListItem,
 } from "../../../contracts/core/v1";
-import { ProblemsGridSkeleton } from "./ProblemsGridSkeleton";
-import { ProblemsPageContent } from "./ProblemsPageContent";
-import { usePageTransition } from "./ProblemsPageWrapper";
 import { ProblemsSearchInput } from "./ProblemsSearchInput";
+import { ProblemsPageContent } from "./ProblemsPageContent";
+import { ProblemsGridSkeleton } from "./ProblemsGridSkeleton";
+import { usePageTransition } from "./ProblemsPageWrapper";
+import { useState } from "react";
 
 type Props = {
-  problems: ProblemsListItem[];
+  problems: Problem[];
   pagination: PaginationType;
   isAuthenticated: boolean;
   owner?: string;

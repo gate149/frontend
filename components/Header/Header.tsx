@@ -169,12 +169,12 @@ const Header = ({
           <Group h="100%" gap={0}>
             <Anchor
               component={Link}
-              href="/contests"
+              href="/problems"
               className={classes.link}
               underline="never"
               visibleFrom="sm"
             >
-              Контесты
+              Мастерская
             </Anchor>
             <Anchor
               component={Link}
@@ -183,16 +183,7 @@ const Header = ({
               underline="never"
               visibleFrom="sm"
             >
-              Пользователи
-            </Anchor>
-            <Anchor
-              component={Link}
-              href="/problems"
-              className={classes.link}
-              underline="never"
-              visibleFrom="sm"
-            >
-              Мастерская
+              Администрирование
             </Anchor>
           </Group>
           <Group>
@@ -239,11 +230,11 @@ const Header = ({
             </Anchor>
             <Anchor
               component={Link}
-              href="/contests"
+              href="/workshop"
               className={classes.link}
               underline="never"
             >
-              Контесты
+              Мастерская
             </Anchor>
             <Anchor
               component={Link}
@@ -251,15 +242,7 @@ const Header = ({
               className={classes.link}
               underline="never"
             >
-              Пользователи
-            </Anchor>
-            <Anchor
-              component={Link}
-              href="/workshop"
-              className={classes.link}
-              underline="never"
-            >
-              Мастерская
+              Администрирование
             </Anchor>
           </Stack>
 
