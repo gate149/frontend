@@ -1,23 +1,27 @@
 import { Group, SegmentedControl } from "@mantine/core";
-import { IconArchive, IconUser } from "@tabler/icons-react";
+import { IconTrophy, IconUser } from "@tabler/icons-react";
 
-export function ProblemsOwnerFilterSkeleton() {
+type Props = {
+  value?: "contests" | "problems";
+};
+
+export function ProblemsOwnerFilterSkeleton({ value = "contests" }: Props) {
   return (
     <SegmentedControl
-      value="all"
+      value={value}
       disabled
       data={[
         {
-          value: "all",
+          value: "contests",
           label: (
             <Group gap="xs" wrap="nowrap">
-              <IconArchive size={16} />
-              <span>Архив задач</span>
+              <IconTrophy size={16} />
+              <span>Мои контесты</span>
             </Group>
           ),
         },
         {
-          value: "me",
+          value: "problems",
           label: (
             <Group gap="xs" wrap="nowrap">
               <IconUser size={16} />

@@ -18,9 +18,10 @@ export function ContestsTable({ contests }: { contests: Contest[] }) {
     <Table striped highlightOnHover>
       <TableThead>
         <TableTr>
-          <TableTh>Название</TableTh>
-          <TableTh>Дата создания</TableTh>
-          <TableTh>Дата обновления</TableTh>
+          <TableTh style={{ width: "50%", maxWidth: 0 }}>Название</TableTh>
+          <TableTh style={{ width: "15%"}}>Участники</TableTh>
+          <TableTh style={{ width: "15%"}}>Задачи</TableTh>
+          <TableTh style={{ width: "20%"}}>Дата создания</TableTh>
         </TableTr>
       </TableThead>
       <TableTbody>
@@ -30,12 +31,17 @@ export function ContestsTable({ contests }: { contests: Contest[] }) {
             onClick={() => router.push(`/contests/${contest.id}`)}
             style={{ cursor: "pointer" }}
           >
-            <TableTd>{contest.title}</TableTd>
-            <TableTd>
-              {new Date(contest.created_at).toLocaleDateString("ru-RU")}
+            <TableTd style={{ width: "50%", maxWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+              {contest.title}
             </TableTd>
             <TableTd>
-              {new Date(contest.updated_at).toLocaleDateString("ru-RU")}
+              {0}
+            </TableTd>
+            <TableTd>
+              {0}
+            </TableTd>
+            <TableTd>
+              {new Date(contest.created_at).toLocaleDateString("ru-RU")}
             </TableTd>
           </TableTr>
         ))}

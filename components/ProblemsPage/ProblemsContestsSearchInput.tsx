@@ -5,7 +5,7 @@ import { IconSearch } from "@tabler/icons-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-export function ContestsSearchInput() {
+export function ProblemsContestsSearchInput() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [search, setSearch] = useState(searchParams.get("search") || "");
@@ -22,7 +22,7 @@ export function ContestsSearchInput() {
       }
 
       const query = urlParams.toString();
-      router.push(`/contests${query ? `?${query}` : ""}`);
+      router.push(`/problems${query ? `?${query}` : ""}`);
     },
     [router, searchParams]
   );
@@ -54,3 +54,4 @@ export function ContestsSearchInput() {
     />
   );
 }
+

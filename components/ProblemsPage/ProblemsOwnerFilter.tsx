@@ -1,9 +1,11 @@
 "use client";
 
 import { Group, SegmentedControl } from "@mantine/core";
-import { IconArchive, IconUser } from "@tabler/icons-react";
+import { IconTrophy, IconUser } from "@tabler/icons-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { usePageTransition } from "./ProblemsPageWrapper";
+import { useState, useEffect } from "react";
+import { flushSync } from "react-dom";
 
 type Props = {
   isAuthenticated: boolean;
@@ -12,19 +14,41 @@ type Props = {
 export function ProblemsOwnerFilter({ isAuthenticated }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const owner = searchParams.get("owner") || "all";
-  const { isPending, startTransition } = usePageTransition();
+  const currentView = searchParams.get("view") || "contests";
+  const { startTransition, pendingView, setPendingView } = usePageTransition();
+  const [localView, setLocalView] = useState<string>(currentView);
+  
+  // Sync local view with current view when URL changes
+  useEffect(() => {
+    setLocalView(currentView);
+  }, [currentView]);
+  
+  // Show local view for immediate feedback
+  const view = localView;
 
   const handleChange = (value: string) => {
+    // Don't do anything if clicking on already active tab
+    if (value === currentView) return;
+    
+    // Set local view IMMEDIATELY for instant UI feedback
+    flushSync(() => {
+      setLocalView(value);
+    });
+    
     const params = new URLSearchParams(searchParams);
-    if (value === "me") {
-      params.set("owner", "me");
+    if (value === "problems") {
+      params.set("view", "problems");
     } else {
-      params.delete("owner");
+      params.delete("view");
     }
     params.delete("page"); // Reset to page 1 on filter change
+    params.delete("search"); // Reset search on filter change
 
     const query = params.toString();
+    
+    // Set pending view for skeleton display
+    setPendingView(value);
+    
     startTransition(() => {
       router.push(`/problems${query ? `?${query}` : ""}`);
     });
@@ -32,21 +56,21 @@ export function ProblemsOwnerFilter({ isAuthenticated }: Props) {
 
   return (
     <SegmentedControl
-      value={owner}
+      value={view}
       onChange={handleChange}
-      disabled={isPending}
       data={[
         {
-          value: "all",
+          value: "contests",
           label: (
             <Group gap="xs" wrap="nowrap">
-              <IconArchive size={16} />
-              <span>Архив задач</span>
+              <IconTrophy size={16} />
+              <span>Мои контесты</span>
             </Group>
           ),
+          disabled: !isAuthenticated,
         },
         {
-          value: "me",
+          value: "problems",
           label: (
             <Group gap="xs" wrap="nowrap">
               <IconUser size={16} />
