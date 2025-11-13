@@ -1,7 +1,7 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { core } from "../../contracts/core/v1/core";
+import { core } from "../../contracts/core/v1";
 
 export async function getOrySession() {
   try {
@@ -10,7 +10,7 @@ export async function getOrySession() {
     
     const ory = new FrontendApi(
       new Configuration({
-        basePath: process.env.ORY_SDK_URL || "http://steins.ru/kratos/public",
+        basePath: process.env.ORY_SDK_URL,
         baseOptions: {
           withCredentials: true,
         },
@@ -42,41 +42,42 @@ export async function getOrySession() {
   return null;
 }
 
+const oryKratosCookieName = "ory_kratos_session";
+
+const getKratosCookie = async (): Promise<string | undefined> => {
+    const requestCookies = await cookies();
+
+    if (!requestCookies.has(oryKratosCookieName)) {
+        return;
+    }
+
+    const cookie = requestCookies.get(oryKratosCookieName);
+
+    if (!cookie || !cookie.name || !cookie.value) {
+        return;
+    }
+
+    return `${oryKratosCookieName}=${cookie.value}`;
+}
+
 export const Call = async <T>(
   method: (client: core) => Promise<T>,
 ): Promise<T> => {
   const headers: Record<string, string> = {};
-  
-  // Get user session from Ory Kratos
-  const session = await getOrySession();
-  
-  if (session?.identity?.id) {
-    headers["X-User-ID"] = session.identity.id;
-  }
-  if (session?.id) {
-    headers["X-Session-ID"] = session.id;
-  }
 
-  // Call backend API directly (bypass Oathkeeper for server-side calls)
-  const baseUrl = process.env.BACKEND_API_URL || "http://127.0.0.1:13000";
+  const kratosCookie = await getKratosCookie();
 
-  console.log("📡 Call function invoked", {
-    baseUrl,
-    headers: Object.keys(headers),
-  });
+  headers["Cookie"] = kratosCookie || "";
 
   const client = new core({
-    BASE: baseUrl,
+    BASE: process.env.BACKEND_API_URL,
     HEADERS: headers,
     CREDENTIALS: "include",
   });
 
   try {
-    const result = await method(client);
-    console.log("✅ Call succeeded");
-    return result;
+    return await method(client);
   } catch (error) {
-    console.error("❌ Call failed:", error);
     throw error;
   }
 };
