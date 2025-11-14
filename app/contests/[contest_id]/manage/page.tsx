@@ -8,7 +8,7 @@ import {Box, Button, Container, Group, Stack, Title} from "@mantine/core";
 import {IconArrowLeft, IconLock, IconPuzzle, IconSettings, IconUsers} from "@tabler/icons-react";
 import Link from "next/link";
 import {notFound} from "next/navigation";
-import type {Contest, ContestProblemListItem,} from "../../../../../contracts/core/v1";
+import type {ContestModel, ContestProblemListItem,} from "../../../../../contracts/core/v1";
 import React from "react";
 
 // Constants for sections
@@ -55,7 +55,7 @@ export default async function ContestManagePage({params, searchParams}: Props) {
     const {section = "settings"} = await searchParams;
 
     // Load contest data on the server
-    let contest: Contest | null = null;
+    let contest: ContestModel | null = null;
     let problems: Array<ContestProblemListItem> = [];
 
     try {

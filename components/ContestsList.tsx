@@ -4,7 +4,7 @@ import React from 'react';
 import {
     Button,
     Group,
-    Pagination,
+    PaginationModel,
     Stack,
     Table,
     TableTbody,
@@ -19,8 +19,8 @@ import * as corev1 from "../../contracts/core/v1";
 import {DefaultLayout} from "@/components/Layout";
 
 type Props = {
-    contests: corev1.Contest[],
-    pagination: corev1.Pagination,
+    contests: corev1.ContestModel[],
+    pagination: corev1.PaginationModel,
 }
 
 const ContestsList = ({contests, pagination}: Props) => {
@@ -89,7 +89,7 @@ const ContestsList = ({contests, pagination}: Props) => {
                         </TableThead>
                         <TableTbody>{rows}</TableTbody>
                     </Table>
-                    <Pagination total={pagination.total}
+                    <PaginationModel total={pagination.total}
                                 value={pagination.page}
                                 getItemProps={getItemProps}
                                 getControlProps={getControlProps}

@@ -1,24 +1,24 @@
 "use client";
 
 import type {
-  ProblemsListItem,
-  Pagination as PaginationType,
+  ProblemsListItemModel,
+  PaginationModel as PaginationType,
 } from "../../../contracts/core/v1";
-import { ProblemsSearchInput } from "./ProblemsSearchInput";
-import { ProblemsPageContent } from "./ProblemsPageContent";
+import { WorkshopProblemsSearchInput } from "./WorkshopProblemsSearchInput";
+import { WorkshopProblemsContent } from "./WorkshopProblemsContent";
 import { usePageTransition } from "./WorkshopPageWrapper";
 import { useState } from "react";
-import { ContestsContentSkeleton } from "./ContestsContentSkeleton";
-import { ProblemsContentSkeleton } from "./ProblemsContentSkeleton";
+import { WorkshopContestsContentSkeleton } from "./WorkshopContestsContentSkeleton";
+import { WorkshopProblemsContentSkeleton } from "./WorkshopProblemsContentSkeleton";
 
 type Props = {
-  problems: ProblemsListItem[];
+  problems: ProblemsListItemModel[];
   pagination: PaginationType;
   isAuthenticated: boolean;
   owner?: string;
 };
 
-export function ProblemsDataWrapper({
+export function WorkshopProblemsWrapper({
   problems,
   pagination,
   isAuthenticated,
@@ -30,14 +30,14 @@ export function ProblemsDataWrapper({
   return (
       <>
       {isPending ? ( !isPaginationTransition ? (
-        <ContestsContentSkeleton />
+        <WorkshopContestsContentSkeleton />
       ) : (
-        <ProblemsContentSkeleton />
+        <WorkshopProblemsContentSkeleton />
       )
       ) : (
         <>
-          <ProblemsSearchInput value={search} onChange={setSearch} />
-          <ProblemsPageContent
+          <WorkshopProblemsSearchInput value={search} onChange={setSearch} />
+          <WorkshopProblemsContent
           problems={problems}
           pagination={pagination}
           isAuthenticated={isAuthenticated}

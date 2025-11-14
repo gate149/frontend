@@ -1,9 +1,8 @@
 import { Input, Stack } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
-import { ProblemsOwnerFilterSkeleton } from "./ProblemsOwnerFilterSkeleton";
-import { ContestsGridSkeleton } from "./ContestsGridSkeleton";
+import { WorkshopContestsGridSkeleton } from "./WorkshopContestsGridSkeleton";
 
-export function ContestsContentSkeleton() {
+export function WorkshopContestsContentSkeleton() {
   return (
     <Stack gap="lg">
       <Input
@@ -13,7 +12,7 @@ export function ContestsContentSkeleton() {
         radius="md"
         size="md"
       />
-      <ContestsGridSkeleton />
+      <WorkshopContestsGridSkeleton />
     </Stack>
   );
 }

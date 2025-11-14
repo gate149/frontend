@@ -1,14 +1,14 @@
 import { Center, SimpleGrid, Text } from "@mantine/core";
-import type { ProblemsListItem } from "../../../contracts/core/v1";
-import { ProblemCard } from "./ProblemCard";
+import type { ProblemsListItemModel } from "../../../contracts/core/v1";
+import { ProblemCard } from "../ProblemCard";
 
 type Props = {
-  problems: ProblemsListItem[];
+  problems: ProblemsListItemModel[];
   isAuthenticated: boolean;
   owner?: string;
 };
 
-export function ProblemsGrid({ problems, isAuthenticated, owner }: Props) {
+export function WorkshopProblemsGrid({ problems, isAuthenticated, owner }: Props) {
   if (problems.length === 0) {
     return (
       <Center py="xl">

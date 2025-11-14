@@ -9,9 +9,9 @@ import {
   TableTr,
 } from "@mantine/core";
 import { useRouter } from "next/navigation";
-import type { Contest } from "../../contracts/core/v1";
+import type { ContestModel } from "../../contracts/core/v1";
 
-export function ContestsTable({ contests }: { contests: Contest[] }) {
+export function ContestsTable({ contests }: { contests: ContestModel[] }) {
   const router = useRouter();
 
   return (
@@ -25,7 +25,7 @@ export function ContestsTable({ contests }: { contests: Contest[] }) {
         </TableTr>
       </TableThead>
       <TableTbody>
-        {contests.map((contest: Contest) => (
+        {contests.map((contest: ContestModel) => (
           <TableTr
             key={contest.id}
             onClick={() => router.push(`/contests/${contest.id}`)}

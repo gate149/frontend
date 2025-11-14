@@ -3,13 +3,13 @@
 import { Badge, Stack, Table, Text } from "@mantine/core";
 import { useRouter } from "next/navigation";
 import type {
-  Pagination as PaginationType,
-  User,
+  PaginationModel as PaginationType,
+  UserModel,
 } from "../../contracts/core/v1";
 import { NextPagination } from "./Pagination";
 
 type Props = {
-  users: User[];
+  users: UserModel[];
   pagination: PaginationType;
   search?: string;
   role?: string;

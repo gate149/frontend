@@ -24,10 +24,10 @@ import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import * as corev1 from "../../../contracts/core/v1/core";
+import type { ProblemModel } from "../../contracts/core/v1";
 
 type Props = {
-  problem: corev1.Problem;
+  problem: ProblemModel;
   onSubmitFn: (id: string, data: any) => Promise<any>;
   onUploadFn: (id: string, data: FormData) => Promise<any>;
 };

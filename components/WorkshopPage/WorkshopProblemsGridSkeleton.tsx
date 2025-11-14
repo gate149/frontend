@@ -1,6 +1,6 @@
 import { Card, Group, SimpleGrid, Skeleton, Stack } from "@mantine/core";
 
-export function ProblemsGridSkeleton() {
+export function WorkshopProblemsGridSkeleton() {
   return (
     <SimpleGrid
       cols={{ base: 1, xs: 2, sm: 2, md: 3, lg: 4, xl: 4 }}

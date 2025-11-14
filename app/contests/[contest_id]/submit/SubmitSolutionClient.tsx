@@ -4,11 +4,11 @@ import { CreateSolutionForm } from "@/components/CreateSolutionForm";
 import { numberToLetters } from "@/lib/lib";
 import { Box, Paper, Select, Stack } from "@mantine/core";
 import { useState } from "react";
-import type { Contest, ContestProblemListItem } from "../../../../../contracts/core/v1";
+import type { ContestModel, ContestProblemListItem } from "../../../../../contracts/core/v1";
 import { submitSolution } from "./actions";
 
 type Props = {
-  contest: Contest;
+  contest: ContestModel;
   problems: ContestProblemListItem[];
 };
 

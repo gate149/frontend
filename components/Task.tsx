@@ -15,7 +15,7 @@ import {
 } from "@mantine/core";
 import {CreateSolutionForm} from "@/components/CreateSolutionForm";
 import Link from "next/link";
-import type {ContestProblemListItem, Contest, ContestProblem, SolutionsListItem} from "../../contracts/core/v1";
+import type {ContestProblemListItemModel, ContestModel, ContestProblemModel, SolutionsListItemModel} from "../../contracts/core/v1";
 import {Problem} from "@/components/Problem";
 import {numberToLetters} from '@/lib/lib';
 import {Layout} from "@/components/Layout";
@@ -25,10 +25,10 @@ import {submitSolution} from "@/app/contests/[contest_id]/problems/[problem_id]/
 import {ContestHotbar} from "@/components/ContestHotbar";
 
 type PageProps = {
-    tasks: ContestProblemListItem[]
-    contest: Contest,
-    task: ContestProblem,
-    solutions: SolutionsListItem[],
+    tasks: ContestProblemListItemModel[]
+    contest: ContestModel,
+    task: ContestProblemModel,
+    solutions: SolutionsListItemModel[],
     problemId: string,
     contestId: string,
     header: React.ReactNode

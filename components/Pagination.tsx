@@ -8,14 +8,15 @@ import * as corev1 from '../../contracts/core/v1';
 import { usePageTransition } from './WorkshopPage/WorkshopPageWrapper';
 
 interface NextPaginationProps {
-    pagination: corev1.Pagination;
+    pagination: corev1.PaginationModel;
     baseUrl: string;
     queryParams?: Record<string, string | number | undefined>;
 }
 
 const NextPagination = ({pagination, baseUrl, queryParams = {}}: NextPaginationProps) => {
     const router = useRouter();
-    const { startTransition, setIsPaginationTransition } = usePageTransition();
+    const transitionContext = usePageTransition();
+    const [isPending, reactStartTransition] = React.useTransition();
 
     // Helper function to build query string
     const buildQueryString = (params: Record<string, string | number | undefined>) => {
@@ -28,10 +29,19 @@ const NextPagination = ({pagination, baseUrl, queryParams = {}}: NextPaginationP
     const navigateToPage = (page: number, e: React.MouseEvent) => {
         e.preventDefault();
         const url = `${baseUrl}${buildQueryString({...queryParams, page})}`;
-        setIsPaginationTransition(true);
-        startTransition(() => {
-            router.push(url);
-        });
+        
+        // Use context if available, otherwise use React.useTransition directly
+        if (transitionContext) {
+            const { startTransition, setIsPaginationTransition } = transitionContext;
+            setIsPaginationTransition(true);
+            startTransition(() => {
+                router.push(url);
+            });
+        } else {
+            reactStartTransition(() => {
+                router.push(url);
+            });
+        }
     };
 
     const getItemProps = (page: number) => ({

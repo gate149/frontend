@@ -16,7 +16,7 @@ import { useState } from "react";
 import type * as corev1 from "../../../contracts/core/v1";
 
 interface SettingsSectionProps {
-  contest: corev1.Contest;
+  contest: corev1.ContestModel;
 }
 
 export function SettingsSection({ contest }: SettingsSectionProps) {

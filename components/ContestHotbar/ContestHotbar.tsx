@@ -9,10 +9,10 @@ import {
   IconSettings,
 } from "@tabler/icons-react";
 import Link from "next/link";
-import type { Contest } from "../../../contracts/core/v1";
+import type { ContestModel } from "../../../contracts/core/v1";
 
 type ContestHotbarProps = {
-  contest: Contest;
+  contest: ContestModel;
   activeTab?: "tasks" | "submit" | "solutions" | "monitor" | "manage";
   showManageButton?: boolean;
 };

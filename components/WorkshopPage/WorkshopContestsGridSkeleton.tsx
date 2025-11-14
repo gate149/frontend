@@ -1,6 +1,6 @@
 import { Skeleton, Stack } from "@mantine/core";
 
-export function ContestsGridSkeleton() {
+export function WorkshopContestsGridSkeleton() {
   return (
     <Stack gap="xs">
       {Array.from({ length: 10 }).map((_, index) => (

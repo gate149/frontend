@@ -5,7 +5,7 @@ import { IconSearch } from "@tabler/icons-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-export function ProblemsContestsSearchInput() {
+export function WorkshopContestsSearchInput() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [search, setSearch] = useState(searchParams.get("search") || "");
@@ -45,7 +45,7 @@ export function ProblemsContestsSearchInput() {
 
   return (
     <Input
-      placeholder="Поиск контестов1..."
+      placeholder="Поиск контестов..."
       leftSection={<IconSearch size={16} />}
       value={search}
       onChange={(e) => setSearch(e.currentTarget.value)}
@@ -54,4 +54,3 @@ export function ProblemsContestsSearchInput() {
     />
   );
 }
-

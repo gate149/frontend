@@ -15,8 +15,8 @@ import {
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type {
-  Contest,
-  ContestProblemListItem,
+  ContestModel,
+  ContestProblemListItemModel,
 } from "../../../../contracts/core/v1";
 import { ContestProblemsTable } from "./ContestProblemsTable";
 import { ContestHotbar } from "@/components/ContestHotbar";
@@ -46,8 +46,8 @@ export const generateMetadata = async ({
 };
 
 type ContestProps = {
-  contest: Contest;
-  problems: Array<ContestProblemListItem>;
+  contest: ContestModel;
+  problems: Array<ContestProblemListItemModel>;
 };
 
 const Contest = ({ contest, problems }: ContestProps) => {
@@ -101,7 +101,7 @@ const Page = async ({ params }: Props) => {
       client.default.getContest({ contestId: contest_id })
     );
 
-    console.log("✅ Contest response:", response);
+    console.log("✅ ContestModel response:", response);
 
     if (!response || !response.contest) {
       console.error("❌ No contest in response");

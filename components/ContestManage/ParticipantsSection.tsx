@@ -19,7 +19,6 @@ import {
   Stack,
   Table,
   Text,
-  Title,
 } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
@@ -34,14 +33,14 @@ interface ParticipantsSectionProps {
 
 export function ParticipantsSection({ contestId }: ParticipantsSectionProps) {
   const router = useRouter();
-  const [participants, setParticipants] = useState<corev1.User[]>([]);
+  const [participants, setParticipants] = useState<corev1.UserModel[]>([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
 
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedQuery] = useDebouncedValue(searchQuery, 300);
-  const [searchResults, setSearchResults] = useState<corev1.User[]>([]);
+  const [searchResults, setSearchResults] = useState<corev1.UserModel[]>([]);
   const [searching, setSearching] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [adding, setAdding] = useState(false);

@@ -2,21 +2,21 @@
 
 import { Stack } from "@mantine/core";
 import type {
-  Pagination as PaginationType,
-  ProblemsListItem,
+  PaginationModel as PaginationType,
+  ProblemsListItemModel,
 } from "../../../contracts/core/v1";
 import { NextPagination } from "../Pagination";
-import { ProblemsGrid } from "./ProblemsGrid";
+import { WorkshopProblemsGrid } from "./WorkshopProblemsGrid";
 
 type Props = {
-  problems: ProblemsListItem[];
+  problems: ProblemsListItemModel[];
   pagination: PaginationType;
   isAuthenticated: boolean;
   owner?: string;
   search: string;
 };
 
-export function ProblemsPageContent({
+export function WorkshopProblemsContent({
   problems,
   pagination,
   isAuthenticated,
@@ -34,7 +34,7 @@ export function ProblemsPageContent({
 
   return (
     <>
-      <ProblemsGrid 
+      <WorkshopProblemsGrid 
         problems={filteredProblems} 
         isAuthenticated={isAuthenticated}
         owner={owner}

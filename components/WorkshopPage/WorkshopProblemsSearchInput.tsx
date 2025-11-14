@@ -8,7 +8,7 @@ type Props = {
   onChange: (value: string) => void;
 };
 
-export function ProblemsSearchInput({ value, onChange }: Props) {
+export function WorkshopProblemsSearchInput({ value, onChange }: Props) {
   return (
     <TextInput
       placeholder="Поиск задач..."

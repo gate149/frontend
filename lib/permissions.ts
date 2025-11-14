@@ -1,4 +1,4 @@
-import type { Contest, Problem, User } from "../../contracts/core/v1/core";
+import type { ContestModel, Problem, User } from "../../contracts/core/v1/core";
 
 /**
  * Permission checker utilities for frontend
@@ -21,9 +21,9 @@ export class PermissionChecker {
     return this.user?.role === "admin";
   }
 
-  // Contest permissions
+  // ContestModel permissions
 
-  canViewContest(contest: Contest): boolean {
+  canViewContest(contest: ContestModel): boolean {
     if (!this.isAuthenticated()) {
       return false;
     }
@@ -38,7 +38,7 @@ export class PermissionChecker {
     return this.isGlobalAdmin();
   }
 
-  canEditContest(contest: Contest): boolean {
+  canEditContest(contest: ContestModel): boolean {
     if (!this.isAuthenticated()) {
       return false;
     }
@@ -53,7 +53,7 @@ export class PermissionChecker {
     return false;
   }
 
-  canDeleteContest(contest: Contest): boolean {
+  canDeleteContest(contest: ContestModel): boolean {
     if (!this.isAuthenticated()) {
       return false;
     }
@@ -62,12 +62,12 @@ export class PermissionChecker {
     return this.isGlobalAdmin();
   }
 
-  canManageContestParticipants(contest: Contest): boolean {
+  canManageContestParticipants(contest: ContestModel): boolean {
     // Same as edit for now
     return this.canEditContest(contest);
   }
 
-  canViewMonitor(contest: Contest): boolean {
+  canViewMonitor(contest: ContestModel): boolean {
     if (!this.isAuthenticated()) {
       return false;
     }

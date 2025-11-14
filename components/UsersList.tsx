@@ -2,7 +2,7 @@
 
 import {
   ActionIcon,
-  Pagination,
+  PaginationModel,
   Stack,
   Table,
   TableTbody,
@@ -18,7 +18,7 @@ import * as corev1 from "../../contracts/core/v1/core";
 
 type UsersListProps = {
   users: corev1.User[];
-  pagination: corev1.Pagination;
+  pagination: corev1.PaginationModel;
 };
 
 const roles = ["Студент", "Преподаватель", "Администратор"];
@@ -80,7 +80,7 @@ const UsersList = ({ users, pagination }: UsersListProps) => {
           </TableThead>
           <TableTbody>{rows}</TableTbody>
         </Table>
-        <Pagination
+        <PaginationModel
           total={pagination.total}
           value={pagination.page}
           getItemProps={getItemProps}

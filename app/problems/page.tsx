@@ -1,16 +1,15 @@
 import { DefaultLayout } from "@/components/Layout";
-import { ProblemsDataWrapper } from "@/components/WorkshopPage/ProblemsDataWrapper";
+import { WorkshopProblemsWrapper } from "@/components/WorkshopPage/WorkshopProblemsWrapper";
 import { WorkshopTabs } from "@/components/WorkshopPage/WorkshopTabs";
 import { WorkshopPageWrapper } from "@/components/WorkshopPage/WorkshopPageWrapper";
-import { ProblemsGridSkeleton } from "@/components/WorkshopPage/ProblemsGridSkeleton";
-import { ContestsContentSkeleton } from "@/components/WorkshopPage/ContestsContentSkeleton";
+import { WorkshopProblemsGridSkeleton } from "@/components/WorkshopPage/WorkshopProblemsGridSkeleton";
+import { WorkshopContestsContentSkeleton } from "@/components/WorkshopPage/WorkshopContestsContentSkeleton";
 import { getMe, getProblems, getContests } from "@/lib/actions";
 import { Alert, Center, Container, Stack } from "@mantine/core";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { Metadata } from "next";
 import { Suspense } from "react";
-import { ProblemsContentWrapper } from "@/components/WorkshopPage/ProblemsContentWrapper";
-
+import { WorkshopContestsWrapper } from "@/components/WorkshopPage/WorkshopContestsWrapper";
 export const metadata: Metadata = {
   title: "Мастерская",
   description: "",
@@ -48,7 +47,7 @@ const ProblemsView = async ({
   }
 
   return (
-    <ProblemsDataWrapper
+    <WorkshopProblemsWrapper
       problems={problemsData.problems}
       pagination={problemsData.pagination}
       isAuthenticated={isAuthenticated}
@@ -85,7 +84,7 @@ const ContestsView = async ({
   }
 
   return (
-    <ProblemsContentWrapper
+    <WorkshopContestsWrapper
       contests={contestsData.contests}
       pagination={contestsData.pagination}
     />
@@ -110,11 +109,11 @@ const WorshopPageContent = async ({
       <Stack gap="lg">
         <WorkshopTabs isAuthenticated={isAuthenticated} />
         {view === "problems" ? (
-          <Suspense fallback={<ProblemsGridSkeleton />}>
+          <Suspense fallback={<WorkshopProblemsGridSkeleton />}>
             <ProblemsView page={page} search={search} isAuthenticated={isAuthenticated} />
           </Suspense>
         ) : (
-          <Suspense fallback={<ContestsContentSkeleton />}>
+          <Suspense fallback={<WorkshopContestsContentSkeleton />}>
             <ContestsView page={page} search={search} isAuthenticated={isAuthenticated} />
           </Suspense>
         )}
