@@ -15,7 +15,7 @@ const TransitionContext = createContext<TransitionContextType>(null!);
 
 export const usePageTransition = () => useContext(TransitionContext);
 
-export const ProblemsPageWrapper = ({ children }: React.PropsWithChildren) => {
+export const WorkshopPageWrapper = ({ children }: React.PropsWithChildren) => {
   const [isPending, startTransition] = useTransition();
   const [pendingView, setPendingView] = useState("");
   const [isPaginationTransition, setIsPaginationTransition] = useState(false);

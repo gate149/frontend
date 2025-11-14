@@ -6,7 +6,7 @@ import type {
 } from "../../../contracts/core/v1";
 import { ProblemsSearchInput } from "./ProblemsSearchInput";
 import { ProblemsPageContent } from "./ProblemsPageContent";
-import { usePageTransition } from "./ProblemsPageWrapper";
+import { usePageTransition } from "./WorkshopPageWrapper";
 import { useState } from "react";
 import { ContestsContentSkeleton } from "./ContestsContentSkeleton";
 import { ProblemsContentSkeleton } from "./ProblemsContentSkeleton";

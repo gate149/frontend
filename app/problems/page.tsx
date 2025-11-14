@@ -1,15 +1,15 @@
 import { DefaultLayout } from "@/components/Layout";
-import { ProblemsDataWrapper } from "@/components/ProblemsPage/ProblemsDataWrapper";
-import { ProblemsOwnerFilter } from "@/components/ProblemsPage/ProblemsOwnerFilter";
-import { ProblemsPageWrapper } from "@/components/ProblemsPage/ProblemsPageWrapper";
-import { ProblemsGridSkeleton } from "@/components/ProblemsPage/ProblemsGridSkeleton";
-import { ContestsContentSkeleton } from "@/components/ProblemsPage/ContestsContentSkeleton";
+import { ProblemsDataWrapper } from "@/components/WorkshopPage/ProblemsDataWrapper";
+import { WorkshopTabs } from "@/components/WorkshopPage/WorkshopTabs";
+import { WorkshopPageWrapper } from "@/components/WorkshopPage/WorkshopPageWrapper";
+import { ProblemsGridSkeleton } from "@/components/WorkshopPage/ProblemsGridSkeleton";
+import { ContestsContentSkeleton } from "@/components/WorkshopPage/ContestsContentSkeleton";
 import { getMe, getProblems, getContests } from "@/lib/actions";
 import { Alert, Center, Container, Stack } from "@mantine/core";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { Metadata } from "next";
 import { Suspense } from "react";
-import { ProblemsContentWrapper } from "@/components/ProblemsPage/ProblemsContentWrapper";
+import { ProblemsContentWrapper } from "@/components/WorkshopPage/ProblemsContentWrapper";
 
 export const metadata: Metadata = {
   title: "Мастерская",
@@ -92,7 +92,7 @@ const ContestsView = async ({
   );
 };
 
-const ProblemsContent = async ({
+const WorshopPageContent = async ({
   page,
   view,
   search,
@@ -106,9 +106,9 @@ const ProblemsContent = async ({
   const isAuthenticated = !!userData?.user;
 
   return (
-    <ProblemsPageWrapper>
+    <WorkshopPageWrapper>
       <Stack gap="lg">
-        <ProblemsOwnerFilter isAuthenticated={isAuthenticated} />
+        <WorkshopTabs isAuthenticated={isAuthenticated} />
         {view === "problems" ? (
           <Suspense fallback={<ProblemsGridSkeleton />}>
             <ProblemsView page={page} search={search} isAuthenticated={isAuthenticated} />
@@ -119,7 +119,7 @@ const ProblemsContent = async ({
           </Suspense>
         )}
       </Stack>
-    </ProblemsPageWrapper >
+    </WorkshopPageWrapper >
   );
 };
 
@@ -134,7 +134,7 @@ const Page = async (props: Props) => {
   return (
     <DefaultLayout>
       <Container size="xl" py="xl">
-        <ProblemsContent
+        <WorshopPageContent
           page={page}
           view={view}
           search={search}

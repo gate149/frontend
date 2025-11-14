@@ -4,7 +4,7 @@ import { useState } from "react";
 import type {
   Pagination as PaginationType,
 } from "../../../contracts/core/v1";
-import { usePageTransition } from "./ProblemsPageWrapper";
+import { usePageTransition } from "./WorkshopPageWrapper";
 import { ContestsContentSkeleton } from "./ContestsContentSkeleton";
 import { ContestsDataWrapper } from "./ContestsDataWrapper";
 import type { Contest } from "../../../contracts/core/v1";

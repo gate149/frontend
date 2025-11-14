@@ -3,7 +3,7 @@
 import { Group, SegmentedControl } from "@mantine/core";
 import { IconTrophy, IconUser } from "@tabler/icons-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { usePageTransition } from "./ProblemsPageWrapper";
+import { usePageTransition } from "./WorkshopPageWrapper";
 import { useState, useEffect } from "react";
 import { flushSync } from "react-dom";
 
@@ -11,7 +11,7 @@ type Props = {
   isAuthenticated: boolean;
 };
 
-export function ProblemsOwnerFilter({ isAuthenticated }: Props) {
+export function WorkshopTabs({ isAuthenticated }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentView = searchParams.get("view") || "contests";
