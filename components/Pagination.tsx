@@ -15,7 +15,7 @@ interface NextPaginationProps {
 
 const NextPagination = ({pagination, baseUrl, queryParams = {}}: NextPaginationProps) => {
     const router = useRouter();
-    const { startTransition } = usePageTransition();
+    const { startTransition, setIsPaginationTransition } = usePageTransition();
 
     // Helper function to build query string
     const buildQueryString = (params: Record<string, string | number | undefined>) => {
@@ -28,6 +28,7 @@ const NextPagination = ({pagination, baseUrl, queryParams = {}}: NextPaginationP
     const navigateToPage = (page: number, e: React.MouseEvent) => {
         e.preventDefault();
         const url = `${baseUrl}${buildQueryString({...queryParams, page})}`;
+        setIsPaginationTransition(true);
         startTransition(() => {
             router.push(url);
         });

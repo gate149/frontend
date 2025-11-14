@@ -15,7 +15,7 @@ export function ProblemsOwnerFilter({ isAuthenticated }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentView = searchParams.get("view") || "contests";
-  const { startTransition, pendingView, setPendingView } = usePageTransition();
+  const { startTransition, pendingView, setPendingView, setIsPaginationTransition } = usePageTransition();
   const [localView, setLocalView] = useState<string>(currentView);
   
   // Sync local view with current view when URL changes
@@ -48,6 +48,9 @@ export function ProblemsOwnerFilter({ isAuthenticated }: Props) {
     
     // Set pending view for skeleton display
     setPendingView(value);
+    
+    // Mark this as NON-pagination transition
+    setIsPaginationTransition(false);
     
     startTransition(() => {
       router.push(`/problems${query ? `?${query}` : ""}`);

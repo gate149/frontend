@@ -25,12 +25,15 @@ export function ProblemsContentWrapper({
   pagination
 }: Props) {
   const [search, setSearch] = useState("");
-  const { isPending } = usePageTransition();
-  console.log(isPending);
+  const { isPending, isPaginationTransition } = usePageTransition();
+  console.log(isPaginationTransition);
   return (
     <>
-      {isPending ? (
+      {isPending ? ( !isPaginationTransition ? (
         <ProblemsContentSkeleton />
+      ) : (
+        <ContestsContentSkeleton />
+      )
       ) : (
         <>
           <ContestsSearchInput value={search} onChange={setSearch} />

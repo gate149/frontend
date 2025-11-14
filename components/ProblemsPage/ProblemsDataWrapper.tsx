@@ -10,6 +10,7 @@ import { ProblemsGridSkeleton } from "./ProblemsGridSkeleton";
 import { usePageTransition } from "./ProblemsPageWrapper";
 import { useState } from "react";
 import { ContestsContentSkeleton } from "./ContestsContentSkeleton";
+import { ProblemsContentSkeleton } from "./ProblemsContentSkeleton";
 
 type Props = {
   problems: ProblemsListItem[];
@@ -25,12 +26,15 @@ export function ProblemsDataWrapper({
   owner,
 }: Props) {
   const [search, setSearch] = useState("");
-  const { isPending } = usePageTransition();
+  const { isPending, isPaginationTransition } = usePageTransition();
 
   return (
       <>
-      {isPending ? (
+      {isPending ? ( !isPaginationTransition ? (
         <ContestsContentSkeleton />
+      ) : (
+        <ProblemsContentSkeleton />
+      )
       ) : (
         <>
           <ProblemsSearchInput value={search} onChange={setSearch} />
