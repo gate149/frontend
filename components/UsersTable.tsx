@@ -62,7 +62,7 @@ export function UsersTable({ users, pagination, search, role }: Props) {
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
-          {users.map((user: User) => (
+          {users.map((user: UserModel) => (
             <Table.Tr
               key={user.id}
               onClick={() => router.push(`/users/${user.id}`)}
