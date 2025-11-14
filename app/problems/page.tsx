@@ -1,6 +1,5 @@
 import { DefaultLayout } from "@/components/Layout";
 import { ProblemsDataWrapper } from "@/components/ProblemsPage/ProblemsDataWrapper";
-import { ContestsDataWrapper } from "@/components/ProblemsPage/ContestsDataWrapper";
 import { ProblemsOwnerFilter } from "@/components/ProblemsPage/ProblemsOwnerFilter";
 import { ProblemsPageWrapper } from "@/components/ProblemsPage/ProblemsPageWrapper";
 import { ProblemsGridSkeleton } from "@/components/ProblemsPage/ProblemsGridSkeleton";

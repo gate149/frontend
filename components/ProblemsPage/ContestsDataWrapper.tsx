@@ -4,11 +4,9 @@ import type {
   Contest,
   Pagination as PaginationType,
 } from "../../../contracts/core/v1";
-import { ProblemsContestsSearchInput } from "./ProblemsContestsSearchInput";
 import { ContestsTable } from "../ContestsTable";
 import { Center, Text, Pagination } from "@mantine/core";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ContestsSearchInput } from "../ContestsSearchInput";
 
 type Props = {
   contests: Contest[];
