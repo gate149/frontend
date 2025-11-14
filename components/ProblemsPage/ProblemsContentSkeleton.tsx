@@ -6,7 +6,6 @@ import { ProblemsGridSkeleton } from "./ProblemsGridSkeleton";
 export function ProblemsContentSkeleton() {
   return (
     <Stack gap="lg">
-      <ProblemsOwnerFilterSkeleton value="problems" />
       <TextInput
         placeholder="Поиск задач..."
         leftSection={<IconSearch size={16} />}

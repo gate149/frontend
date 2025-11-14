@@ -29,6 +29,7 @@ export function ProblemsPageContent({
   );
 
   const queryParams: Record<string, string | undefined> = {};
+  queryParams.view = "problems";
   if (owner) queryParams.owner = owner;
 
   return (

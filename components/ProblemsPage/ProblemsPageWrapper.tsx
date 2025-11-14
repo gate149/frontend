@@ -1,30 +1,21 @@
 "use client";
 
-import { ReactNode, createContext, useContext, useState, useTransition } from "react";
+import { createContext, useContext, useState, useTransition } from "react";
 
 type TransitionContextType = {
   isPending: boolean;
   startTransition: (callback: () => void) => void;
-  pendingView: string | null;
-  setPendingView: (view: string | null) => void;
+  pendingView: string;
+  setPendingView: (view: string) => void;
 };
 
-const TransitionContext = createContext<TransitionContextType>({
-  isPending: false,
-  startTransition: () => {},
-  pendingView: null,
-  setPendingView: () => {},
-});
+const TransitionContext = createContext<TransitionContextType>(null!);
 
 export const usePageTransition = () => useContext(TransitionContext);
 
-type Props = {
-  children: ReactNode;
-};
-
-export function ProblemsPageWrapper({ children }: Props) {
+export const ProblemsPageWrapper = ({ children }: React.PropsWithChildren) => {
   const [isPending, startTransition] = useTransition();
-  const [pendingView, setPendingView] = useState<string | null>(null);
+  const [pendingView, setPendingView] = useState("");
 
   return (
     <TransitionContext.Provider value={{ isPending, startTransition, pendingView, setPendingView }}>
@@ -32,4 +23,3 @@ export function ProblemsPageWrapper({ children }: Props) {
     </TransitionContext.Provider>
   );
 }
-

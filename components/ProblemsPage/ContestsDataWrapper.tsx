@@ -8,13 +8,15 @@ import { ProblemsContestsSearchInput } from "./ProblemsContestsSearchInput";
 import { ContestsTable } from "../ContestsTable";
 import { Center, Text, Pagination } from "@mantine/core";
 import { useRouter, useSearchParams } from "next/navigation";
+import { ContestsSearchInput } from "../ContestsSearchInput";
 
 type Props = {
   contests: Contest[];
   pagination: PaginationType;
+  search: string;
 };
 
-export function ContestsDataWrapper({ contests, pagination }: Props) {
+export function ContestsDataWrapper({ contests, pagination, search }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get("page")) || 1;
@@ -35,7 +37,6 @@ export function ContestsDataWrapper({ contests, pagination }: Props) {
   if (contests.length === 0) {
     return (
       <>
-        <ProblemsContestsSearchInput />
         <Center py="xl">
           <Text c="dimmed">
             {searchParams.get("search")
@@ -49,7 +50,6 @@ export function ContestsDataWrapper({ contests, pagination }: Props) {
 
   return (
     <>
-      <ProblemsContestsSearchInput />
       <ContestsTable contests={contests} />
       {totalPages > 1 && (
         <Center mt="xl">

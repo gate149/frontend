@@ -67,7 +67,7 @@ export function ProblemsOwnerFilter({ isAuthenticated }: Props) {
               <span>Мои контесты</span>
             </Group>
           ),
-          disabled: !isAuthenticated,
+          disabled: !isAuthenticated
         },
         {
           value: "problems",
@@ -77,7 +77,7 @@ export function ProblemsOwnerFilter({ isAuthenticated }: Props) {
               <span>Мои задачи</span>
             </Group>
           ),
-          disabled: !isAuthenticated,
+          disabled: !isAuthenticated
         },
       ]}
     />

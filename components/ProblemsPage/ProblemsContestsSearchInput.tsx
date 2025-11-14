@@ -45,7 +45,7 @@ export function ProblemsContestsSearchInput() {
 
   return (
     <Input
-      placeholder="Поиск по названию контеста..."
+      placeholder="Поиск контестов1..."
       leftSection={<IconSearch size={16} />}
       value={search}
       onChange={(e) => setSearch(e.currentTarget.value)}

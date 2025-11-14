@@ -1,7 +1,7 @@
 "use client";
 
 import type {
-  Problem,
+  ProblemsListItem,
   Pagination as PaginationType,
 } from "../../../contracts/core/v1";
 import { ProblemsSearchInput } from "./ProblemsSearchInput";
@@ -9,9 +9,10 @@ import { ProblemsPageContent } from "./ProblemsPageContent";
 import { ProblemsGridSkeleton } from "./ProblemsGridSkeleton";
 import { usePageTransition } from "./ProblemsPageWrapper";
 import { useState } from "react";
+import { ContestsContentSkeleton } from "./ContestsContentSkeleton";
 
 type Props = {
-  problems: Problem[];
+  problems: ProblemsListItem[];
   pagination: PaginationType;
   isAuthenticated: boolean;
   owner?: string;
@@ -27,18 +28,20 @@ export function ProblemsDataWrapper({
   const { isPending } = usePageTransition();
 
   return (
-    <>
-      <ProblemsSearchInput value={search} onChange={setSearch} />
+      <>
       {isPending ? (
-        <ProblemsGridSkeleton />
+        <ContestsContentSkeleton />
       ) : (
-        <ProblemsPageContent
+        <>
+          <ProblemsSearchInput value={search} onChange={setSearch} />
+          <ProblemsPageContent
           problems={problems}
           pagination={pagination}
           isAuthenticated={isAuthenticated}
           owner={owner}
           search={search}
-        />
+          />
+        </>
       )}
     </>
   );

@@ -19,7 +19,7 @@ const CreateProblemForm = ({
       return response?.id || "";
     },
     onSuccess: async (data: string) => {
-      router.push(`/problems/${data}`);
+      router.push(`/problems/${data}/edit`);
     },
     onError: (error) => {
       console.error("Не удалось создать задачу. Попробуйте позже.", error);

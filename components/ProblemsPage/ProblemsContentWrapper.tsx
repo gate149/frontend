@@ -1,43 +1,46 @@
 "use client";
 
-import { ReactNode, useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState } from "react";
+import type {
+  ProblemsListItem,
+  Pagination as PaginationType,
+} from "../../../contracts/core/v1";
+import { ProblemsSearchInput } from "./ProblemsSearchInput";
+import { ProblemsPageContent } from "./ProblemsPageContent";
+import { ProblemsGridSkeleton } from "./ProblemsGridSkeleton";
 import { usePageTransition } from "./ProblemsPageWrapper";
-import { ProblemsContentSkeleton } from "./ProblemsContentSkeleton";
 import { ContestsContentSkeleton } from "./ContestsContentSkeleton";
-
+import { ContestProblemsTable } from "@/app/contests/[contest_id]/ContestProblemsTable";
+import { ContestsDataWrapper } from "./ContestsDataWrapper";
+import type { Contest } from "../../../contracts/core/v1";
+import { ContestsSearchInput } from "../ContestsSearchInput";
+import { ProblemsContentSkeleton } from "./ProblemsContentSkeleton";
 type Props = {
-  children: ReactNode;
+  contests: Contest[];
+  pagination: PaginationType;
 };
 
-export function ProblemsContentWrapper({ children }: Props) {
-  const { pendingView, setPendingView } = usePageTransition();
-  const searchParams = useSearchParams();
-  const currentView = searchParams.get("view") || "contests";
-  const [isInitialMount, setIsInitialMount] = useState(true);
-
-  // Mark as mounted after first render to avoid hydration issues
-  useEffect(() => {
-    setIsInitialMount(false);
-  }, []);
-
-  // Reset pending view when URL catches up
-  useEffect(() => {
-    if (pendingView && currentView === pendingView) {
-      setPendingView(null);
-    }
-  }, [pendingView, currentView, setPendingView]);
-
-  // Don't show skeleton on initial mount (SSR/hydration)
-  // Only show skeleton when pendingView is set during client-side navigation
-  if (!isInitialMount && pendingView) {
-    return pendingView === "contests" ? (
-      <ContestsContentSkeleton />
-    ) : (
-      <ProblemsContentSkeleton />
-    );
-  }
-
-  return <>{children}</>;
+export function ProblemsContentWrapper({
+  contests,
+  pagination
+}: Props) {
+  const [search, setSearch] = useState("");
+  const { isPending } = usePageTransition();
+  console.log(isPending);
+  return (
+    <>
+      {isPending ? (
+        <ProblemsContentSkeleton />
+      ) : (
+        <>
+          <ContestsSearchInput value={search} onChange={setSearch} />
+          <ContestsDataWrapper
+            contests={contests}
+            pagination={pagination}
+            search={search}
+          />
+        </>
+      )}
+    </>
+  );
 }
-
