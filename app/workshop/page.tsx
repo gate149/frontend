@@ -2,7 +2,6 @@ import { DefaultLayout } from "@/components/Layout";
 import { WorkshopProblemsWrapper } from "@/components/WorkshopPage/WorkshopProblemsWrapper";
 import { WorkshopTabs } from "@/components/WorkshopPage/WorkshopTabs";
 import { WorkshopPageWrapper } from "@/components/WorkshopPage/WorkshopPageWrapper";
-import { WorkshopProblemsGridSkeleton } from "@/components/WorkshopPage/WorkshopProblemsGridSkeleton";
 import { WorkshopContestsContentSkeleton } from "@/components/WorkshopPage/WorkshopContestsContentSkeleton";
 import { getMe, getProblems, getContests } from "@/lib/actions";
 import { Alert, Center, Container, Stack } from "@mantine/core";

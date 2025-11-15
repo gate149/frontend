@@ -7,11 +7,7 @@ import { IconPlus } from "@tabler/icons-react";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
-const CreateContestForm = ({
-  isAuthenticated,
-}: {
-  isAuthenticated: boolean;
-}) => {
+const CreateContestForm = () => {
   const router = useRouter();
 
   const mutation = useMutation({
@@ -35,25 +31,18 @@ const CreateContestForm = ({
     },
   });
 
-  // Only show for authenticated users
-  if (!isAuthenticated) {
-    return null;
-  }
-
   return (
-    <>
-      <Button
-        title="Создать контест"
-        onClick={() => mutation.mutate()}
-        loading={mutation.isPending}
-        size="sm"
-        variant="light"
-        leftSection={<IconPlus size={16} />}
-        fullWidth
-      >
-        Контест
-      </Button>
-    </>
+    <Button
+      title="Создать новый контест"
+      onClick={() => mutation.mutate()}
+      loading={mutation.isPending}
+      size="md"
+      variant="light"
+      leftSection={<IconPlus size={18} />}
+      fullWidth
+    >
+      Создать контест
+    </Button>
   );
 };
 

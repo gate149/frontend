@@ -6,11 +6,7 @@ import { IconPlus } from "@tabler/icons-react";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
-const CreateProblemForm = ({
-  isAuthenticated,
-}: {
-  isAuthenticated: boolean;
-}) => {
+const CreateProblemForm = () => {
   const router = useRouter();
 
   const mutation = useMutation({
@@ -25,25 +21,18 @@ const CreateProblemForm = ({
       console.error("Не удалось создать задачу. Попробуйте позже.", error);
     },
   });
-
-  // Only show for authenticated users
-  if (!isAuthenticated) {
-    return null;
-  }
-
   return (
-    <>
-      <Button
-        title="Создать задачу"
-        onClick={() => mutation.mutate()}
-        loading={mutation.isPending}
-        size="sm"
-        variant="light"
-        leftSection={<IconPlus size={16} />}
-      >
-        Задача
-      </Button>
-    </>
+    <Button
+      title="Создать новую задачу"
+      onClick={() => mutation.mutate()}
+      loading={mutation.isPending}
+      size="md"
+      variant="light"
+      leftSection={<IconPlus size={18} />}
+      fullWidth
+    >
+      Создать задачу
+    </Button>
   );
 };
 

@@ -47,7 +47,7 @@ const Page = async ({ params }: Props) => {
       client.default.getContest({ contestId: contest_id })
     );
 
-    console.log("✅ ContestModel response:", response);
+    console.log("✅ Contest response:", response);
 
     if (!response || !response.contest) {
       console.error("❌ No contest in response");

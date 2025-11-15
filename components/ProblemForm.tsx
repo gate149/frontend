@@ -2,8 +2,6 @@
 
 import {
   Anchor,
-  AppShellHeader,
-  AppShellMain,
   Badge,
   Button,
   Container,
@@ -92,8 +90,8 @@ const ProblemForm = ({ problem, onSubmitFn, onUploadFn }: Props) => {
 
   return (
     <>
-      <AppShellHeader>
-        <Group h="100%" px="md" justify="space-between">
+      <Paper shadow="sm" p="md" mb="lg" withBorder>
+        <Group justify="space-between">
           <Group gap="sm">
             <Anchor component={Link} href="/workshop?view=problems">
               <Button
@@ -107,10 +105,7 @@ const ProblemForm = ({ problem, onSubmitFn, onUploadFn }: Props) => {
             <div>
               <Title order={3} size="h5">
                 Редактирование задачи
-              </Title>
-              <Badge size="sm" variant="light" color="blue">
-                {problem.id?.toString().slice(0, 8)}
-              </Badge>
+              </Title>  
             </div>
           </Group>
           <Group gap="sm">
@@ -133,10 +128,9 @@ const ProblemForm = ({ problem, onSubmitFn, onUploadFn }: Props) => {
             </Button>
           </Group>
         </Group>
-      </AppShellHeader>
+      </Paper>
 
-      <AppShellMain>
-        <Container size="md" pt={0} pb="xl">
+      <Container size="md" pt={0} pb="xl">
           <form id="problem-form" onSubmit={onSubmit}>
             <Stack gap="lg">
               {/* Title Section */}
@@ -281,7 +275,6 @@ const ProblemForm = ({ problem, onSubmitFn, onUploadFn }: Props) => {
             </Stack>
           </form>
         </Container>
-      </AppShellMain>
 
       {/* Modal for file upload */}
       <Modal

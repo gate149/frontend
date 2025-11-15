@@ -2,7 +2,7 @@
 
 import {
   ActionIcon,
-  PaginationModel,
+  Pagination,
   Stack,
   Table,
   TableTbody,
@@ -14,11 +14,11 @@ import {
 } from "@mantine/core";
 import { IconPencil } from "@tabler/icons-react";
 import Link from "next/link";
-import * as corev1 from "../../contracts/core/v1/core";
+import type { UserModel, PaginationModel } from "../../contracts/core/v1";
 
 type UsersListProps = {
-  users: corev1.User[];
-  pagination: corev1.PaginationModel;
+  users: UserModel[];
+  pagination: PaginationModel;
 };
 
 const roles = ["Студент", "Преподаватель", "Администратор"];
@@ -80,7 +80,7 @@ const UsersList = ({ users, pagination }: UsersListProps) => {
           </TableThead>
           <TableTbody>{rows}</TableTbody>
         </Table>
-        <PaginationModel
+        <Pagination
           total={pagination.total}
           value={pagination.page}
           getItemProps={getItemProps}

@@ -84,6 +84,9 @@ export function UsersRoleFilter() {
         input: {
           color: currentRole && currentRole !== "" ? "transparent" : undefined,
         },
+        section: {
+          pointerEvents: "none",
+        },
       }}
     />
   );

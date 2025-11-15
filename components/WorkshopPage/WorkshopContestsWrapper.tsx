@@ -10,6 +10,7 @@ import { WorkshopContestsDataWrapper } from "./WorkshopContestsDataWrapper";
 import type { ContestModel } from "../../../contracts/core/v1";
 import { WorkshopContestsSearchInput } from "./WorkshopContestsSearchInput";
 import { WorkshopProblemsContentSkeleton } from "./WorkshopProblemsContentSkeleton";
+import { CreateContestForm } from "../CreateContestForm";
 type Props = {
   contests: ContestModel[];
   pagination: PaginationType;
@@ -24,14 +25,15 @@ export function WorkshopContestsWrapper({
   console.log(isPaginationTransition);
   return (
     <>
-      {isPending ? ( !isPaginationTransition ? (
+      {isPending ? (!isPaginationTransition ? (
         <WorkshopProblemsContentSkeleton />
       ) : (
         <WorkshopContestsContentSkeleton />
       )
       ) : (
         <>
-          <WorkshopContestsSearchInput/>
+          <CreateContestForm />
+          <WorkshopContestsSearchInput />
           <WorkshopContestsDataWrapper
             contests={contests}
             pagination={pagination}

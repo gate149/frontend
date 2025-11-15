@@ -181,7 +181,7 @@ export default function Page() {
                 variant="filled"
                 rightSection={<IconArrowRight size={18} />}
                 component={Link}
-                href="/contests"
+                href="/workshop"
               >
                 Посмотреть контесты
               </Button>

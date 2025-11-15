@@ -10,6 +10,7 @@ import { usePageTransition } from "./WorkshopPageWrapper";
 import { useState } from "react";
 import { WorkshopContestsContentSkeleton } from "./WorkshopContestsContentSkeleton";
 import { WorkshopProblemsContentSkeleton } from "./WorkshopProblemsContentSkeleton";
+import { CreateProblemForm } from "../CreateProblemForm";
 
 type Props = {
   problems: ProblemsListItemModel[];
@@ -28,21 +29,22 @@ export function WorkshopProblemsWrapper({
   const { isPending, isPaginationTransition } = usePageTransition();
 
   return (
-      <>
-      {isPending ? ( !isPaginationTransition ? (
+    <>
+      {isPending ? (!isPaginationTransition ? (
         <WorkshopContestsContentSkeleton />
       ) : (
         <WorkshopProblemsContentSkeleton />
       )
       ) : (
         <>
+          <CreateProblemForm />
           <WorkshopProblemsSearchInput value={search} onChange={setSearch} />
           <WorkshopProblemsContent
-          problems={problems}
-          pagination={pagination}
-          isAuthenticated={isAuthenticated}
-          owner={owner}
-          search={search}
+            problems={problems}
+            pagination={pagination}
+            isAuthenticated={isAuthenticated}
+            owner={owner}
+            search={search}
           />
         </>
       )}
