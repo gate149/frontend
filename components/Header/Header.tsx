@@ -70,27 +70,38 @@ const Header = ({ session }: { session?: any }) => {
   return (
     <>
       <div className={classes.header}>
-        <Group justify="space-between" h="100%" maw="1920px" mx="auto">
-          <Burger
-            opened={drawerOpened}
-            onClick={toggleDrawer}
-            hiddenFrom="sm"
-          />
-          <Link href="/" className={classes.link}>
-            <Group gap="xs" wrap="nowrap" visibleFrom="sm">
-              <Image
-                component={NextImage}
-                src="/gate_logo.svg"
-                alt="Gate logo"
-                width={40}
-                height={40}
-              />
-              <Title order={1} visibleFrom="md">
-                Gate
-              </Title>
-            </Group>
-          </Link>
-          <Group h="100%" gap={0}>
+        <Group h="100%" maw="1920px" mx="auto">
+          <Group justify="flex-start" h="100%" style={{ flex: 1 }}>
+            <Burger
+              opened={drawerOpened}
+              onClick={toggleDrawer}
+              hiddenFrom="sm"
+            />
+            <Link href="/" className={classes.link}>
+              <Group gap="xs" wrap="nowrap" visibleFrom="sm">
+                <Image
+                  component={NextImage}
+                  src="/gate_logo.svg"
+                  alt="Gate logo"
+                  width={40}
+                  height={40}
+                />
+                <Title order={1} visibleFrom="md">
+                  Gate
+                </Title>
+              </Group>
+            </Link>
+          </Group>
+          <Group justify="center" h="100%" gap={0} style={{ flex: 1 }}>
+            <Anchor
+              component={Link}
+              href="/"
+              className={classes.link}
+              underline="never"
+              visibleFrom="sm"
+            >
+              Главная
+            </Anchor>
             <Anchor
               component={Link}
               href="/workshop"
@@ -102,15 +113,24 @@ const Header = ({ session }: { session?: any }) => {
             </Anchor>
             <Anchor
               component={Link}
-              href="/users"
+              href="/about"
               className={classes.link}
               underline="never"
               visibleFrom="sm"
             >
-              Администрирование
+              О нас
             </Anchor>
           </Group>
-          <Group>
+          <Group justify="flex-end" style={{ flex: 1 }}>
+            <Button
+              component={Link}
+              href="/users"
+              variant="filled"
+              visibleFrom="sm"
+              color="indigo"
+            >
+              ADMIN
+            </Button>
             <ActionIcon
               onClick={() =>
                 setColorScheme(
