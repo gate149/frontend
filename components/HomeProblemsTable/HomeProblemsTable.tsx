@@ -3,11 +3,19 @@
 import { numberToLetters } from "@/lib/lib";
 import { Box, Flex, Table, Text } from "@mantine/core";
 import { useRouter } from "next/navigation";
-import type { ContestProblemListItemModel } from "../../../../contracts/core/v1";
 
-type ContestProblemsTableProps = {
-  contestId: string | number;
-  problems: Array<ContestProblemListItemModel>;
+type HomeProblemItem = {
+  id: string;
+  contest_id: string;
+  problem_id: string;
+  position: number;
+  title: string;
+  time_limit: number;
+  memory_limit: number;
+};
+
+type HomeProblemsTableProps = {
+  problems: Array<HomeProblemItem>;
 };
 
 const formatTimeLimit = (timeMs: number) => {
@@ -21,14 +29,11 @@ const formatMemoryLimit = (memoryKb: number) => {
   return `${memoryKb}MB`;
 };
 
-export function ContestProblemsTable({
-  contestId,
-  problems,
-}: ContestProblemsTableProps) {
+export function HomeProblemsTable({ problems }: HomeProblemsTableProps) {
   const router = useRouter();
 
   return (
-    <Box style={{ overflowX: "auto", maxWidth: "740px", margin: "0 auto" }}>
+    <Box style={{ overflowX: "auto" }}>
       <Table striped highlightOnHover withTableBorder withColumnBorders>
         <Table.Thead>
           <Table.Tr>
@@ -39,12 +44,10 @@ export function ContestProblemsTable({
         </Table.Thead>
         <Table.Tbody>
           {problems.map((problem) => {
-            const problemUrl = `/contests/${contestId}/problems/${
-              problem.problem_id || ""
-            }`;
+            const problemUrl = `/contests/${problem.contest_id}/problems/${problem.problem_id}`;
             return (
               <Table.Tr
-                key={problem.problem_id}
+                key={problem.id}
                 style={{ cursor: "pointer" }}
                 onClick={() => router.push(problemUrl)}
               >
@@ -70,3 +73,4 @@ export function ContestProblemsTable({
     </Box>
   );
 }
+

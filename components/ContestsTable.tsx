@@ -1,27 +1,35 @@
 "use client";
 
 import {
+  Box,
   Table,
   TableTbody,
   TableTd,
   TableTh,
   TableThead,
   TableTr,
+  Text,
 } from "@mantine/core";
 import { useRouter } from "next/navigation";
 import type { ContestModel } from "../../contracts/core/v1";
 
-export function ContestsTable({ contests }: { contests: ContestModel[] }) {
+type ContestsTableProps = {
+  contests: ContestModel[];
+  showCreatedAt?: boolean;
+};
+
+export function ContestsTable({ contests, showCreatedAt = true }: ContestsTableProps) {
   const router = useRouter();
 
   return (
-    <Table striped highlightOnHover>
+    <Box style={{ overflowX: "auto" }}>
+      <Table striped highlightOnHover withTableBorder withColumnBorders>
       <TableThead>
         <TableTr>
           <TableTh style={{ width: "50%", maxWidth: 0 }}>Название</TableTh>
           <TableTh style={{ width: "15%"}}>Участники</TableTh>
           <TableTh style={{ width: "15%"}}>Задачи</TableTh>
-          <TableTh style={{ width: "20%"}}>Дата создания</TableTh>
+          {showCreatedAt && <TableTh style={{ width: "20%"}}>Дата создания</TableTh>}
         </TableTr>
       </TableThead>
       <TableTbody>
@@ -32,20 +40,23 @@ export function ContestsTable({ contests }: { contests: ContestModel[] }) {
             style={{ cursor: "pointer" }}
           >
             <TableTd style={{ width: "50%", maxWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-              {contest.title}
+              <Text fw={500}>{contest.title}</Text>
             </TableTd>
             <TableTd>
-              {0}
+              <Text>{0}</Text>
             </TableTd>
             <TableTd>
-              {0}
+              <Text>{0}</Text>
             </TableTd>
-            <TableTd>
-              {new Date(contest.created_at).toLocaleDateString("ru-RU")}
-            </TableTd>
+            {showCreatedAt && (
+              <TableTd>
+                <Text>{new Date(contest.created_at).toLocaleDateString("ru-RU")}</Text>
+              </TableTd>
+            )}
           </TableTr>
         ))}
       </TableTbody>
     </Table>
+    </Box>
   );
 }
