@@ -45,7 +45,7 @@ export function UsersSearchInput() {
 
   return (
     <Input
-      placeholder="Поиск по имени (часть имени, например: 'john')..."
+      placeholder="Поиск по пользователям..."
       leftSection={<IconSearch size={16} />}
       value={search}
       onChange={(e) => setSearch(e.currentTarget.value)}

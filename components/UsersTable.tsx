@@ -7,6 +7,7 @@ import type {
   UserModel,
 } from "../../contracts/core/v1";
 import { NextPagination } from "./Pagination";
+import { TruncatedWithCopy } from "./TruncatedWithCopy";
 
 type Props = {
   users: UserModel[];
@@ -52,31 +53,43 @@ export function UsersTable({ users, pagination, search, role }: Props) {
 
   return (
     <>
-      <Table striped highlightOnHover>
+      <Table striped highlightOnHover style={{ tableLayout: "fixed" }}>
         <Table.Thead>
           <Table.Tr>
-            <Table.Th>Имя пользователя</Table.Th>
-            <Table.Th>Роль</Table.Th>
-            <Table.Th>Создано</Table.Th>
-            <Table.Th>Обновлено</Table.Th>
+            <Table.Th style={{ width: "20%" }}>Имя пользователя</Table.Th>
+            <Table.Th style={{ width: "15%" }}>Имя</Table.Th>
+            <Table.Th style={{ width: "10%" }}>ID</Table.Th>
+            <Table.Th style={{ width: "20%" }}>Электронная почта</Table.Th>
+            <Table.Th style={{ width: "10%" }}>Роль</Table.Th>
+            <Table.Th style={{ width: "10%" }}>Дата создания</Table.Th>
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
           {users.map((user: UserModel) => (
             <Table.Tr
               key={user.id}
-              onClick={() => router.push(`/users/${user.id}`)}
+              onClick={(e) => {
+                // Ignore clicks on buttons and interactive elements
+                if ((e.target as HTMLElement).closest('button')) {
+                  return;
+                }
+                router.push(`/users/${user.id}`);
+              }}
               style={{ cursor: "pointer" }}
             >
-              <Table.Td>{user.username}</Table.Td>
-              <Table.Td>
+              <Table.Td style={{ maxWidth: 0, overflow: "hidden" }}>{user.username}</Table.Td>
+              <Table.Td style={{ maxWidth: 0, overflow: "hidden" }}>{user.name}</Table.Td>
+              <Table.Td style={{ maxWidth: 0, overflow: "hidden" }}>
+                <TruncatedWithCopy value={user.id} />
+              </Table.Td>
+              <Table.Td style={{ maxWidth: 0, overflow: "hidden" }}>
+                <TruncatedWithCopy value={user.email} />
+              </Table.Td>
+              <Table.Td style={{ maxWidth: 0, overflow: "hidden" }}>
                 <Badge color={getRoleColor(user.role)}>{user.role}</Badge>
               </Table.Td>
-              <Table.Td>
+              <Table.Td style={{ maxWidth: 0, overflow: "hidden" }}>
                 {new Date(user.createdAt).toLocaleDateString("ru-RU")}
-              </Table.Td>
-              <Table.Td>
-                {new Date(user.updatedAt).toLocaleDateString("ru-RU")}
               </Table.Td>
             </Table.Tr>
           ))}
