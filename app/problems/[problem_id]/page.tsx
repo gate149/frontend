@@ -41,7 +41,7 @@ const Page = async (props: Props) => {
             <Stack align="center">
               <Title order={2}>Задача не найдена</Title>
               <Text c="dimmed">Не удалось загрузить задачу</Text>
-              <Button component={Link} href="/problems">
+              <Button component={Link} href="/workshop?view=problems">
                 Вернуться к задачам
               </Button>
             </Stack>

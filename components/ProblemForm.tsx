@@ -95,7 +95,7 @@ const ProblemForm = ({ problem, onSubmitFn, onUploadFn }: Props) => {
       <AppShellHeader>
         <Group h="100%" px="md" justify="space-between">
           <Group gap="sm">
-            <Anchor component={Link} href="/problems">
+            <Anchor component={Link} href="/workshop?view=problems">
               <Button
                 variant="default"
                 size="sm"

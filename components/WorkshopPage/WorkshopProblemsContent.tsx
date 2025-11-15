@@ -43,7 +43,7 @@ export function WorkshopProblemsContent({
         <Stack align="center">
           <NextPagination
             pagination={pagination}
-            baseUrl="/problems"
+            baseUrl="/workshop"
             queryParams={queryParams}
           />
         </Stack>

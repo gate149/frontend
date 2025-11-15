@@ -93,7 +93,7 @@ const Header = ({ session }: { session?: any }) => {
           <Group h="100%" gap={0}>
             <Anchor
               component={Link}
-              href="/problems"
+              href="/workshop"
               className={classes.link}
               underline="never"
               visibleFrom="sm"

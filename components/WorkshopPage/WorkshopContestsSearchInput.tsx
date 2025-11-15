@@ -22,7 +22,7 @@ export function WorkshopContestsSearchInput() {
       }
 
       const query = urlParams.toString();
-      router.push(`/problems${query ? `?${query}` : ""}`);
+      router.push(`/workshop${query ? `?${query}` : ""}`);
     },
     [router, searchParams]
   );

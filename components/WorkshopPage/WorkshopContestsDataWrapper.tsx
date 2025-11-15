@@ -40,7 +40,7 @@ export function WorkshopContestsDataWrapper({ contests, pagination, search }: Pr
         <Center mt="xl">
           <NextPagination
             pagination={pagination}
-            baseUrl="/problems"
+            baseUrl="/workshop"
             queryParams={{ search }}
           />
         </Center>

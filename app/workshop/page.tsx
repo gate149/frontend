@@ -10,6 +10,7 @@ import { IconAlertCircle } from "@tabler/icons-react";
 import { Metadata } from "next";
 import { Suspense } from "react";
 import { WorkshopContestsWrapper } from "@/components/WorkshopPage/WorkshopContestsWrapper";
+import { WorkshopProblemsContentSkeleton } from "@/components/WorkshopPage/WorkshopProblemsContentSkeleton";
 export const metadata: Metadata = {
   title: "Мастерская",
   description: "",
@@ -109,7 +110,7 @@ const WorshopPageContent = async ({
       <Stack gap="lg">
         <WorkshopTabs isAuthenticated={isAuthenticated} />
         {view === "problems" ? (
-          <Suspense fallback={<WorkshopProblemsGridSkeleton />}>
+          <Suspense fallback={<WorkshopProblemsContentSkeleton />}>
             <ProblemsView page={page} search={search} isAuthenticated={isAuthenticated} />
           </Suspense>
         ) : (

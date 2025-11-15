@@ -53,7 +53,7 @@ export function WorkshopTabs({ isAuthenticated }: Props) {
     setIsPaginationTransition(false);
     
     startTransition(() => {
-      router.push(`/problems${query ? `?${query}` : ""}`);
+      router.push(`/workshop${query ? `?${query}` : ""}`);
     });
   };
 
