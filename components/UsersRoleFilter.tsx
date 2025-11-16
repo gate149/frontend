@@ -2,22 +2,12 @@
 
 import { Badge, Select, Text } from "@mantine/core";
 import { useRouter, useSearchParams } from "next/navigation";
+import { getRoleColor } from "@/lib/lib";
 
 export function UsersRoleFilter() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentRole = searchParams.get("role") || "";
-
-  const getRoleColor = (role: string) => {
-    switch (role?.toLowerCase()) {
-      case "admin":
-        return "red";
-      case "user":
-        return "gray";
-      default:
-        return "gray";
-    }
-  };
 
   const handleChange = (value: string | null) => {
     // Игнорируем null (клик на уже выбранную опцию)

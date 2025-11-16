@@ -130,3 +130,19 @@ export function ProblemTitle(position?: number, title?: string): string {
   const letter = numberToLetters(position);
   return title ? `${letter}. ${title}` : letter;
 }
+
+/**
+ * Get color for user role badge
+ */
+export function getRoleColor(role: string): string {
+  switch (role?.toLowerCase()) {
+    case "admin":
+      return "red";
+    case "moderator":
+      return "blue";
+    case "user":
+      return "gray";
+    default:
+      return "gray";
+  }
+}

@@ -8,6 +8,7 @@ import type {
 } from "../../contracts/core/v1";
 import { NextPagination } from "./Pagination";
 import { TruncatedWithCopy } from "./TruncatedWithCopy";
+import { getRoleColor } from "@/lib/lib";
 
 type Props = {
   users: UserModel[];
@@ -23,19 +24,6 @@ export function UsersTable({ users, pagination, search, role }: Props) {
   const currentPage = Number(pagination.page) || 1;
   const currentPageSize = (pagination as any).pageSize || 10;
   const totalUsers = Number(pagination.total) || 0;
-
-  const getRoleColor = (role: string) => {
-    switch (role?.toLowerCase()) {
-      case "admin":
-        return "red";
-      case "moderator":
-        return "blue";
-      case "user":
-        return "gray";
-      default:
-        return "gray";
-    }
-  };
 
   if (users.length === 0) {
     return (
