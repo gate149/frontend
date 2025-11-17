@@ -23,7 +23,7 @@ export function ContestsTable({ contests, showCreatedAt = true }: ContestsTableP
 
   return (
     <Box style={{ overflowX: "auto" }}>
-      <Table striped highlightOnHover withTableBorder withColumnBorders verticalSpacing="xs">
+      <Table striped highlightOnHover withTableBorder withColumnBorders>
       <TableThead>
         <TableTr>
           <TableTh style={{ width: "50%", maxWidth: 0 }}>Название</TableTh>

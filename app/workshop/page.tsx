@@ -107,7 +107,7 @@ const WorshopPageContent = async ({
 
   return (
     <WorkshopPageWrapper>
-      <Stack gap="sm">
+      <Stack gap="md">
         <WorkshopHeader isAuthenticated={isAuthenticated} />
         <WorkshopTabs isAuthenticated={isAuthenticated} />
         {view === "problems" ? (

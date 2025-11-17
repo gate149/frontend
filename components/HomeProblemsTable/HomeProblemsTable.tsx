@@ -56,7 +56,7 @@ export function HomeProblemsTable({ problems }: HomeProblemsTableProps) {
                 </Table.Td>
                 <Table.Td>
                   <Flex justify="space-between" align="center" gap="md">
-                    <Text fw={500}>{problem.title}</Text>
+                    <Text fw={600}>{problem.title}</Text>
                     <Text c="dimmed" size="sm" style={{ whiteSpace: "nowrap" }}>
                       {formatTimeLimit(problem.time_limit)}, {formatMemoryLimit(problem.memory_limit)}
                     </Text>
