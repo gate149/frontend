@@ -1,6 +1,7 @@
 "use client";
 
 import { numberToLetters } from "@/lib/lib";
+import { CONTEST_CONTENT_MAX_WIDTH } from "@/lib/constants";
 import { Box, Flex, Table, Text } from "@mantine/core";
 import { useRouter } from "next/navigation";
 import type { ContestProblemListItemModel } from "../../../../contracts/core/v1";
@@ -28,7 +29,7 @@ export function ContestProblemsTable({
   const router = useRouter();
 
   return (
-    <Box style={{ overflowX: "auto", maxWidth: "740px", margin: "0 auto" }}>
+    <Box style={{ overflowX: "auto", maxWidth: CONTEST_CONTENT_MAX_WIDTH, margin: "0 auto" }}>
       <Table striped highlightOnHover withTableBorder withColumnBorders>
         <Table.Thead>
           <Table.Tr>

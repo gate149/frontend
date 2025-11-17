@@ -18,6 +18,7 @@ import Link from "next/link";
 import type {ContestProblemListItemModel, ContestModel, ContestProblemModel, SolutionsListItemModel} from "../../contracts/core/v1";
 import {Problem} from "@/components/Problem";
 import {numberToLetters} from '@/lib/lib';
+import {CONTEST_SIDEBAR_LEFT_WIDTH, CONTEST_SIDEBAR_RIGHT_WIDTH} from "@/lib/constants";
 import {Layout} from "@/components/Layout";
 import {Footer} from "@/components/Footer";
 import {RecentSolutionsTable} from "@/components/RecentSolutionsTable";
@@ -50,7 +51,7 @@ const Task = ({tasks, contest, task, solutions, problemId, contestId, header}: P
             <AppShellMain>
                 <Box style={{ display: 'flex', gap: '32px', alignItems: 'flex-start' }}>
                     {/* Left Sidebar */}
-                    <Box style={{ width: '240px', marginLeft: '32px' }}>
+                    <Box style={{ width: CONTEST_SIDEBAR_LEFT_WIDTH, marginLeft: '32px' }}>
                         <Paper 
                             shadow="sm" 
                             radius="md" 
@@ -89,7 +90,7 @@ const Task = ({tasks, contest, task, solutions, problemId, contestId, header}: P
                     </Box>
 
                     {/* Right Sidebar */}
-                    <Box style={{ width: '520px', marginRight: '32px' }}>
+                    <Box style={{ width: CONTEST_SIDEBAR_RIGHT_WIDTH, marginRight: '32px' }}>
                         <Paper 
                             shadow="sm" 
                             radius="md" 

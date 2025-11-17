@@ -10,7 +10,7 @@ import { WorkshopContestsDataWrapper } from "./WorkshopContestsDataWrapper";
 import type { ContestModel } from "../../../contracts/core/v1";
 import { WorkshopContestsSearchInput } from "./WorkshopContestsSearchInput";
 import { WorkshopProblemsContentSkeleton } from "./WorkshopProblemsContentSkeleton";
-import { CreateContestForm } from "../CreateContestForm";
+import { Stack } from "@mantine/core";
 type Props = {
   contests: ContestModel[];
   pagination: PaginationType;
@@ -31,15 +31,14 @@ export function WorkshopContestsWrapper({
         <WorkshopContestsContentSkeleton />
       )
       ) : (
-        <>
-          <CreateContestForm />
+        <Stack gap="md">
           <WorkshopContestsSearchInput />
           <WorkshopContestsDataWrapper
             contests={contests}
             pagination={pagination}
             search={search}
           />
-        </>
+        </Stack>
       )}
     </>
   );

@@ -1,5 +1,5 @@
 .container {
-    max-width: 800px;
+    max-width: var(--contest-problem-max-width);
     padding: 0 10px 10px 10px;
     hyphens: auto;
     overflow-wrap: break-word;

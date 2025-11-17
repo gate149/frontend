@@ -12,3 +12,9 @@ export const LANGUAGE_MAP: Record<string, number> = {
   python: LANGUAGES.python.id,
 };
 
+// Contest layout dimensions
+export const CONTEST_CONTENT_MAX_WIDTH = '740px';    // Контент (таблицы, формы)
+export const CONTEST_PROBLEM_MAX_WIDTH = '800px';
+export const CONTEST_SIDEBAR_LEFT_WIDTH = '240px';
+export const CONTEST_SIDEBAR_RIGHT_WIDTH = '520px';
+

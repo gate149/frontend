@@ -62,12 +62,14 @@ export function WorkshopTabs({ isAuthenticated }: Props) {
     <SegmentedControl
       value={view}
       onChange={handleChange}
+      radius="md"
+      size="md"
       data={[
         {
           value: "contests",
           label: (
             <Group gap="xs" wrap="nowrap">
-              <IconTrophy size={16} />
+              <IconTrophy size={18} />
               <span>Мои контесты</span>
             </Group>
           ),
@@ -77,7 +79,7 @@ export function WorkshopTabs({ isAuthenticated }: Props) {
           value: "problems",
           label: (
             <Group gap="xs" wrap="nowrap">
-              <IconPuzzle size={16} />
+              <IconPuzzle size={18} />
               <span>Мои задачи</span>
             </Group>
           ),

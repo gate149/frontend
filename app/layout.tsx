@@ -3,6 +3,7 @@
 import '@mantine/core/styles.css';
 import '@mantine/dropzone/styles.css';
 import "@ory/elements-react/theme/styles.css";
+import './globals.css';
 import React, {Suspense} from 'react';
 import {ColorSchemeScript, mantineHtmlProps, MantineProvider} from '@mantine/core';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
@@ -22,7 +23,7 @@ export default function RootLayout({children}: { children: any }) {
             <meta
                 name="viewport"
                 content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"
-            />
+            />  
         </head>
         <body>
         <QueryClientProvider client={queryClient}>

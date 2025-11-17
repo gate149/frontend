@@ -4,12 +4,12 @@ import {ProblemsSection} from "@/components/ContestManage/ProblemsSection";
 import {SettingsSection} from "@/components/ContestManage/SettingsSection";
 import {DefaultLayout} from "@/components/Layout";
 import {Call} from "@/lib/api";
+import {CONTEST_CONTENT_MAX_WIDTH} from "@/lib/constants";
 import {Box, Button, Container, Group, Stack, Title} from "@mantine/core";
 import {IconArrowLeft, IconLock, IconPuzzle, IconSettings, IconUsers} from "@tabler/icons-react";
 import Link from "next/link";
 import {notFound} from "next/navigation";
-import type {ContestModel, ContestProblemListItem,} from "../../../../../contracts/core/v1";
-import React from "react";
+import type {ContestModel, ContestProblemListItemModel,} from "../../../../../contracts/core/v1";
 
 // Constants for sections
 const SECTIONS = {
@@ -56,7 +56,7 @@ export default async function ContestManagePage({params, searchParams}: Props) {
 
     // Load contest data on the server
     let contest: ContestModel | null = null;
-    let problems: Array<ContestProblemListItem> = [];
+    let problems: Array<ContestProblemListItemModel> = [];
 
     try {
         const response = await Call((client) =>
@@ -94,11 +94,12 @@ export default async function ContestManagePage({params, searchParams}: Props) {
                 px={{base: "xs", sm: "md", md: "lg"}}
             >
                 {/* Header Section */}
-                <Stack gap="md" mb="lg" style={{maxWidth: "740px", margin: "0 auto"}}>
-                    <Title order={1} size="h3">
-                        🏆 {contest.title}
-                    </Title>
-                    <Group gap="sm">
+                <Stack gap="md" mb="lg" style={{maxWidth: CONTEST_CONTENT_MAX_WIDTH, margin: "0 auto"}}>
+                    {/* Заголовок с кнопкой "Назад" */}
+                    <Group justify="space-between" align="center" wrap="nowrap">
+                        <Title order={1} size="h3">
+                            🏆 {contest.title}
+                        </Title>
                         <Button
                             component={Link}
                             href={`/contests/${contestId}`}
@@ -106,9 +107,14 @@ export default async function ContestManagePage({params, searchParams}: Props) {
                             size="sm"
                             leftSection={<IconArrowLeft size={16}/>}
                             visibleFrom="sm"
+                            style={{flexShrink: 0}}
                         >
                             Назад к контесту
                         </Button>
+                    </Group>
+                    
+                    {/* Кнопки управления разделами */}
+                    <Group gap="sm">
                         {NAV_SECTIONS.map((section) => {
                             const Icon = section.icon;
                             return (
@@ -129,7 +135,7 @@ export default async function ContestManagePage({params, searchParams}: Props) {
                 </Stack>
 
                 {/* Content Area */}
-                <Box style={{maxWidth: "740px", margin: "0 auto"}}>
+                <Box style={{maxWidth: CONTEST_CONTENT_MAX_WIDTH, margin: "0 auto"}}>
                     {activeSection === SECTIONS.SETTINGS && (
                         <SettingsSection contest={contest}/>
                     )}

@@ -10,6 +10,7 @@ import { Metadata } from "next";
 import { Suspense } from "react";
 import { WorkshopContestsWrapper } from "@/components/WorkshopPage/WorkshopContestsWrapper";
 import { WorkshopProblemsContentSkeleton } from "@/components/WorkshopPage/WorkshopProblemsContentSkeleton";
+import { WorkshopHeader } from "@/components/WorkshopPage/WorkshopHeader";
 export const metadata: Metadata = {
   title: "Мастерская",
   description: "",
@@ -106,7 +107,8 @@ const WorshopPageContent = async ({
 
   return (
     <WorkshopPageWrapper>
-      <Stack gap="lg">
+      <Stack gap="sm">
+        <WorkshopHeader isAuthenticated={isAuthenticated} />
         <WorkshopTabs isAuthenticated={isAuthenticated} />
         {view === "problems" ? (
           <Suspense fallback={<WorkshopProblemsContentSkeleton />}>
@@ -132,7 +134,7 @@ const Page = async (props: Props) => {
 
   return (
     <DefaultLayout>
-      <Container size="xl" py="xl">
+      <Container size="lg" py="lg">
         <WorshopPageContent
           page={page}
           view={view}

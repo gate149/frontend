@@ -10,7 +10,7 @@ import { usePageTransition } from "./WorkshopPageWrapper";
 import { useState } from "react";
 import { WorkshopContestsContentSkeleton } from "./WorkshopContestsContentSkeleton";
 import { WorkshopProblemsContentSkeleton } from "./WorkshopProblemsContentSkeleton";
-import { CreateProblemForm } from "../CreateProblemForm";
+import { Stack } from "@mantine/core";
 
 type Props = {
   problems: ProblemsListItemModel[];
@@ -36,8 +36,7 @@ export function WorkshopProblemsWrapper({
         <WorkshopProblemsContentSkeleton />
       )
       ) : (
-        <>
-          <CreateProblemForm />
+        <Stack gap="md">
           <WorkshopProblemsSearchInput value={search} onChange={setSearch} />
           <WorkshopProblemsContent
             problems={problems}
@@ -46,7 +45,7 @@ export function WorkshopProblemsWrapper({
             owner={owner}
             search={search}
           />
-        </>
+        </Stack>
       )}
     </>
   );
