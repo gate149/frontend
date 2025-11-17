@@ -15,6 +15,7 @@ import React, { useRef, useState } from "react";
 import { IconTrash, IconUpload } from "@tabler/icons-react";
 import { useMutation } from "@tanstack/react-query";
 import classes from "./styles.module.css";
+import { APP_COLORS } from "@/lib/theme/colors";
 
 const languages = ["python", "cpp", "golang"];
 
@@ -183,7 +184,7 @@ const CreateSolutionForm = ({ onSubmit, problemSelect, large = false }: Props) =
                     )}
                 </div>
 
-                <Button type="submit" loading={mutation.isPending}>
+                <Button type="submit" loading={mutation.isPending} color={APP_COLORS.solutions}>
                     Отправить решение
                 </Button>
             </Stack>

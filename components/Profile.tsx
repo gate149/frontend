@@ -1,6 +1,7 @@
 import { Avatar, Badge, Card, Container, Group, Paper, Stack, Text, Title } from "@mantine/core";
 import { IconUser, IconMail } from "@tabler/icons-react";
 import { getRoleColor } from "@/lib/lib";
+import { APP_COLORS } from "@/lib/theme/colors";
 
 type ProfileProps = {
   username: string;
@@ -24,6 +25,7 @@ const Profile = (props: ProfileProps) => {
             src={props.avatarlink} 
             size={128} 
             radius="xl"
+            color={APP_COLORS.users}
           >
             <IconUser size={64} />
           </Avatar>
@@ -46,7 +48,7 @@ const Profile = (props: ProfileProps) => {
         {props.email || (
           <Card withBorder padding="md" radius="md">
             <Group gap="sm">
-              <IconMail size={20} style={{ color: "var(--mantine-color-dimmed)" }} />
+              <IconMail size={20} style={{ color: `var(--mantine-color-${APP_COLORS.users}-6)` }} />
               <Text size="sm" fw={500}>
                 {props.email || "kotok.9647@gmail.com"}
               </Text>

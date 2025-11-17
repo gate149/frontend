@@ -4,14 +4,17 @@ import {
   Button,
   Card,
   Container,
+  Group,
   SimpleGrid,
   Stack,
   Text,
   Title,
 } from "@mantine/core";
+import { IconPuzzle, IconTrophy } from "@tabler/icons-react";
 import Link from "next/link";
 import { ContestsTable } from "@/components/ContestsTable";
 import { HomeProblemsTable } from "@/components/HomeProblemsTable";
+import { APP_COLORS } from "@/lib/theme/colors";
 import type { ContestModel } from "../../contracts/core/v1";
 
 export const metadata = {
@@ -115,12 +118,16 @@ export default async function Page() {
               {/* Problems Section */}
               <Card shadow="sm" padding="lg" radius="md" withBorder>
                 <Stack gap="md">
-                  <Title order={2}>Продолжить решение</Title>
+                  <Group gap="xs">
+                    <IconPuzzle size={28} color={`var(--mantine-color-${APP_COLORS.problems}-6)`} />
+                    <Title order={2}>Продолжить решение</Title>
+                  </Group>
                   <HomeProblemsTable problems={mockProblems} />
                   <Button
                     component={Link}
                     href="/workshop?view=problems"
                     variant="light"
+                    color={APP_COLORS.problems}
                     fullWidth
                   >
                     Смотреть все
@@ -131,12 +138,16 @@ export default async function Page() {
               {/* Contests Section */}
               <Card shadow="sm" padding="lg" radius="md" withBorder>
                 <Stack gap="md">
-                  <Title order={2}>Мои контесты</Title>
+                  <Group gap="xs">
+                    <IconTrophy size={28} color={`var(--mantine-color-${APP_COLORS.contests}-6)`} />
+                    <Title order={2}>Мои контесты</Title>
+                  </Group>
                   <ContestsTable contests={mockContests} showCreatedAt={false} />
                   <Button
                     component={Link}
                     href="/workshop?view=contests"
                     variant="light"
+                    color={APP_COLORS.contests}
                     fullWidth
                   >
                     Смотреть все

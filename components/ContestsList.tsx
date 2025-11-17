@@ -4,7 +4,7 @@ import React from 'react';
 import {
     Button,
     Group,
-    PaginationModel,
+    Pagination,
     Stack,
     Table,
     TableTbody,
@@ -89,7 +89,7 @@ const ContestsList = ({contests, pagination}: Props) => {
                         </TableThead>
                         <TableTbody>{rows}</TableTbody>
                     </Table>
-                    <PaginationModel total={pagination.total}
+                    <Pagination total={pagination.total}
                                 value={pagination.page}
                                 getItemProps={getItemProps}
                                 getControlProps={getControlProps}

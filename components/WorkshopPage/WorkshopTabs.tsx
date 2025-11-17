@@ -1,11 +1,12 @@
 "use client";
 
 import { Group, SegmentedControl } from "@mantine/core";
-import { IconTrophy, IconUser } from "@tabler/icons-react";
+import { IconPuzzle, IconTrophy } from "@tabler/icons-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { usePageTransition } from "./WorkshopPageWrapper";
 import { useState, useEffect } from "react";
 import { flushSync } from "react-dom";
+import { APP_COLORS } from "@/lib/theme/colors";
 
 type Props = {
   isAuthenticated: boolean;
@@ -76,7 +77,7 @@ export function WorkshopTabs({ isAuthenticated }: Props) {
           value: "problems",
           label: (
             <Group gap="xs" wrap="nowrap">
-              <IconUser size={16} />
+              <IconPuzzle size={16} />
               <span>Мои задачи</span>
             </Group>
           ),

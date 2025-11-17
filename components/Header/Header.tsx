@@ -23,6 +23,7 @@ import NextImage from "next/image";
 import Link from "next/link";
 import React from "react";
 import { LogoutLink } from "../LogoutLink";
+import { APP_COLORS } from "@/lib/theme/colors";
 import classes from "./styles.module.css";
 
 const Profile = ({ session }: { session?: any }) => {
@@ -36,13 +37,13 @@ const Profile = ({ session }: { session?: any }) => {
           <Avatar
             component={Link}
             href={`/users/${session.identity.id}`}
-            color="gray"
+            color={APP_COLORS.users}
             size="60"
           >
             <IconUser size="32" />
           </Avatar>
         ) : (
-          <Avatar color="gray" size="60">
+          <Avatar color={APP_COLORS.users} size="60">
             <IconUser size="32" />
           </Avatar>
         )}
@@ -51,7 +52,7 @@ const Profile = ({ session }: { session?: any }) => {
   }
   return (
     <Group justify="flex-end">
-      <Button component={Link} href="/auth/login" variant="default">
+      <Button component={Link} href="/auth/login" variant="filled" color={APP_COLORS.actions.primary}>
         Войти
       </Button>
     </Group>
@@ -127,7 +128,7 @@ const Header = ({ session }: { session?: any }) => {
               href="/users"
               variant="filled"
               visibleFrom="sm"
-              color="indigo"
+              color={APP_COLORS.admin}
             >
               ADMIN
             </Button>

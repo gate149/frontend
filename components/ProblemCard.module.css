@@ -4,6 +4,7 @@
   height: 100%;
   backface-visibility: hidden;
   transform: translateZ(0);
+  border-left: 3px solid var(--mantine-color-blue-6);
 }
 
 .problemCard:hover {

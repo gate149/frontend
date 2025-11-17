@@ -5,6 +5,7 @@ import { IconPencil } from "@tabler/icons-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { ProblemsListItemModel } from "../../contracts/core/v1";
+import { APP_COLORS } from "@/lib/theme/colors";
 import classes from "./ProblemCard.module.css";
 
 type Props = {
@@ -49,6 +50,7 @@ export function ProblemCard({ problem, showEditButton }: Props) {
                 variant="subtle"
                 size="lg"
                 radius="md"
+                color={APP_COLORS.problems}
                 component="div"
                 onClick={(e) => {
                   e.preventDefault();

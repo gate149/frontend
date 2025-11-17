@@ -14,6 +14,7 @@ import { IconCheck, IconX } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import type * as corev1 from "../../../contracts/core/v1";
+import { APP_COLORS } from "@/lib/theme/colors";
 
 interface SettingsSectionProps {
   contest: corev1.ContestModel;
@@ -85,7 +86,7 @@ export function SettingsSection({ contest }: SettingsSectionProps) {
             {...form.getInputProps("monitor_enabled", { type: "checkbox" })}
           />
 
-          <Button type="submit" loading={saving} fullWidth>
+          <Button type="submit" loading={saving} fullWidth color={APP_COLORS.contests}>
             Сохранить изменения
           </Button>
         </Stack>

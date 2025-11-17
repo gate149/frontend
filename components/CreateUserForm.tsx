@@ -5,7 +5,7 @@ import React from "react";
 import {useForm} from "@mantine/form";
 import {useRouter} from "next/navigation";
 import {useMutation} from "@tanstack/react-query";
-import {CreationResponse} from "../../contracts/core/v1";
+import {CreationResponseModel} from "../../contracts/core/v1";
 import {useDisclosure} from "@mantine/hooks";
 import {notifications} from "@mantine/notifications";
 import {IconPlus} from "@tabler/icons-react";
@@ -32,7 +32,7 @@ const CreateUserForm = (props: CreateUserFormProps) => {
 
     const mutation = useMutation({
         mutationFn: props.onSubmitFn,
-        onSuccess: async (data: CreationResponse) => {
+        onSuccess: async (data: CreationResponseModel) => {
             // notifications.show({
             //     title: "Успех",
             //     message: "Юзер успешно добавлен",

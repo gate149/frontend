@@ -12,7 +12,7 @@ const CreateContestForm = () => {
 
   const mutation = useMutation({
     mutationFn: async () => {
-      const response = await createContest("New ContestModel");
+      const response = await createContest("New Contest");
       return response?.id || "";
     },
     onSuccess: async (data: string) => {
