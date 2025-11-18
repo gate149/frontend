@@ -15,7 +15,7 @@ import { CONTEST_CONTENT_MAX_WIDTH } from "@/lib/constants";
 
 type ContestHotbarProps = {
   contest: ContestModel;
-  activeTab?: "tasks" | "submit" | "solutions" | "monitor" | "manage";
+  activeTab?: "tasks" | "submit" | "solutions" | "monitor" | "manage" | "mysubmissions" | "allsubmissions";
   showManageButton?: boolean;
 };
 
@@ -68,8 +68,8 @@ export function ContestHotbar({ contest, activeTab, showManageButton = true }: C
         </Button>
         <Button
           component={Link}
-          href={`/solutions?contestId=${contest.id}&order=-1&owner=me`}
-          variant={activeTab === "solutions" ? "filled" : "default"}
+          href={`/mysubmssions?contestId=${contest.id}&order=-1&owner=me`}
+          variant={activeTab === "mysubmissions" ? "filled" : "default"}
           size="sm"
           leftSection={<IconUser size={16} />}
           visibleFrom="sm"
@@ -79,7 +79,7 @@ export function ContestHotbar({ contest, activeTab, showManageButton = true }: C
         <Button
           component={Link}
           href={`/solutions?contestId=${contest.id}&order=-1`}
-          variant={activeTab === "solutions" ? "filled" : "default"}
+          variant={activeTab === "allsubmissions" ? "filled" : "default"}
           size="sm"
           leftSection={<IconMail size={16} />}
           visibleFrom="sm"

@@ -8,7 +8,7 @@ import {SolutionsListWithWS} from '@/components/SolutionsList';
 import {ContestHotbar} from '@/components/ContestHotbar';
 
 export const metadata: Metadata = {
-    title: 'Посылки',
+    title: 'Мои посылки',
     description: '',
 };
 
@@ -63,14 +63,11 @@ const Page = async ({searchParams}: PageProps) => {
     
     // Get user info for filtering
     const meData = await getMe();
-    
-    // Filter solutions by user if not admin/teacher
-    const filteredParams = meData?.user?.role !== 'admin' && meData?.user?.role !== 'teacher' 
-        ? { ...params, userId: meData?.user?.id }
-        : params;
+    // Always filter by current user
+    const filteredParams = { ...params, userId: meData?.user?.id };
 
     const solutionsData = await getSolutions(filteredParams);
-
+    console.log(solutionsData);
     if (!solutionsData) {
         return (
             <DefaultLayout>
@@ -113,12 +110,12 @@ const Page = async ({searchParams}: PageProps) => {
                 {contestData?.contest && (
                     <ContestHotbar 
                         contest={contestData.contest} 
-                        activeTab="allsubmissions" 
+                        activeTab="mysubmissions" 
                         showManageButton={false}
                     />
                 )}
                 <Stack align="center" w="fit-content" m="auto" gap="16">
-                    <Title>Посылки</Title>
+                    <Title>Мои посылки</Title>
                     <SolutionsListWithWS
                         initialSolutions={solutionsData.solutions}
                         wsUrl={wsUrl}
@@ -127,7 +124,7 @@ const Page = async ({searchParams}: PageProps) => {
                     />
                     <NextPagination
                         pagination={solutionsData.pagination}
-                        baseUrl="/solutions"
+                        baseUrl="/mysubmssions"
                         queryParams={queryParams}
                     />
                 </Stack>
@@ -137,3 +134,4 @@ const Page = async ({searchParams}: PageProps) => {
 };
 
 export default Page;
+

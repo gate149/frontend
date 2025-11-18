@@ -3,6 +3,8 @@ import { Header } from "./Header";
 
 export async function HeaderWithSession() {
   const session = await getOrySession();
+  console.log(session);
+  
   return <Header session={session} />;
 }
 
