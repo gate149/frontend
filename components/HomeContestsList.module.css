@@ -1,0 +1,12 @@
+.item {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: var(--mantine-color-body);
+}
+
+.item:hover {
+  transform: translateX(4px);
+  border-color: var(--mantine-color-blue-6);
+  background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
+}
+

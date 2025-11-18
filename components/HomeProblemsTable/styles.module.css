@@ -1,0 +1,25 @@
+.item {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: var(--mantine-color-body);
+}
+
+.item:hover {
+  transform: translateX(4px);
+  border-color: var(--mantine-color-blue-6);
+  background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
+}
+
+.badge {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-6));
+  color: var(--mantine-color-text);
+  font-weight: 700;
+  font-size: var(--mantine-font-size-sm);
+}
+
