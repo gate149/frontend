@@ -3,9 +3,9 @@
 import { Call } from './api';
 
 // Server-side data fetching functions
-export async function getContests(page: number = 1, pageSize: number = 10, title?: string, owner?: string) {
+export async function getContests(page: number = 1, pageSize: number = 10, search?: string, owner?: boolean) {
   try {
-    const response = await Call((client) => client.default.listContests({ page, pageSize, title, owner }));
+    const response = await Call((client) => client.default.listContests({ page, pageSize, search, owner }));
     return response;
   } catch (error) {
     console.error('Failed to fetch contests:', error);
@@ -13,28 +13,21 @@ export async function getContests(page: number = 1, pageSize: number = 10, title
   }
 }
 
-export async function getProblems(page: number = 1, pageSize: number = 10, title?: string, order?: number, owner?: string) {
+export async function getProblems(page: number = 1, pageSize: number = 10, search?: string, order?: number, owner?: boolean) {
   try {
     const params: {
       page: number;
       pageSize: number;
-      title?: string;
+      search?: string;
       order?: number;
-      owner?: string;
+      owner?: boolean;
     } = {
       page,
       pageSize,
+      search,
+      order,
+      owner,
     };
-    
-    if (title !== undefined && title !== "") {
-      params.title = title;
-    }
-    if (order !== undefined) {
-      params.order = order;
-    }
-    if (owner !== undefined && owner !== "") {
-      params.owner = owner;
-    }
     
     const response = await Call((client) => client.default.listProblems(params));
     return response;
@@ -55,7 +48,7 @@ export async function getSolutions(params: {
   language?: number;
 } = {}) {
   try {
-    const response = await Call((client) => client.default.listSolutions({
+    const response = await Call((client) => client.default.listSubmissions({
       page: params.page ?? 1,
       pageSize: params.pageSize ?? 10,
       contestId: params.contestId,
@@ -96,34 +89,6 @@ export async function getUser(userId: string) {
   }
 }
 
-export async function getMe() {
-  try {
-    const response = await Call((client) => client.default.getMe());
-    return response;
-  } catch (error) {
-    console.error('Failed to fetch me:', error);
-    return null;
-  }
-}
-
-export async function syncCurrentUser() {
-  try {
-    const userData = await getMe();
-    if (!userData?.user?.id) {
-      console.warn("No user in session");
-      return null;
-    }
-    
-    // The user should be synced by Kratos webhook, but if not, 
-    // the backend will create it on first API call with valid X-User-ID
-    console.log("✅ Current user ID:", userData.user.id);
-    return userData.user;
-  } catch (error) {
-    console.error('Failed to sync current user:', error);
-    return null;
-  }
-}
-
 export async function getContest(contestId: string) {
   try {
     const response = await Call((client) => client.default.getContest({ contestId }));
@@ -154,16 +119,6 @@ export async function getParticipants(contestId: string, page: number = 1, pageS
   }
 }
 
-export async function getMonitor(contestId: string) {
-  try {
-    const response = await Call((client) => client.default.getMonitor({ contestId }));
-    return response;
-  } catch (error) {
-    console.error('Failed to fetch monitor:', error);
-    return null;
-  }
-}
-
 export async function getProblem(problemId: string) {
   try {
     const response = await Call((client) => client.default.getProblem({ id: problemId }));
@@ -174,9 +129,9 @@ export async function getProblem(problemId: string) {
   }
 }
 
-export async function getSolution(solutionId: string) {
+export async function getSolution(submissionId: string) {
   try {
-    const response = await Call((client) => client.default.getSolution({ solutionId }));
+    const response = await Call((client) => client.default.getSubmission({ subm }));
     return response;
   } catch (error) {
     console.error('Failed to fetch solution:', error);
