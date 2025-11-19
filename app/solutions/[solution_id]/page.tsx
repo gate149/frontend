@@ -1,6 +1,6 @@
 import { CodeBlock } from "@/components/CodeBlock";
 import { DefaultLayout } from "@/components/Layout";
-import { getSolution } from "@/lib/actions";
+import { getSubmission } from "@/lib/actions";
 import {
   LangNameToString,
   LangString,
@@ -34,7 +34,7 @@ const metadata: Metadata = {
 
 const Page = async (props: Props) => {
   const solutionId = (await props.params).solution_id;
-  const resp = await getSolution(solutionId);
+  const resp = await getSubmission(solutionId);
 
   if (!resp) {
     return <div>Что-то пошло не так!</div>;

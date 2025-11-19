@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { UsersRoleFilter } from "@/components/UsersRoleFilter";
 import { UsersSearchInput } from "@/components/UsersSearchInput";
 import { UsersTable } from "@/components/UsersTable";
-import { getUsers } from "@/lib/actions";
+import { listUsers } from "@/lib/actions";
 import { Center, Container, Group, Skeleton, Stack, Text, Title } from "@mantine/core";
 import type { UserModel, PaginationModel } from "../../contracts/core/v1";
 
@@ -30,7 +30,7 @@ export function UsersContent({ page, search, role }: UsersContentProps) {
       setError(false);
 
       try {
-        const data = await getUsers(page, 10, search, role);
+        const data = await listUsers(page, 10, search, role);
         
         if (!data) {
           throw new Error("Failed to fetch users");
