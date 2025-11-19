@@ -1,5 +1,6 @@
 "use client";
 
+import { APP_COLORS } from "@/lib/theme/colors";
 import {
   ActionIcon,
   Anchor,
@@ -21,9 +22,7 @@ import { IconMoon, IconSun, IconUser } from "@tabler/icons-react";
 import cx from "clsx";
 import NextImage from "next/image";
 import Link from "next/link";
-import React from "react";
 import { LogoutLink } from "../LogoutLink";
-import { APP_COLORS } from "@/lib/theme/colors";
 import classes from "./styles.module.css";
 
 const Profile = ({ session }: { session?: any }) => {
@@ -36,7 +35,7 @@ const Profile = ({ session }: { session?: any }) => {
         {session.identity ? (
           <Avatar
             component={Link}
-            href={`/users/${session.identity.id}`}
+            href={`/users/${session.identity.metadata_public.user_id}`}
             color={APP_COLORS.users}
             size="60"
           >
@@ -52,7 +51,12 @@ const Profile = ({ session }: { session?: any }) => {
   }
   return (
     <Group justify="flex-end">
-      <Button component={Link} href="/auth/login" variant="filled" color={APP_COLORS.actions.primary}>
+      <Button
+        component={Link}
+        href="/auth/login"
+        variant="filled"
+        color={APP_COLORS.actions.primary}
+      >
         Войти
       </Button>
     </Group>
