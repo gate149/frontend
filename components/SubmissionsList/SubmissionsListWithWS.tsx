@@ -1,8 +1,8 @@
 'use client';
 
 import React, {useEffect, useRef, useState} from 'react';
-import {SolutionsList} from '@/components/SolutionsList';
-import type {SolutionsListItem} from '../../../contracts/core/v1';
+import {SubmissionsList} from '@/components/SubmissionsList';
+import type {SubmissionsListItemModel} from '../../../contracts/core/v1';
 
 const MessageTypeCreate = "CREATE";
 const MessageTypeUpdate = "UPDATE";
@@ -11,25 +11,25 @@ const MessageTypeDelete = "DELETE";
 interface Message {
     message_type: string;
     message?: string;
-    solution: SolutionsListItem;
+    submission: SubmissionsListItemModel;
 }
 
-interface SolutionsListWithWebSocketProps {
-    initialSolutions: SolutionsListItem[];
+interface SubmissionsListWithWebSocketProps {
+    initialSubmissions: SubmissionsListItemModel[];
     wsUrl: string;
     token: string;
     queryParams: Record<string, string | number | undefined>;
 }
 
-const SolutionsListWithWS: React.FC<SolutionsListWithWebSocketProps> = (
+const SubmissionsListWithWS: React.FC<SubmissionsListWithWebSocketProps> = (
     {
-        initialSolutions,
+        initialSubmissions,
         wsUrl,
         token,
         queryParams
     }
 ) => {
-    const [solutions, setSolutions] = useState<SolutionsListItem[]>(initialSolutions);
+    const [submissions, setSubmissions] = useState<SubmissionsListItemModel[]>(initialSubmissions);
     const ws = useRef<WebSocket | null>(null);
 
     useEffect(() => {
@@ -51,25 +51,25 @@ const SolutionsListWithWS: React.FC<SolutionsListWithWebSocketProps> = (
 
                 if (data.message_type === MessageTypeCreate) {
 
-                    setSolutions((prevSolutions) => [data.solution, ...prevSolutions.slice(0, -1)]);
+                    setSubmissions((prevSubmissions) => [data.submission, ...prevSubmissions.slice(0, -1)]);
                     return;
                 }
 
                 if (data.message_type === MessageTypeUpdate) {
 
-                    setSolutions((prevSolutions) =>
-                        prevSolutions.map((solution) => {
-                            if (solution.id === data.solution.id) {
+                    setSubmissions((prevSubmissions) =>
+                        prevSubmissions.map((submission) => {
+                            if (submission.id === data.submission.id) {
                                 if (data.message) {
                                     // FIXME
                                     // @ts-ignore
-                                    data.solution.state = data.message;
+                                    data.submission.state = data.message;
                                 }
 
-                                return data.solution;
+                                return data.submission;
                             }
 
-                            return solution;
+                            return submission;
                         })
                     );
                     return;
@@ -77,8 +77,8 @@ const SolutionsListWithWS: React.FC<SolutionsListWithWebSocketProps> = (
 
                 if (data.message_type === MessageTypeDelete) {
 
-                    setSolutions((prevSolutions) =>
-                        prevSolutions.filter((solution) => solution.id !== data.solution.id)
+                    setSubmissions((prevSubmissions) =>
+                        prevSubmissions.filter((submission) => submission.id !== data.submission.id)
                     );
                     return;
                 }
@@ -106,10 +106,10 @@ const SolutionsListWithWS: React.FC<SolutionsListWithWebSocketProps> = (
     }, [wsUrl, token, queryParams]);
 
     useEffect(() => {
-        setSolutions(initialSolutions);
-    }, [initialSolutions]);
+        setSubmissions(initialSubmissions);
+    }, [initialSubmissions]);
 
-    return <SolutionsList solutions={solutions}/>;
+    return <SubmissionsList submissions={submissions}/>;
 };
 
-export {SolutionsListWithWS};
+export {SubmissionsListWithWS};

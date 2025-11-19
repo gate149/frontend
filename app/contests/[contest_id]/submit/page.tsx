@@ -11,7 +11,7 @@ import {
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ContestHotbar } from "@/components/ContestHotbar";
-import { SubmitSolutionClient } from "./SubmitSolutionClient";
+import { SubmitSubmissionClient } from "./SubmitSubmissionClient";
 
 type Props = {
   params: Promise<{ contest_id: string }>;
@@ -70,7 +70,7 @@ const Page = async ({ params }: Props) => {
               contest={response.contest} 
               activeTab="submit"
             />
-            <SubmitSolutionClient 
+            <SubmitSubmissionClient 
               contest={response.contest}
               problems={response.problems || []}
             />
@@ -88,4 +88,3 @@ const Page = async ({ params }: Props) => {
 };
 
 export default Page;
-

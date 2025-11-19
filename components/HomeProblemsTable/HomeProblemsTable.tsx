@@ -1,8 +1,10 @@
 "use client";
 
 import { numberToLetters } from "@/lib/lib";
-import { Box, Flex, Table, Text } from "@mantine/core";
+import { Text, Group, Table, Box } from "@mantine/core";
+import { IconChevronRight } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
+import classes from "./styles.module.css";
 
 type HomeProblemItem = {
   id: string;
@@ -32,38 +34,53 @@ const formatMemoryLimit = (memoryKb: number) => {
 export function HomeProblemsTable({ problems }: HomeProblemsTableProps) {
   const router = useRouter();
 
+  if (problems.length === 0) {
+    return (
+      <Text c="dimmed" ta="center" py="xl">
+        Нет доступных задач
+      </Text>
+    );
+  }
+
   return (
     <Box style={{ overflowX: "auto" }}>
-      <Table striped highlightOnHover withTableBorder withColumnBorders>
-        <Table.Thead>
-          <Table.Tr>
-            <Table.Th style={{ width: "50px", textAlign: "center" }}>#</Table.Th>
-            <Table.Th>Название</Table.Th>
-            <Table.Th style={{ width: "80px", textAlign: "center" }}>Баллы</Table.Th>
-          </Table.Tr>
-        </Table.Thead>
+      <Table 
+        className={classes.table} 
+        verticalSpacing="sm"
+        withRowBorders={true}
+      >
         <Table.Tbody>
           {problems.map((problem) => {
             const problemUrl = `/contests/${problem.contest_id}/problems/${problem.problem_id}`;
             return (
               <Table.Tr
                 key={problem.id}
-                style={{ cursor: "pointer" }}
+                className={classes.row}
                 onClick={() => router.push(problemUrl)}
               >
-                <Table.Td style={{ textAlign: "center" }}>
-                  <Text fw={500}>{numberToLetters(problem.position)}</Text>
+                <Table.Td className={classes.positionCell}>
+                  <div className={classes.badge}>{numberToLetters(problem.position)}</div>
                 </Table.Td>
-                <Table.Td>
-                  <Flex justify="space-between" align="center" gap="md">
-                    <Text fw={600}>{problem.title}</Text>
-                    <Text c="dimmed" size="sm" style={{ whiteSpace: "nowrap" }}>
-                      {formatTimeLimit(problem.time_limit)}, {formatMemoryLimit(problem.memory_limit)}
+                <Table.Td className={classes.titleCell}>
+                  <Text fw={600} size="sm">
+                    {problem.title}
+                  </Text>
+                </Table.Td>
+                <Table.Td className={classes.limitsCell}>
+                  <Group gap="xs" justify="flex-end">
+                    <Text size="xs" c="dimmed">
+                      {formatTimeLimit(problem.time_limit)}
                     </Text>
-                  </Flex>
+                    <Text size="xs" c="dimmed">
+                      /
+                    </Text>
+                    <Text size="xs" c="dimmed">
+                      {formatMemoryLimit(problem.memory_limit)}
+                    </Text>
+                  </Group>
                 </Table.Td>
-                <Table.Td style={{ textAlign: "center" }}>
-                  {/* Баллы - will be populated when backend integration is ready */}
+                <Table.Td className={classes.iconCell}>
+                  <IconChevronRight size={16} style={{ opacity: 0.5 }} />
                 </Table.Td>
               </Table.Tr>
             );
@@ -73,4 +90,3 @@ export function HomeProblemsTable({ problems }: HomeProblemsTableProps) {
     </Box>
   );
 }
-

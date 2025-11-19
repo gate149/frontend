@@ -1,18 +1,18 @@
 "use client";
 
-import { CreateSolutionForm } from "@/components/CreateSolutionForm";
+import { CreateSubmissionForm } from "@/components/CreateSubmissionForm";
 import { numberToLetters } from "@/lib/lib";
 import { Box, Paper, Select, Stack } from "@mantine/core";
 import { useState } from "react";
-import type { ContestModel, ContestProblemListItem } from "../../../../../contracts/core/v1";
-import { submitSolution } from "./actions";
+import type { ContestModel, ContestProblemListItemModel } from "../../../../../contracts/core/v1";
+import { submitSubmission } from "./actions";
 
 type Props = {
   contest: ContestModel;
-  problems: ContestProblemListItem[];
+  problems: ContestProblemListItemModel[];
 };
 
-export function SubmitSolutionClient({ contest, problems }: Props) {
+export function SubmitSubmissionClient({ contest, problems }: Props) {
   const [selectedProblemId, setSelectedProblemId] = useState<string | null>(
     problems.length > 0 ? problems[0].problem_id : null
   );
@@ -22,16 +22,16 @@ export function SubmitSolutionClient({ contest, problems }: Props) {
     label: `${numberToLetters(problem.position)}. ${problem.title}`,
   }));
 
-  const handleSubmit = async (solution: FormData, language: string) => {
+  const handleSubmit = async (submission: FormData, language: string) => {
     if (!selectedProblemId) {
       console.error("No problem selected");
       return null;
     }
 
-    return await submitSolution(
+    return await submitSubmission(
       selectedProblemId,
       contest.id,
-      solution,
+      submission,
       language
     );
   };
@@ -55,7 +55,7 @@ export function SubmitSolutionClient({ contest, problems }: Props) {
         withBorder 
         bg="var(--mantine-color-gray-light)"
       >
-        <CreateSolutionForm 
+        <CreateSubmissionForm 
           onSubmit={handleSubmit}
           large={true}
           problemSelect={
@@ -73,4 +73,3 @@ export function SubmitSolutionClient({ contest, problems }: Props) {
     </Box>
   );
 }
-

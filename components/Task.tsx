@@ -13,34 +13,34 @@ import {
     Stack,
     Title
 } from "@mantine/core";
-import {CreateSolutionForm} from "@/components/CreateSolutionForm";
+import {CreateSubmissionForm} from "@/components/CreateSubmissionForm";
 import Link from "next/link";
-import type {ContestProblemListItemModel, ContestModel, ContestProblemModel, SolutionsListItemModel} from "../../contracts/core/v1";
+import type {ContestProblemListItemModel, ContestModel, ContestProblemModel, SubmissionsListItemModel} from "../../contracts/core/v1";
 import {Problem} from "@/components/Problem";
 import {numberToLetters} from '@/lib/lib';
 import {CONTEST_SIDEBAR_LEFT_WIDTH, CONTEST_SIDEBAR_RIGHT_WIDTH} from "@/lib/constants";
 import {Layout} from "@/components/Layout";
 import {Footer} from "@/components/Footer";
-import {RecentSolutionsTable} from "@/components/RecentSolutionsTable";
-import {submitSolution} from "@/app/contests/[contest_id]/problems/[problem_id]/actions";
+import {RecentSubmissionsTable} from "@/components/RecentSubmissionsTable";
+import {submitSubmission} from "@/app/contests/[contest_id]/problems/[problem_id]/actions";
 import {ContestHotbar} from "@/components/ContestHotbar";
 
 type PageProps = {
     tasks: ContestProblemListItemModel[]
     contest: ContestModel,
     task: ContestProblemModel,
-    solutions: SolutionsListItemModel[],
+    submissions: SubmissionsListItemModel[],
     problemId: string,
     contestId: string,
     header: React.ReactNode
 }
 
-const Task = ({tasks, contest, task, solutions, problemId, contestId, header}: PageProps) => {
+const Task = ({tasks, contest, task, submissions, problemId, contestId, header}: PageProps) => {
     const onSubmit = async (
-        solution: FormData,
+        submission: FormData,
         language: string
     ): Promise<number | null> => {
-        return submitSolution(problemId, contestId, solution, language);
+        return submitSubmission(problemId, contestId, submission, language);
     };
 
     return (
@@ -99,8 +99,8 @@ const Task = ({tasks, contest, task, solutions, problemId, contestId, header}: P
                             bg="var(--mantine-color-gray-light)"
                         >
                             <Stack>
-                                <CreateSolutionForm onSubmit={onSubmit}/>
-                                <RecentSolutionsTable solutions={solutions} contestId={contest.id} />
+                                <CreateSubmissionForm onSubmit={onSubmit}/>
+                                <RecentSubmissionsTable submissions={submissions} contestId={contest.id} />
                             </Stack>
                         </Paper>
                     </Box>

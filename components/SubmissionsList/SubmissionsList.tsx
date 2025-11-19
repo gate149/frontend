@@ -4,54 +4,54 @@ import {Table, TableTbody, TableTd, TableTh, TableThead, TableTr, Text} from "@m
 import {LangString, ProblemTitle, StateColor, StateString, TimeBeautify} from "@/lib/lib";
 import Link from "next/link";
 import React from "react";
-import type {SolutionsListItem} from "../../../contracts/core/v1";
+import type {SubmissionsListItemModel} from "../../../contracts/core/v1";
 import styles from "./styles.module.css";
 
-interface SolutionsListProps {
-    solutions: SolutionsListItem[];
+interface SubmissionsListProps {
+    submissions: SubmissionsListItemModel[];
 }
 
 
-const SolutionsList = ({solutions}: SolutionsListProps) => {
-    const rows = solutions.map((solution) => (
-        <TableTr key={solution.id}>
+const SubmissionsList = ({submissions}: SubmissionsListProps) => {
+    const rows = submissions.map((submission) => (
+        <TableTr key={submission.id}>
             <TableTd ta="center">
-                <Text>{TimeBeautify(solution.created_at)}</Text>
+                <Text>{TimeBeautify(submission.created_at)}</Text>
             </TableTd>
             <TableTd ta="center">
                 <Text
                     component={Link}
-                    href={`/users/${solution.user_id}`}
+                    href={`/users/${submission.user_id}`}
                     td="underline"
                 >
-                    {solution.username}
+                    {submission.username}
                 </Text>
             </TableTd>
             <TableTd ta="center">
                 <Text
                     component={Link}
-                    href={`/contests/${solution.contest_id}/problems/${solution.problem_id}`}
+                    href={`/contests/${submission.contest_id}/problems/${submission.problem_id}`}
                     td="underline"
                 >
-                    {ProblemTitle(solution.position, solution.problem_title)}
+                    {ProblemTitle(submission.position, submission.problem_title)}
                 </Text>
             </TableTd>
             <TableTd ta="center">
-                <Text>{LangString(solution.language)}</Text>
+                <Text>{LangString(submission.language)}</Text>
             </TableTd>
             <TableTd ta="center">
-                <Text c={StateColor(solution.state)} fw={500}>
-                    {StateString(solution.state) == "UK" ? solution.state : StateString(solution.state)}
+                <Text c={StateColor(submission.state)} fw={500}>
+                    {StateString(submission.state) == "UK" ? submission.state : StateString(submission.state)}
                 </Text>
             </TableTd>
             <TableTd ta="center">
-                <Text>{solution.time_stat} ms</Text>
+                <Text>{submission.time_stat} ms</Text>
             </TableTd>
             <TableTd ta="center">
-                <Text>{solution.memory_stat} КБ</Text>
+                <Text>{submission.memory_stat} КБ</Text>
             </TableTd>
             <TableTd ta="center">
-                <Text component={Link} href={`/solutions/${solution.id}`} td="underline">
+                <Text component={Link} href={`/submissions/${submission.id}`} td="underline">
                     Посмотреть
                 </Text>
             </TableTd>
@@ -77,4 +77,4 @@ const SolutionsList = ({solutions}: SolutionsListProps) => {
     );
 };
 
-export {SolutionsList};
+export {SubmissionsList};

@@ -33,7 +33,7 @@ export const CreateTask = async ({
 export const fetchProblems = async (title: string) => {
   try {
     const response = await Call((client) =>
-      client.default.listProblems({ page: 1, pageSize: 20, title })
+      client.default.listProblems({ page: 1, pageSize: 20, search: title })
     );
     return response?.problems || [];
   } catch (error) {
