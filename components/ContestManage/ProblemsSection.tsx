@@ -29,7 +29,7 @@ import type * as corev1 from "../../../contracts/core/v1";
 
 interface ProblemsSectionProps {
   contestId: string;
-  initialProblems: Array<corev1.ContestProblemListItem>;
+  initialProblems: Array<corev1.ContestProblemListItemModel>;
 }
 
 export function ProblemsSection({
@@ -40,7 +40,7 @@ export function ProblemsSection({
   const [problems, setProblems] = useState(initialProblems);
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedQuery] = useDebouncedValue(searchQuery, 300);
-  const [searchResults, setSearchResults] = useState<corev1.Problem[]>([]);
+  const [searchResults, setSearchResults] = useState<corev1.ProblemsListItemModel[]>([]);
   const [searching, setSearching] = useState(false);
   const [selectedProblemId, setSelectedProblemId] = useState<string | null>(
     null

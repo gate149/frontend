@@ -35,7 +35,7 @@ const Profile = ({ session }: { session?: any }) => {
         {session.identity ? (
           <Avatar
             component={Link}
-            href={`/users/${session.identity.metadata_public.user_id}`}
+            href={`/users/${/*session.identity.metadata_public.user_id */"123"}`}
             color={APP_COLORS.users}
             size="60"
           >

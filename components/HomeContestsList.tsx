@@ -1,9 +1,9 @@
 "use client";
 
-import { Paper, Text, Group, Stack, ThemeIcon, Badge } from "@mantine/core";
+import { Text, Table, Box } from "@mantine/core";
 import { IconTrophy, IconChevronRight } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
-import type { ContestModel } from "../../contracts/core/v1";
+import type { ContestModel } from "../contracts/core/v1";
 import classes from "./HomeContestsList.module.css";
 
 type HomeContestsListProps = {
@@ -22,37 +22,39 @@ export function HomeContestsList({ contests }: HomeContestsListProps) {
   }
 
   return (
-    <Stack gap="xs">
-      {contests.map((contest) => (
-        <Paper
-          key={contest.id}
-          className={classes.item}
-          onClick={() => router.push(`/contests/${contest.id}`)}
-          withBorder
-          p="md"
-          radius="md"
-        >
-          <Group justify="space-between" wrap="nowrap">
-            <Group gap="md" wrap="nowrap">
-              <ThemeIcon size="lg" radius="md" variant="light" color="yellow">
-                <IconTrophy size={18} />
-              </ThemeIcon>
-              <div>
-                <Text fw={600} lineClamp={1}>
+    <Box style={{ overflowX: "auto" }}>
+      <Table 
+        className={classes.table} 
+        verticalSpacing="sm"
+      >
+        <Table.Tbody>
+          {contests.map((contest) => (
+            <Table.Tr
+              key={contest.id}
+              className={classes.row}
+              onClick={() => router.push(`/contests/${contest.id}`)}
+            >
+              <Table.Td className={classes.iconCell}>
+                <IconTrophy size={20} className={classes.trophyIcon} />
+              </Table.Td>
+              
+              <Table.Td className={classes.infoCell}>
+                <Text fw={600} lineClamp={1} size="sm">
                   {contest.title}
                 </Text>
-                <Group gap="xs" mt={4}>
-                  <Text size="xs" c="dimmed">
-                    {new Date(contest.created_at).toLocaleDateString("ru-RU")}
-                  </Text>
-                </Group>
-              </div>
-            </Group>
-            <IconChevronRight size={16} style={{ opacity: 0.5 }} />
-          </Group>
-        </Paper>
-      ))}
-    </Stack>
+              </Table.Td>
+              
+              <Table.Td className={classes.dateCell}>
+                {new Date(contest.created_at).toLocaleDateString("ru-RU")}
+              </Table.Td>
+              
+              <Table.Td className={classes.arrowCell}>
+                <IconChevronRight size={16} style={{ opacity: 0.5 }} />
+              </Table.Td>
+            </Table.Tr>
+          ))}
+        </Table.Tbody>
+      </Table>
+    </Box>
   );
 }
-

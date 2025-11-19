@@ -285,25 +285,23 @@ export async function removeContestParticipant(
   }
 }
 
-export async function searchProblems(title: string, owner?: string) {
+export async function searchProblems(search: string, owner: string = "me") {
   try {
     const params: {
       page: number;
       pageSize: number;
-      title?: string;
-      owner?: string;
+      search?: string;
+      owner?: boolean;
     } = {
       page: 1,
       pageSize: 10,
     };
     
-    if (title && title.trim() !== "") {
-      params.title = title.trim();
+    if (search && search.trim() !== "") {
+      params.search = search.trim();
     }
-    if (owner && owner !== "") {
-      params.owner = owner;
-    }
-    
+    params.owner = owner === "me";
+    console.log('📤 Searching problems:', search, params.owner);
     const response = await Call((client) => client.default.listProblems(params));
     return response;
   } catch (error) {

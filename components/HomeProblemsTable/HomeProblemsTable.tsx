@@ -1,7 +1,7 @@
 "use client";
 
 import { numberToLetters } from "@/lib/lib";
-import { Paper, Text, Group, Stack, ThemeIcon, Tooltip } from "@mantine/core";
+import { Text, Group, Table, Box } from "@mantine/core";
 import { IconChevronRight } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import classes from "./styles.module.css";
@@ -43,47 +43,50 @@ export function HomeProblemsTable({ problems }: HomeProblemsTableProps) {
   }
 
   return (
-    <Stack gap="xs">
-      {problems.map((problem) => {
-        const problemUrl = `/contests/${problem.contest_id}/problems/${problem.problem_id}`;
-        return (
-          <Paper
-            key={problem.id}
-            className={classes.item}
-            onClick={() => router.push(problemUrl)}
-            withBorder
-            p="md"
-            radius="md"
-          >
-            <Group justify="space-between" wrap="nowrap">
-              <Group gap="md" wrap="nowrap">
-                <div className={classes.badge}>{numberToLetters(problem.position)}</div>
-                <div>
-                  <Text fw={600} lineClamp={1}>
+    <Box style={{ overflowX: "auto" }}>
+      <Table 
+        className={classes.table} 
+        verticalSpacing="sm"
+        withRowBorders={true}
+      >
+        <Table.Tbody>
+          {problems.map((problem) => {
+            const problemUrl = `/contests/${problem.contest_id}/problems/${problem.problem_id}`;
+            return (
+              <Table.Tr
+                key={problem.id}
+                className={classes.row}
+                onClick={() => router.push(problemUrl)}
+              >
+                <Table.Td className={classes.positionCell}>
+                  <div className={classes.badge}>{numberToLetters(problem.position)}</div>
+                </Table.Td>
+                <Table.Td className={classes.titleCell}>
+                  <Text fw={600} size="sm">
                     {problem.title}
                   </Text>
-                  <Group gap="xs" mt={4}>
-                    <Tooltip label="Ограничение времени">
-                      <Text size="xs" c="dimmed">
-                        {formatTimeLimit(problem.time_limit)}
-                      </Text>
-                    </Tooltip>
+                </Table.Td>
+                <Table.Td className={classes.limitsCell}>
+                  <Group gap="xs" justify="flex-end">
                     <Text size="xs" c="dimmed">
-                      •
+                      {formatTimeLimit(problem.time_limit)}
                     </Text>
-                    <Tooltip label="Ограничение памяти">
-                      <Text size="xs" c="dimmed">
-                        {formatMemoryLimit(problem.memory_limit)}
-                      </Text>
-                    </Tooltip>
+                    <Text size="xs" c="dimmed">
+                      /
+                    </Text>
+                    <Text size="xs" c="dimmed">
+                      {formatMemoryLimit(problem.memory_limit)}
+                    </Text>
                   </Group>
-                </div>
-              </Group>
-              <IconChevronRight size={16} style={{ opacity: 0.5 }} />
-            </Group>
-          </Paper>
-        );
-      })}
-    </Stack>
+                </Table.Td>
+                <Table.Td className={classes.iconCell}>
+                  <IconChevronRight size={16} style={{ opacity: 0.5 }} />
+                </Table.Td>
+              </Table.Tr>
+            );
+          })}
+        </Table.Tbody>
+      </Table>
+    </Box>
   );
 }
