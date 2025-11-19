@@ -71,7 +71,7 @@ export async function getSolutions(params: {
 
 export async function getUsers(page: number = 1, pageSize: number = 10, search?: string, role?: string) {
   try {
-    const response = await Call((client) => client.default.getUsers({ page, pageSize, search, role }));
+    const response = await Call((client) => client.default.listUsers({ page, pageSize, search, role }));
     return response;
   } catch (error) {
     console.error('Failed to fetch users:', error);
@@ -131,7 +131,7 @@ export async function getProblem(problemId: string) {
 
 export async function getSolution(submissionId: string) {
   try {
-    const response = await Call((client) => client.default.getSubmission({ subm }));
+    const response = await Call((client) => client.default.getSubmission({ submissionId }));
     return response;
   } catch (error) {
     console.error('Failed to fetch solution:', error);
@@ -189,6 +189,7 @@ export async function updateProblem(
   }
 }
 
+// FIXME: Was this completely removed?
 export async function uploadProblem(problemId: string, file: File) {
   try {
     const response = await Call((client) => 
@@ -313,7 +314,7 @@ export async function searchProblems(search: string, owner: string = "me") {
 export async function searchUsers(search: string) {
   try {
     const response = await Call((client) =>
-      client.default.getUsers({
+      client.default.listUsers({
         page: 1,
         pageSize: 10,
         search: search,
@@ -345,12 +346,12 @@ export async function createSolution(
     }
 
     const response = await Call((client) =>
-      client.default.createSolution({
+      client.default.createSubmission({
         problemId,
         contestId,
         language,
-        formData: {
-          solution: solutionBlob,
+        requestBody: {
+          submission: solutionBlob.toString(),
         },
       })
     );
