@@ -10,6 +10,7 @@ import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {Notifications} from "@mantine/notifications";
 import {Inter} from "next/font/google"
 import {SessionProvider} from "@ory/elements-react/client";
+import { theme } from '@/lib/theme/theme';
 
 const queryClient = new QueryClient();
 const inter = Inter({subsets: ["latin"]})
@@ -27,7 +28,7 @@ export default function RootLayout({children}: { children: any }) {
         </head>
         <body>
         <QueryClientProvider client={queryClient}>
-            <MantineProvider defaultColorScheme="auto" withGlobalClasses>
+            <MantineProvider theme={theme} defaultColorScheme="auto" withGlobalClasses>
                 <Notifications/>
                 <Suspense>
                     <SessionProvider>
