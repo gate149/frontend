@@ -1,16 +1,17 @@
 import { DefaultLayout } from "@/components/Layout";
+import { WorkshopContestsContentSkeleton } from "@/components/WorkshopPage/WorkshopContestsContentSkeleton";
+import { WorkshopContestsWrapper } from "@/components/WorkshopPage/WorkshopContestsWrapper";
+import { WorkshopHeader } from "@/components/WorkshopPage/WorkshopHeader";
+import { WorkshopPageWrapper } from "@/components/WorkshopPage/WorkshopPageWrapper";
+import { WorkshopProblemsContentSkeleton } from "@/components/WorkshopPage/WorkshopProblemsContentSkeleton";
 import { WorkshopProblemsWrapper } from "@/components/WorkshopPage/WorkshopProblemsWrapper";
 import { WorkshopTabs } from "@/components/WorkshopPage/WorkshopTabs";
-import { WorkshopPageWrapper } from "@/components/WorkshopPage/WorkshopPageWrapper";
-import { WorkshopContestsContentSkeleton } from "@/components/WorkshopPage/WorkshopContestsContentSkeleton";
-import { getMe, getProblems, getContests } from "@/lib/actions";
+import { getContests, getProblems } from "@/lib/actions";
+import { getOrySession } from "@/lib/api";
 import { Alert, Center, Container, Stack } from "@mantine/core";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { Metadata } from "next";
 import { Suspense } from "react";
-import { WorkshopContestsWrapper } from "@/components/WorkshopPage/WorkshopContestsWrapper";
-import { WorkshopProblemsContentSkeleton } from "@/components/WorkshopPage/WorkshopProblemsContentSkeleton";
-import { WorkshopHeader } from "@/components/WorkshopPage/WorkshopHeader";
 export const metadata: Metadata = {
   title: "Мастерская",
   description: "",
@@ -29,7 +30,7 @@ const ProblemsView = async ({
   search?: string;
   isAuthenticated: boolean;
 }) => {
-  const problemsData = await getProblems(page, 20, undefined, undefined, "me");
+  const problemsData = await getProblems(page, 20, undefined, undefined, true);
 
   if (!problemsData) {
     return (
@@ -60,13 +61,11 @@ const ProblemsView = async ({
 const ContestsView = async ({
   page,
   search,
-  isAuthenticated,
 }: {
   page: number;
   search?: string;
-  isAuthenticated: boolean;
 }) => {
-  const contestsData = await getContests(page, 10, search, "me");
+  const contestsData = await getContests(page, 10, search, true);
 
   if (!contestsData) {
     return (
@@ -101,9 +100,8 @@ const WorshopPageContent = async ({
   view: string;
   search?: string;
 }) => {
-
-  const userData = await getMe();
-  const isAuthenticated = !!userData?.user;
+  const session = await getOrySession();
+  const isAuthenticated = !!session?.active;
 
   return (
     <WorkshopPageWrapper>
@@ -112,15 +110,23 @@ const WorshopPageContent = async ({
         <WorkshopTabs isAuthenticated={isAuthenticated} />
         {view === "problems" ? (
           <Suspense fallback={<WorkshopProblemsContentSkeleton />}>
-            <ProblemsView page={page} search={search} isAuthenticated={isAuthenticated} />
+            <ProblemsView
+              page={page}
+              search={search}
+              isAuthenticated={isAuthenticated}
+            />
           </Suspense>
         ) : (
           <Suspense fallback={<WorkshopContestsContentSkeleton />}>
-            <ContestsView page={page} search={search} isAuthenticated={isAuthenticated} />
+            <ContestsView
+              page={page}
+              search={search}
+              isAuthenticated={isAuthenticated}
+            />
           </Suspense>
         )}
       </Stack>
-    </WorkshopPageWrapper >
+    </WorkshopPageWrapper>
   );
 };
 
@@ -135,11 +141,7 @@ const Page = async (props: Props) => {
   return (
     <DefaultLayout>
       <Container size="lg" py="lg">
-        <WorshopPageContent
-          page={page}
-          view={view}
-          search={search}
-        />
+        <WorshopPageContent page={page} view={view} search={search} />
       </Container>
     </DefaultLayout>
   );
