@@ -2,19 +2,19 @@
 
 import { Anchor, Table, Text } from "@mantine/core";
 import Link from "next/link";
-import type { SolutionsListItem } from "../../../contracts/core/v1";
+import type { SubmissionsListItemModel } from "../../../contracts/core/v1";
 import { StateColor, StateString } from "@/lib/lib";
 
-type RecentSolutionsTableProps = {
-  solutions: SolutionsListItem[];
+type RecentSubmissionsTableProps = {
+  submissions: SubmissionsListItemModel[];
   contestId: string;
 };
 
-export function RecentSolutionsTable({
-  solutions,
+export function RecentSubmissionsTable({
+  submissions,
   contestId,
-}: RecentSolutionsTableProps) {
-  if (solutions.length === 0) {
+}: RecentSubmissionsTableProps) {
+  if (submissions.length === 0) {
     return null;
   }
 
@@ -24,7 +24,7 @@ export function RecentSolutionsTable({
         Последние посылки{" "}
         <Anchor
           component={Link}
-          href={`/solutions?contestId=${contestId}&order=-1`}
+          href={`/submissions?contestId=${contestId}&order=-1`}
           fs="italic"
           c="var(--mantine-color-text)"
           fw={500}
@@ -42,17 +42,17 @@ export function RecentSolutionsTable({
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
-          {solutions.slice(0, 5).map((solution) => (
-            <Table.Tr key={solution.id}>
+          {submissions.slice(0, 5).map((submission) => (
+            <Table.Tr key={submission.id}>
               <Table.Td ta="center">
-                <Text fw={500}>{solution.problem_title}</Text>
+                <Text fw={500}>{submission.problem_title}</Text>
               </Table.Td>
               <Table.Td ta="center">
-                <Text c={StateColor(solution.state)} fw={500}>
-                  {StateString(solution.state)}
+                <Text c={StateColor(submission.state)} fw={500}>
+                  {StateString(submission.state)}
                 </Text>
               </Table.Td>
-              <Table.Td ta="center">{solution.score}</Table.Td>
+              <Table.Td ta="center">{submission.score}</Table.Td>
             </Table.Tr>
           ))}
         </Table.Tbody>
@@ -60,4 +60,3 @@ export function RecentSolutionsTable({
     </>
   );
 }
-

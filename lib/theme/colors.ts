@@ -8,7 +8,7 @@ export const APP_COLORS = {
   /** Контесты */
   contests: 'blue',
   /** Посылки/решения */
-  solutions: 'green',
+  submissions: 'green',
   /** Пользователи/профили */
   users: 'gray',
   /** Администрирование */
@@ -23,4 +23,3 @@ export const APP_COLORS = {
     delete: 'red',
   },
 } as const;
-

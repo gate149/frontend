@@ -37,7 +37,7 @@ export async function getProblems(page: number = 1, pageSize: number = 10, searc
   }
 }
 
-export async function getSolutions(params: {
+export async function getSubmissions(params: {
   page?: number;
   pageSize?: number;
   contestId?: string;
@@ -62,10 +62,10 @@ export async function getSolutions(params: {
   } catch (error: any) {
     const status = error?.status || error?.response?.status;
     if (status === 404) {
-      return { solutions: [], pagination: { page: 1, pageSize: params.pageSize ?? 10, total: 0 } };
+      return { submissions: [], pagination: { page: 1, pageSize: params.pageSize ?? 10, total: 0 } };
     }
-    console.error('Failed to fetch solutions:', error);
-    return { solutions: [], pagination: { page: 1, pageSize: params.pageSize ?? 10, total: 0 } };
+    console.error('Failed to fetch submissions:', error);
+    return { submissions: [], pagination: { page: 1, pageSize: params.pageSize ?? 10, total: 0 } };
   }
 }
 
@@ -129,12 +129,12 @@ export async function getProblem(problemId: string) {
   }
 }
 
-export async function getSolution(submissionId: string) {
+export async function getSubmission(submissionId: string) {
   try {
     const response = await Call((client) => client.default.getSubmission({ submissionId }));
     return response;
   } catch (error) {
-    console.error('Failed to fetch solution:', error);
+    console.error('Failed to fetch submission:', error);
     return null;
   }
 }
@@ -327,22 +327,22 @@ export async function searchUsers(search: string) {
   }
 }
 
-export async function createSolution(
+export async function createSubmission(
   problemId: string,
   contestId: string,
   language: number,
   formData: FormData
 ) {
   try {
-    const solutionData = formData.get("solution");
-    let solutionBlob: Blob;
+    const submissionData = formData.get("submission");
+    let submissionBlob: Blob;
 
-    if (solutionData instanceof File) {
-      solutionBlob = solutionData;
-    } else if (typeof solutionData === "string") {
-      solutionBlob = new Blob([solutionData], { type: "text/plain" });
+    if (submissionData instanceof File) {
+      submissionBlob = submissionData;
+    } else if (typeof submissionData === "string") {
+      submissionBlob = new Blob([submissionData], { type: "text/plain" });
     } else {
-      throw new Error("Invalid solution data type");
+      throw new Error("Invalid submission data type");
     }
 
     const response = await Call((client) =>
@@ -351,13 +351,13 @@ export async function createSolution(
         contestId,
         language,
         requestBody: {
-          submission: solutionBlob.toString(),
+          submission: submissionBlob.toString(),
         },
       })
     );
     return response;
   } catch (error) {
-    console.error('Failed to create solution:', error);
+    console.error('Failed to create submission:', error);
     throw error;
   }
 }

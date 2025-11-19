@@ -51,6 +51,7 @@ type PageProps = {
 
 const Page = async ({params}: PageProps) => {
     const contestId = (await params).contest_id;
+    // FIXME: WTF???? Was monitor completely removed?
     const monitor = await getMonitor(contestId);
 
     if (!monitor) {

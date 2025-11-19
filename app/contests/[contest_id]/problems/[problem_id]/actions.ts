@@ -1,12 +1,12 @@
 "use server";
 
-import { createSolution } from "@/lib/actions";
+import { createSubmission } from "@/lib/actions";
 import { LANGUAGE_MAP } from "@/lib/constants";
 
-export async function submitSolution(
+export async function submitSubmission(
   problemId: string,
   contestId: string,
-  solution: FormData,
+  submission: FormData,
   language: string
 ): Promise<number | null> {
   const languageCode = LANGUAGE_MAP[language];
@@ -16,17 +16,16 @@ export async function submitSolution(
   }
 
   try {
-    const response = await createSolution(
+    const response = await createSubmission(
       problemId,
       contestId,
       languageCode,
-      solution
+      submission
     );
     // Return 1 on success (component uses this only to check success, not the actual ID)
     return response?.id ? 1 : null;
   } catch (error) {
-    console.error("Failed to create solution:", error);
+    console.error("Failed to create submission:", error);
     return null;
   }
 }
-

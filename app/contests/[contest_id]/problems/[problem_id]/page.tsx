@@ -3,7 +3,7 @@ import { numberToLetters } from "@/lib/lib";
 import {
   getContest,
   getContestProblem,
-  getSolutions,
+  getSubmissions,
 } from "@/lib/actions";
 import { HeaderWithSession } from "@/components/HeaderWithSession";
 import { Metadata } from "next";
@@ -44,11 +44,11 @@ const generateMetadata = async (props: Props): Promise<Metadata> => {
 const Page = async (props: Props) => {
   const params = await props.params;
 
-  const [problemResponse, contestResponse, solutionsResponse] =
+  const [problemResponse, contestResponse, submissionsResponse] =
     await Promise.all([
       getCachedContestProblem(params.problem_id, params.contest_id),
       getContest(params.contest_id),
-      getSolutions({
+      getSubmissions({
         page: 1,
         pageSize: 20,
         contestId: params.contest_id,
@@ -60,16 +60,16 @@ const Page = async (props: Props) => {
     notFound();
   }
 
-  // Handle solutions - if null or error, use empty array
+  // Handle submissions - if null or error, use empty array
   // This can happen if user is not synced in backend DB yet
-  const solutions = solutionsResponse?.solutions || [];
+  const submissions = submissionsResponse?.submissions || [];
 
   return (
     <Task
       task={problemResponse.problem}
       contest={contestResponse.contest}
       tasks={contestResponse.problems || []}
-      solutions={solutions}
+      submissions={submissions}
       problemId={params.problem_id}
       contestId={params.contest_id}
       header={<HeaderWithSession />}

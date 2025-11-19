@@ -1,14 +1,14 @@
 import {Metadata} from 'next';
-import {getSolutions, getMe, getContest} from '@/lib/actions';
+import {getSubmissions, getContest} from '@/lib/actions';
 import {Stack, Title, Container, Alert} from '@mantine/core';
 import {IconAlertCircle} from '@tabler/icons-react';
 import {DefaultLayout} from '@/components/Layout';
 import {NextPagination} from '@/components/Pagination';
-import {SolutionsListWithWS} from '@/components/SolutionsList';
+import {SubmissionsListWithWS} from '@/components/SubmissionsList';
 import {ContestHotbar} from '@/components/ContestHotbar';
 
 export const metadata: Metadata = {
-    title: 'Мои посылки',
+    title: 'Посылки',
     description: '',
 };
 
@@ -61,14 +61,12 @@ const Page = async ({searchParams}: PageProps) => {
     const resolvedSearchParams = await searchParams;
     const params = parseSearchParams(resolvedSearchParams);
     
-    // Get user info for filtering
-    const meData = await getMe();
-    // Always filter by current user
-    const filteredParams = { ...params, userId: meData?.user?.id };
+    
+    // Filter submissions by user if not admin/teacher
+    const filteredParams = { ...params, /*userId: "eb450cc9-d1de-44ca-8a84-1ad8304ca34b" */ };
+    const submissionsData = await getSubmissions(filteredParams);
 
-    const solutionsData = await getSolutions(filteredParams);
-    console.log(solutionsData);
-    if (!solutionsData) {
+    if (!submissionsData) {
         return (
             <DefaultLayout>
                 <Container size="lg" py="xl">
@@ -95,8 +93,8 @@ const Page = async ({searchParams}: PageProps) => {
         language: params.language,
     };
 
-    const token = 'access-token' in solutionsData ? solutionsData['access-token'] : undefined;
-    const wsUrl = process.env.NEXT_PUBLIC_WS_core_URL! + "/solutions";
+    const token = 'access-token' in submissionsData ? submissionsData['access-token'] : undefined;
+    const wsUrl = process.env.NEXT_PUBLIC_WS_core_URL! + "/submissions";
 
     // Load contest if contestId is provided
     let contestData = null;
@@ -110,21 +108,21 @@ const Page = async ({searchParams}: PageProps) => {
                 {contestData?.contest && (
                     <ContestHotbar 
                         contest={contestData.contest} 
-                        activeTab="mysubmissions" 
+                        activeTab="allsubmissions" 
                         showManageButton={false}
                     />
                 )}
                 <Stack align="center" w="fit-content" m="auto" gap="16">
-                    <Title>Мои посылки</Title>
-                    <SolutionsListWithWS
-                        initialSolutions={solutionsData.solutions}
+                    <Title>Посылки</Title>
+                    <SubmissionsListWithWS
+                        initialSubmissions={submissionsData.submissions}
                         wsUrl={wsUrl}
                         token={token || ''}
                         queryParams={queryParams}
                     />
                     <NextPagination
-                        pagination={solutionsData.pagination}
-                        baseUrl="/mysubmssions"
+                        pagination={submissionsData.pagination}
+                        baseUrl="/submissions"
                         queryParams={queryParams}
                     />
                 </Stack>
@@ -134,4 +132,3 @@ const Page = async ({searchParams}: PageProps) => {
 };
 
 export default Page;
-

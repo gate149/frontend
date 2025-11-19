@@ -20,12 +20,12 @@ import { APP_COLORS } from "@/lib/theme/colors";
 const languages = ["python", "cpp", "golang"];
 
 type Props = {
-    onSubmit: (solution: FormData, language: string) => Promise<number | null>;
+    onSubmit: (submission: FormData, language: string) => Promise<number | null>;
     problemSelect?: React.ReactNode;
     large?: boolean;
 };
 
-const CreateSolutionForm = ({ onSubmit, problemSelect, large = false }: Props) => {
+const CreateSubmissionForm = ({ onSubmit, problemSelect, large = false }: Props) => {
     const [file, setFile] = useState<File | null>(null);
     const [isDragging, setIsDragging] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -46,9 +46,9 @@ const CreateSolutionForm = ({ onSubmit, problemSelect, large = false }: Props) =
         mutationFn: async (values: typeof form.values) => {
             const formData = new FormData();
             if (file) {
-                formData.append("solution", file);
+                formData.append("submission", file);
             } else {
-                formData.append("solution", values.code);
+                formData.append("submission", values.code);
             }
             return await onSubmit(formData, values.language);
         },
@@ -184,7 +184,7 @@ const CreateSolutionForm = ({ onSubmit, problemSelect, large = false }: Props) =
                     )}
                 </div>
 
-                <Button type="submit" loading={mutation.isPending} color={APP_COLORS.solutions}>
+                <Button type="submit" loading={mutation.isPending} color={APP_COLORS.submissions}>
                     Отправить решение
                 </Button>
             </Stack>
@@ -192,4 +192,4 @@ const CreateSolutionForm = ({ onSubmit, problemSelect, large = false }: Props) =
     );
 };
 
-export { CreateSolutionForm };
+export { CreateSubmissionForm };
