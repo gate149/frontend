@@ -36,7 +36,6 @@ export function ContestHotbar({ contest, activeTab, showManageButton = true }: C
             size="sm"
             leftSection={<IconSettings size={16} />}
             visibleFrom="sm"
-            opacity={activeTab === "manage" ? 1 : 0.85}
             style={{ flexShrink: 0 }}
           >
             Управление

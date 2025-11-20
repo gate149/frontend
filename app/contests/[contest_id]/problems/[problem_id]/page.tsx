@@ -3,7 +3,7 @@ import { numberToLetters } from "@/lib/lib";
 import {
   getContest,
   getContestProblem,
-  getSubmissions,
+  getSolutions as getSubmissions,
 } from "@/lib/actions";
 import { HeaderWithSession } from "@/components/HeaderWithSession";
 import { Metadata } from "next";
