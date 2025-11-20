@@ -4,8 +4,8 @@
 FROM node:20-alpine AS deps
 WORKDIR /app
 
-# Копируем файлы зависимостей
-COPY package.json package-lock.json ./
+# Копируем файлы зависимостей из frontend/
+COPY frontend/package.json frontend/package-lock.json ./
 
 # Устанавливаем только production зависимости
 RUN npm ci --only=production
@@ -15,11 +15,14 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 # Копируем файлы зависимостей и устанавливаем ВСЕ зависимости (включая dev)
-COPY package.json package-lock.json ./
+COPY frontend/package.json frontend/package-lock.json ./
 RUN npm ci
 
-# Копируем остальные файлы
-COPY . .
+# Копируем contracts/ (нужны для импортов)
+COPY contracts/ ../contracts/
+
+# Копируем остальные файлы frontend/
+COPY frontend/ .
 
 # Переменные окружения для сборки (можно переопределить через build args)
 ARG NEXT_PUBLIC_APP_URL
