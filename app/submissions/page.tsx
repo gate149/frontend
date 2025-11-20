@@ -1,6 +1,6 @@
 import {Metadata} from 'next';
-import {getSubmissions, getContest} from '@/lib/actions';
-import {Stack, Title, Container, Alert} from '@mantine/core';
+import {getSolutions, getContest} from '@/lib/actions';
+import {Stack, Title, Container, Alert, List} from '@mantine/core';
 import {IconAlertCircle} from '@tabler/icons-react';
 import {DefaultLayout} from '@/components/Layout';
 import {NextPagination} from '@/components/Pagination';
@@ -64,7 +64,7 @@ const Page = async ({searchParams}: PageProps) => {
     
     // Filter submissions by user if not admin/teacher
     const filteredParams = { ...params, /*userId: "eb450cc9-d1de-44ca-8a84-1ad8304ca34b" */ };
-    const submissionsData = await getSubmissions(filteredParams);
+    const submissionsData = await getSolutions(filteredParams);
     console.log("submissionsData", submissionsData);
     if (!submissionsData) {
         return (
@@ -115,7 +115,7 @@ const Page = async ({searchParams}: PageProps) => {
                 <Stack align="center" w="fit-content" m="auto" gap="16">
                     <Title>Посылки</Title>
                     <SubmissionsListWithWS
-                        initialSubmissions={submissionsData.submissions}
+                        initialSubmissions={submissionsData?.solutions ?? []}
                         wsUrl={wsUrl}
                         token={token || ''}
                         queryParams={queryParams}

@@ -341,8 +341,8 @@ export async function createSolution(
                 problemId,
                 contestId,
                 language,
-                formData: {
-                    solution: solutionBlob,
+                requestBody: {
+                    submission: solutionBlob.toString(),
                 },
             })
         );

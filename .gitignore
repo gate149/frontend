@@ -26,7 +26,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
-.env*.local
+.env.*(!example)
 .env
 
 # vercel
@@ -38,3 +38,6 @@ next-env.d.ts
 
 # cursor
 .cursorrules
+
+# useless md files
+*.md(!README.md)
