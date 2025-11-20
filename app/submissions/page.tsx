@@ -65,7 +65,7 @@ const Page = async ({searchParams}: PageProps) => {
     // Filter submissions by user if not admin/teacher
     const filteredParams = { ...params, /*userId: "eb450cc9-d1de-44ca-8a84-1ad8304ca34b" */ };
     const submissionsData = await getSubmissions(filteredParams);
-
+    console.log("submissionsData", submissionsData);
     if (!submissionsData) {
         return (
             <DefaultLayout>
