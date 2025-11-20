@@ -1,21 +1,24 @@
 # Многоступенчатая сборка для оптимизации размера образа
 
-# Этап 1: Установка зависимостей
+# Этап 1: Установка production зависимостей
 FROM node:20-alpine AS deps
 WORKDIR /app
 
 # Копируем файлы зависимостей
 COPY package.json package-lock.json ./
 
-# Устанавливаем зависимости
+# Устанавливаем только production зависимости
 RUN npm ci --only=production
 
 # Этап 2: Сборка приложения
 FROM node:20-alpine AS builder
 WORKDIR /app
 
-# Копируем зависимости из предыдущего этапа
-COPY --from=deps /app/node_modules ./node_modules
+# Копируем файлы зависимостей и устанавливаем ВСЕ зависимости (включая dev)
+COPY package.json package-lock.json ./
+RUN npm ci
+
+# Копируем остальные файлы
 COPY . .
 
 # Переменные окружения для сборки (можно переопределить через build args)
@@ -27,9 +30,6 @@ ENV NEXT_PUBLIC_APP_URL=$NEXT_PUBLIC_APP_URL
 ENV BACKEND_API_URL=$BACKEND_API_URL
 ENV ORY_SDK_URL=$ORY_SDK_URL
 ENV NODE_ENV=production
-
-# Устанавливаем все зависимости (включая dev) для сборки
-RUN npm ci
 
 # Собираем приложение
 RUN npm run build
