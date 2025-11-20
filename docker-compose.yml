@@ -19,7 +19,8 @@ services:
       - ORY_SDK_URL=${ORY_SDK_URL}
       - NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL}
     networks:
-      # - gate149-network
+      # - gate_network
+      - gate149-network
       # - infrastructure_gate_network  # сеть nginx (обычно это default/bridge)
 
 networks:
