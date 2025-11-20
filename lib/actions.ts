@@ -1,5 +1,6 @@
 "use server";
 
+import { ListSubmissionsResponseModel, SubmissionsListItemModel } from '../../contracts/core/v1';
 import {Call} from './api';
 
 export async function getContests(page: number = 1, pageSize: number = 10, search?: string, owner?: boolean) {
@@ -36,7 +37,7 @@ export async function getProblems(page: number = 1, pageSize: number = 10, searc
     }
 }
 
-export async function getSolutions(params: {
+export async function getSubmissions(params: {
     page?: number;
     pageSize?: number;
     contestId?: string;
@@ -45,7 +46,7 @@ export async function getSolutions(params: {
     state?: number;
     order?: number;
     language?: number;
-} = {}) {
+} = {}): Promise<ListSubmissionsResponseModel> {
     try {
         const response = await Call((client) => client.default.listSubmissions({
             page: params.page ?? 1,
@@ -61,10 +62,10 @@ export async function getSolutions(params: {
     } catch (error: any) {
         const status = error?.status || error?.response?.status;
         if (status === 404) {
-            return {solutions: [], pagination: {page: 1, pageSize: params.pageSize ?? 10, total: 0}};
+            return {submissions: [], pagination: {page: 1, total: 0}};
         }
         console.error('Failed to fetch solutions:', error);
-        return {solutions: [], pagination: {page: 1, pageSize: params.pageSize ?? 10, total: 0}};
+        return {submissions: [] as SubmissionsListItemModel[], pagination: {page: 1, total: 0}};
     }
 }
 

@@ -2,7 +2,7 @@
 
 import React, {useEffect, useRef, useState} from 'react';
 import {SubmissionsList} from '@/components/SubmissionsList';
-import type {SubmissionsListItemModel} from '../../../contracts/core/v1';
+import type {ListSubmissionsResponseModel, SubmissionsListItemModel} from '../../../contracts/core/v1';
 
 const MessageTypeCreate = "CREATE";
 const MessageTypeUpdate = "UPDATE";
@@ -15,7 +15,7 @@ interface Message {
 }
 
 interface SubmissionsListWithWebSocketProps {
-    initialSubmissions: SubmissionsListItemModel[];
+    initialSubmissions: ListSubmissionsResponseModel;
     wsUrl: string;
     token: string;
     queryParams: Record<string, string | number | undefined>;
@@ -29,7 +29,7 @@ const SubmissionsListWithWS: React.FC<SubmissionsListWithWebSocketProps> = (
         queryParams
     }
 ) => {
-    const [submissions, setSubmissions] = useState<SubmissionsListItemModel[]>(initialSubmissions);
+    const [submissions, setSubmissions] = useState<SubmissionsListItemModel[]>(initialSubmissions.submissions);
     const ws = useRef<WebSocket | null>(null);
 
     useEffect(() => {
@@ -106,7 +106,7 @@ const SubmissionsListWithWS: React.FC<SubmissionsListWithWebSocketProps> = (
     }, [wsUrl, token, queryParams]);
 
     useEffect(() => {
-        setSubmissions(initialSubmissions);
+        setSubmissions(initialSubmissions.submissions);
     }, [initialSubmissions]);
 
     return <SubmissionsList submissions={submissions}/>;

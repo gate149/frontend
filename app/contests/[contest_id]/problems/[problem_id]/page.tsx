@@ -3,7 +3,7 @@ import { numberToLetters } from "@/lib/lib";
 import {
   getContest,
   getContestProblem,
-  getSolutions as getSubmissions,
+  getSubmissions,
 } from "@/lib/actions";
 import { HeaderWithSession } from "@/components/HeaderWithSession";
 import { Metadata } from "next";
@@ -62,7 +62,7 @@ const Page = async (props: Props) => {
 
   // Handle submissions - if null or error, use empty array
   // This can happen if user is not synced in backend DB yet
-  const submissions = submissionsResponse?.submissions || [];
+  const submissions = submissionsResponse.submissions || [];
 
   return (
     <Task

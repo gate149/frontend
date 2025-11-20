@@ -1,13 +1,7 @@
 import { CreateContestForm } from "@/components/CreateContestForm";
 import { Paper, Stack, Title } from "@mantine/core";
 
-interface ContestManagementSidebarProps {
-  isAuthenticated: boolean;
-}
-
-export const ContestManagementSidebar = ({
-  isAuthenticated,
-}: ContestManagementSidebarProps) => {
+export const ContestManagementSidebar = () => {
   return (
     <Paper
       shadow="sm"
@@ -20,7 +14,7 @@ export const ContestManagementSidebar = ({
         <Title order={4} size="h5">
           ⚙️ Управление
         </Title>
-        <CreateContestForm isAuthenticated={isAuthenticated} />
+        <CreateContestForm />
       </Stack>
     </Paper>
   );
