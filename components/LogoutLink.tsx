@@ -9,7 +9,7 @@ type LogoutLinkProps = ButtonProps & { children?: ReactNode };
 
 const LogoutLink = (props: LogoutLinkProps) => {
   return (
-    <Button component={Link} href="/auth/logout" {...props}>
+    <Button component={Link} href="/auth/logout" prefetch={false} {...props}>
       {props.children ?? "Выйти"}
     </Button>
   );
