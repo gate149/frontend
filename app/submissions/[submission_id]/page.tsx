@@ -24,7 +24,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 type Props = {
-  params: Promise<{ submission_id: string }>;
+  params: Promise<{ solution_id: string }>;
 };
 
 const metadata: Metadata = {
@@ -33,51 +33,51 @@ const metadata: Metadata = {
 };
 
 const Page = async (props: Props) => {
-  const submissionId = (await props.params).submission_id;
-  const resp = await getSubmission(submissionId);
+  const solutionId = (await props.params).solution_id;
+  const resp = await getSubmission(solutionId);
 
   if (!resp) {
     return <div>Что-то пошло не так!</div>;
   }
 
-  const { submission } = resp;
+  const { solution } = resp;
 
-  const rows = [submission].map((submission) => (
-    <TableTr key={submission.id}>
+  const rows = [solution].map((solution) => (
+    <TableTr key={solution.id}>
       <TableTd ta="center">
-        <Text>{TimeBeautify(submission.created_at)}</Text>
+        <Text>{TimeBeautify(solution.created_at)}</Text>
       </TableTd>
       <TableTd ta="center">
         <Text
           component={Link}
-          href={`/users/${submission.user_id}`}
+          href={`/users/${solution.user_id}`}
           td="underline"
         >
-          {submission.username}
+          {solution.username}
         </Text>
       </TableTd>
       <TableTd ta="center">
         <Text
           component={Link}
-          href={`/contests/${submission.contest_id}/problems/${submission.problem_id}`}
+          href={`/contests/${solution.contest_id}/problems/${solution.problem_id}`}
           td="underline"
         >
-          {ProblemTitle(submission.position, submission.problem_title)}
+          {ProblemTitle(solution.position, solution.problem_title)}
         </Text>
       </TableTd>
       <TableTd ta="center">
-        <Text>{LangString(submission.language)}</Text>
+        <Text>{LangString(solution.language)}</Text>
       </TableTd>
       <TableTd ta="center">
-        <Text c={StateColor(submission.state)} fw={500}>
-          {StateString(submission.state)}
+        <Text c={StateColor(solution.state)} fw={500}>
+          {StateString(solution.state)}
         </Text>
       </TableTd>
       <TableTd ta="center">
-        <Text>{submission.time_stat} ms</Text>
+        <Text>{solution.time_stat} ms</Text>
       </TableTd>
       <TableTd ta="center">
-        <Text>{submission.memory_stat} KB</Text>
+        <Text>{solution.memory_stat} KB</Text>
       </TableTd>
     </TableTr>
   ));
@@ -103,8 +103,8 @@ const Page = async (props: Props) => {
           <Stack align="flex-start" w="100%">
             <Title order={2}>Код решения</Title>
             <CodeBlock
-              code={submission.submission}
-              language={LangNameToString(submission.language)}
+              code={solution.solution}
+              language={LangNameToString(solution.language)}
             />
           </Stack>
         </Stack>

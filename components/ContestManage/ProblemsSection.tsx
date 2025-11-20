@@ -58,7 +58,7 @@ export function ProblemsSection({
 
       try {
         setSearching(true);
-        const response = await searchProblems(debouncedQuery, "me");
+        const response = await searchProblems(debouncedQuery, true);
 
         setSearchResults(response?.problems || []);
       } catch (error) {
