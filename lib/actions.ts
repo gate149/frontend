@@ -197,8 +197,11 @@ export async function updateContest(
     contestId: string,
     data: {
         title?: string;
-        is_private?: boolean;
-        monitor_enabled?: boolean;
+        description?: string;
+        visibility?: string;
+        monitor_scope?: string;
+        submissions_list_scope?: string;
+        submissions_review_scope?: string;
     }
 ) {
     try {

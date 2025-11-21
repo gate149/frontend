@@ -123,7 +123,7 @@ const Page = async ({searchParams}: PageProps) => {
                 <Stack align="center" w="fit-content" m="auto" gap="16">
                     <Title>Мои посылки</Title>
                     <SubmissionsListWithWS
-                        initialSubmissions={submissionsData.submissions}
+                        initialSubmissions={submissionsData}
                         wsUrl={wsUrl}
                         token={token || ''}
                         queryParams={queryParams}

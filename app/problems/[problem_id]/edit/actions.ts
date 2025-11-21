@@ -18,7 +18,7 @@ export const UpdateProblem = async (
 ) => {
   try {
     // Build request object, only including defined and non-empty fields
-    const request: corev1.UpdateProblemRequest = {};
+    const request: corev1.UpdateProblemRequestModel = {};
     
     if (data.title !== undefined && data.title !== "") request.title = data.title;
     if (data.time_limit !== undefined) request.time_limit = data.time_limit;

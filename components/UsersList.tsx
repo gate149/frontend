@@ -21,8 +21,6 @@ type UsersListProps = {
   pagination: PaginationModel;
 };
 
-const roles = ["Студент", "Преподаватель", "Администратор"];
-
 const UsersList = ({ users, pagination }: UsersListProps) => {
   const getControlProps = (control: "first" | "previous" | "last" | "next") => {
     if (control === "next") {
@@ -54,7 +52,7 @@ const UsersList = ({ users, pagination }: UsersListProps) => {
     <TableTr key={user.id}>
       <TableTd>{user.username}</TableTd>
       {/*<TableTd>{user.email}</TableTd>*/}
-      <TableTd>{roles[user.role]}</TableTd>
+      <TableTd>{user.role}</TableTd>
       <TableTd>
         {
           <ActionIcon size="xs" component={Link} href={`/users/${user.id}`}>

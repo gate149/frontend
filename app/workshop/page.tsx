@@ -121,7 +121,6 @@ const WorshopPageContent = async ({
             <ContestsView
               page={page}
               search={search}
-              isAuthenticated={isAuthenticated}
             />
           </Suspense>
         )}

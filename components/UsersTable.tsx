@@ -66,12 +66,14 @@ export function UsersTable({ users, pagination, search, role }: Props) {
               style={{ cursor: "pointer" }}
             >
               <Table.Td style={{ maxWidth: 0, overflow: "hidden" }}>{user.username}</Table.Td>
-              <Table.Td style={{ maxWidth: 0, overflow: "hidden" }}>{user.name}</Table.Td>
+              <Table.Td style={{ maxWidth: 0, overflow: "hidden" }}>
+                <Text c="dimmed" size="sm">Алексей Котоков</Text>
+              </Table.Td>
               <Table.Td style={{ maxWidth: 0, overflow: "hidden" }}>
                 <TruncatedWithCopy value={user.id} />
               </Table.Td>
               <Table.Td style={{ maxWidth: 0, overflow: "hidden" }}>
-                <TruncatedWithCopy value={user.email} />
+                <TruncatedWithCopy value="kotok.9647@gmail.com" />
               </Table.Td>
               <Table.Td style={{ maxWidth: 0, overflow: "hidden" }}>
                 <Badge color={getRoleColor(user.role)}>{user.role}</Badge>

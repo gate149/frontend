@@ -1,6 +1,6 @@
 "use server";
 
-import { createSubmission } from "@/lib/actions";
+import { createSolution } from "@/lib/actions";
 import { LANGUAGE_MAP } from "@/lib/constants";
 
 export async function submitSubmission(
@@ -16,7 +16,7 @@ export async function submitSubmission(
   }
 
   try {
-    const response = await createSubmission(
+    const response = await createSolution(
       problemId,
       contestId,
       languageCode,

@@ -1,4 +1,4 @@
-import type { ContestModel, Problem } from "../../contracts/core/v1/core";
+import type { ContestModel, ProblemModel } from "../../contracts/core/v1";
 import type { SessionUser } from "./session";
 import type { ContestRole } from "./contest-role";
 
@@ -164,7 +164,7 @@ export class PermissionChecker {
 
   // Problem permissions
 
-  canViewProblem(problem: Problem): boolean {
+  canViewProblem(problem: ProblemModel): boolean {
     if (!this.isAuthenticated()) {
       return false;
     }
@@ -183,7 +183,7 @@ export class PermissionChecker {
     return this.isGlobalAdmin();
   }
 
-  canEditProblem(problem: Problem): boolean {
+  canEditProblem(problem: ProblemModel): boolean {
     if (!this.isAuthenticated()) {
       return false;
     }
@@ -197,7 +197,7 @@ export class PermissionChecker {
     return false;
   }
 
-  canDeleteProblem(problem: Problem): boolean {
+  canDeleteProblem(problem: ProblemModel): boolean {
     if (!this.isAuthenticated()) {
       return false;
     }

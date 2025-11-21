@@ -5,8 +5,14 @@ import {
   Button,
   Card,
   Stack,
-  Switch,
   TextInput,
+  Badge,
+  Combobox,
+  useCombobox,
+  InputBase,
+  Input,
+  Text,
+  Divider,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
@@ -20,6 +26,61 @@ interface SettingsSectionProps {
   contest: corev1.ContestModel;
 }
 
+const SCOPE_OPTIONS = [
+  { label: "Участник", value: "participant", color: "gray" },
+  { label: "Модератор", value: "moderator", color: "yellow" },
+  { label: "Создатель", value: "owner", color: "red" },
+];
+
+const VISIBILITY_OPTIONS = [
+  { label: "Публичный", value: "public", color: "green" },
+  { label: "Приватный", value: "private", color: "red" },
+];
+
+interface CustomSelectProps {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  options: typeof SCOPE_OPTIONS;
+  description?: string;
+}
+
+function CustomSelect({ label, value, onChange, options, description }: CustomSelectProps) {
+  const combobox = useCombobox({
+    onDropdownClose: () => combobox.resetSelectedOption(),
+  });
+
+  const selected = options.find(item => item.value === value);
+
+  return (
+    <Input.Wrapper label={label} description={description}>
+      <Combobox store={combobox} onOptionSubmit={(val) => { onChange(val); combobox.closeDropdown(); }}>
+        <Combobox.Target>
+          <InputBase
+            component="button"
+            type="button"
+            pointer
+            rightSection={<Combobox.Chevron />}
+            onClick={() => combobox.toggleDropdown()}
+            rightSectionPointerEvents="none"
+          >
+            {selected && <Badge color={selected.color} variant="filled" tt="none">{selected.label}</Badge>}
+          </InputBase>
+        </Combobox.Target>
+        <Combobox.Dropdown>
+          <Combobox.Options>
+            {options.map((item) => (
+              <Combobox.Option value={item.value} key={item.value}>
+                <Badge color={item.color} variant="filled" tt="none">{item.label}</Badge>
+              </Combobox.Option>
+            ))}
+          </Combobox.Options>
+        </Combobox.Dropdown>
+      </Combobox>
+    </Input.Wrapper>
+  );
+}
+
 export function SettingsSection({ contest }: SettingsSectionProps) {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
@@ -27,28 +88,24 @@ export function SettingsSection({ contest }: SettingsSectionProps) {
   const form = useForm({
     initialValues: {
       title: contest.title,
-      is_private: contest.is_private,
-      monitor_enabled: contest.monitor_enabled,
+      description: contest.description,
+      visibility: contest.visibility,
+      monitor_scope: contest.monitor_scope,
+      submissions_list_scope: contest.submissions_list_scope,
+      submissions_review_scope: contest.submissions_review_scope,
     },
   });
 
   const handleSave = async (values: typeof form.values) => {
     try {
       setSaving(true);
-
-      await updateContest(contest.id, {
-        title: values.title,
-        is_private: values.is_private,
-        monitor_enabled: values.monitor_enabled,
-      });
-
+      await updateContest(contest.id, values);
       notifications.show({
         title: "Успешно",
         message: "Настройки контеста обновлены",
         color: "green",
         icon: <IconCheck size={16} />,
       });
-
       router.refresh();
     } catch (error) {
       console.error("Failed to update contest:", error);
@@ -74,16 +131,44 @@ export function SettingsSection({ contest }: SettingsSectionProps) {
             {...form.getInputProps("title")}
           />
 
-          <Switch
-            label="Приватный контест"
-            description="Только пользователи с доступом смогут видеть этот контест"
-            {...form.getInputProps("is_private", { type: "checkbox" })}
+          <TextInput
+            label="Описание"
+            placeholder="Введите описание контеста"
+            {...form.getInputProps("description")}
           />
 
-          <Switch
-            label="Монитор включен"
-            description="Все участники могут видеть таблицу результатов"
-            {...form.getInputProps("monitor_enabled", { type: "checkbox" })}
+          <CustomSelect
+            label="Видимость"
+            value={form.values.visibility}
+            onChange={(value) => form.setFieldValue('visibility', value)}
+            options={VISIBILITY_OPTIONS}
+          />
+
+          <Divider my="sm" />
+          
+          <Text size="sm" c="dimmed" mb="md">
+            Следующие настройки определяют минимальную роль пользователя для доступа к различным функциям контеста
+          </Text>
+
+          <CustomSelect
+            label="Доступ к монитору"
+            value={form.values.monitor_scope}
+            onChange={(value) => form.setFieldValue('monitor_scope', value)}
+            options={SCOPE_OPTIONS}
+          />
+
+          <CustomSelect
+            label="Просмотр списка посылок"
+            value={form.values.submissions_list_scope}
+            onChange={(value) => form.setFieldValue('submissions_list_scope', value)}
+            options={SCOPE_OPTIONS}
+          />
+
+          <CustomSelect
+            label="Просмотр кода посылок"
+            value={form.values.submissions_review_scope}
+            onChange={(value) => form.setFieldValue('submissions_review_scope', value)}
+            options={SCOPE_OPTIONS}
           />
 
           <Button type="submit" loading={saving} fullWidth color={APP_COLORS.contests}>

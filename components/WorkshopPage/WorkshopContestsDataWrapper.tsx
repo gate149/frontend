@@ -17,7 +17,7 @@ type Props = {
 
 export function WorkshopContestsDataWrapper({ contests, pagination, search }: Props) {
   const searchParams = useSearchParams();
-  const totalPages = Math.ceil((pagination.total || 0) / (pagination.page_size || 10));
+  const totalPages = pagination.total || 1;
 
   if (contests.length === 0) {
     return (
