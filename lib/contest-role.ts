@@ -1,5 +1,7 @@
 "use server";
 
+import { Call } from "./api";
+
 /**
  * Contest role types
  * Hierarchy: owner > moderator > participant
@@ -13,17 +15,26 @@ export type ContestRoleResponse = {
 /**
  * Get the current user's role in a specific contest
  * 
- * TODO: Implement real API call when backend is ready
- * 
  * @param contestId - The UUID of the contest
  * @returns The user's role in the contest, or null if not a participant
  */
 export async function getMyContestRole(contestId: string): Promise<ContestRoleResponse> {
-  // TODO: Replace with actual API call to backend
-  // Example: const response = await Call((client) => client.getMyContestRole({ contestId }));
-  
-  // Temporary: All authenticated users are considered participants
-  // This allows the UI to work while the backend endpoint is being developed
-  return { role: "participant" };
+  try {
+    const response = await Call((client) =>
+      client.default.getMyContestRole({ contestId })
+    );
+    
+    // Validate that the role is one of the expected values
+    const role = response.role as ContestRole;
+    if (role === "owner" || role === "moderator" || role === "participant") {
+      return { role };
+    }
+    
+    // If role is not recognized, treat as no role
+    return null;
+  } catch (error) {
+    // User is not a participant or not authenticated
+    return null;
+  }
 }
 

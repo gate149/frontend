@@ -27,6 +27,17 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import type * as corev1 from "../../../contracts/core/v1";
 
+const ROLE_OPTIONS = [
+  { label: "Участник", value: "participant", color: "gray" },
+  { label: "Модератор", value: "moderator", color: "yellow" },
+  { label: "Создатель", value: "owner", color: "red" },
+];
+
+function getRoleDisplay(role: string) {
+  const roleOption = ROLE_OPTIONS.find(r => r.value === role);
+  return roleOption || { label: role, color: "gray" };
+}
+
 interface ParticipantsSectionProps {
   contestId: string;
 }
@@ -213,8 +224,8 @@ export function ParticipantsSection({ contestId }: ParticipantsSectionProps) {
             <Table highlightOnHover>
               <Table.Thead>
                 <Table.Tr>
-                  <Table.Th>Пользователь</Table.Th>
-                  <Table.Th>Роль</Table.Th>
+                  <Table.Th style={{ width: 140 }}>Пользователь</Table.Th>
+                  <Table.Th style={{ textAlign: 'center' }}>Роль</Table.Th>
                   <Table.Th style={{ width: 80 }}>Действия</Table.Th>
                 </Table.Tr>
               </Table.Thead>
@@ -229,18 +240,14 @@ export function ParticipantsSection({ contestId }: ParticipantsSectionProps) {
                         {user.user_id.toString().slice(0, 8)}
                       </Text>
                     </Table.Td>
-                    <Table.Td>
+                    <Table.Td style={{ textAlign: 'center' }}>
                       <Badge
-                        variant="light"
-                        color={
-                          user.role === "admin"
-                            ? "red"
-                            : user.role === "teacher"
-                            ? "blue"
-                            : "gray"
-                        }
+                        variant="filled"
+                        color={getRoleDisplay(user.contest_role).color}
+                        tt="none"
+                        size="md"
                       >
-                        {user.role}
+                        {getRoleDisplay(user.contest_role).label}
                       </Badge>
                     </Table.Td>
                     <Table.Td>

@@ -50,11 +50,11 @@ const Page = async ({ params }: Props) => {
     <DefaultLayout>
       <Profile 
         username={userData.user.username}
-        email={userData.user.email}
-        name={userData.user.name}
-        surname={userData.user.surname}
+        email={"kotok.9647@gmail.com"}
+        name={"Алексей"}
+        surname={"Котоков"}
         role={userData.user.role}
-        avatarlink={userData.user.avatarlink}
+        avatarlink={"/images/avatar.png"}
       />
     </DefaultLayout>
   );
