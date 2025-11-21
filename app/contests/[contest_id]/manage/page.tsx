@@ -1,12 +1,11 @@
 import {ParticipantsSection} from "@/components/ContestManage/ParticipantsSection";
-import {PermissionsSection} from "@/components/ContestManage/PermissionsSection";
 import {ProblemsSection} from "@/components/ContestManage/ProblemsSection";
 import {SettingsSection} from "@/components/ContestManage/SettingsSection";
 import {DefaultLayout} from "@/components/Layout";
 import {Call} from "@/lib/api";
 import {CONTEST_CONTENT_MAX_WIDTH} from "@/lib/constants";
 import {Box, Button, Container, Group, Stack, Title} from "@mantine/core";
-import {IconArrowLeft, IconLock, IconPuzzle, IconSettings, IconUsers} from "@tabler/icons-react";
+import {IconArrowLeft, IconPuzzle, IconSettings, IconUsers} from "@tabler/icons-react";
 import Link from "next/link";
 import {notFound} from "next/navigation";
 import type {ContestModel, ContestProblemListItemModel,} from "../../../../../contracts/core/v1";
@@ -16,7 +15,6 @@ const SECTIONS = {
     SETTINGS: "settings",
     PROBLEMS: "problems",
     PARTICIPANTS: "participants",
-    PERMISSIONS: "permissions",
 } as const;
 
 type Section = typeof SECTIONS[keyof typeof SECTIONS];
@@ -37,11 +35,6 @@ const NAV_SECTIONS = [
         key: SECTIONS.PARTICIPANTS,
         label: "Участники",
         icon: IconUsers,
-    },
-    {
-        key: SECTIONS.PERMISSIONS,
-        label: "Права доступа",
-        icon: IconLock,
     },
 ] as const;
 
@@ -147,9 +140,6 @@ export default async function ContestManagePage({params, searchParams}: Props) {
                     )}
                     {activeSection === SECTIONS.PARTICIPANTS && (
                         <ParticipantsSection contestId={contestId}/>
-                    )}
-                    {activeSection === SECTIONS.PERMISSIONS && (
-                        <PermissionsSection contestId={contestId}/>
                     )}
                 </Box>
             </Container>

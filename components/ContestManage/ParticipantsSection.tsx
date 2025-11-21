@@ -5,6 +5,7 @@ import {
   getContestMembers,
   removeContestMember,
   searchUsers,
+  updateContestMemberRole,
 } from "@/lib/actions";
 import {
   ActionIcon,
@@ -21,11 +22,12 @@ import {
   Text,
 } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
-import { notifications } from "@mantine/notifications";
-import { IconCheck, IconPlus, IconTrash, IconX } from "@tabler/icons-react";
+import { IconEdit, IconPlus, IconTrash } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import type * as corev1 from "../../../contracts/core/v1";
+import { ChangeRoleModal } from "./ChangeRoleModal";
+import { StatusMessage } from "@/components/StatusMessage";
 
 const ROLE_OPTIONS = [
   { label: "Участник", value: "participant", color: "gray" },
@@ -56,6 +58,17 @@ export function ParticipantsSection({ contestId }: ParticipantsSectionProps) {
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [adding, setAdding] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+
+  const [editingParticipant, setEditingParticipant] = useState<{
+    username: string;
+    userId: string;
+    currentRole: string;
+  } | null>(null);
+  const [modalOpened, setModalOpened] = useState(false);
+  const [statusMessage, setStatusMessage] = useState<{
+    type: "success" | "error";
+    message: string;
+  } | null>(null);
 
   const pageSize = 10;
 
@@ -110,11 +123,9 @@ export function ParticipantsSection({ contestId }: ParticipantsSectionProps) {
 
       await addContestMember(contestId, selectedUserId);
 
-      notifications.show({
-        title: "Успешно",
+      setStatusMessage({
+        type: "success",
         message: "Участник добавлен",
-        color: "green",
-        icon: <IconCheck size={16} />,
       });
 
       setSearchQuery("");
@@ -123,11 +134,9 @@ export function ParticipantsSection({ contestId }: ParticipantsSectionProps) {
       router.refresh();
     } catch (error) {
       console.error("Failed to add participant:", error);
-      notifications.show({
-        title: "Ошибка",
+      setStatusMessage({
+        type: "error",
         message: "Не удалось добавить участника",
-        color: "red",
-        icon: <IconX size={16} />,
       });
     } finally {
       setAdding(false);
@@ -140,24 +149,64 @@ export function ParticipantsSection({ contestId }: ParticipantsSectionProps) {
 
       await removeContestMember(contestId, userId);
 
-      notifications.show({
-        title: "Успешно",
+      setStatusMessage({
+        type: "success",
         message: "Участник удален",
-        color: "green",
-        icon: <IconCheck size={16} />,
       });
 
       router.refresh();
     } catch (error) {
       console.error("Failed to delete participant:", error);
-      notifications.show({
-        title: "Ошибка",
+      setStatusMessage({
+        type: "error",
         message: "Не удалось удалить участника",
-        color: "red",
-        icon: <IconX size={16} />,
       });
     } finally {
       setDeletingId(null);
+    }
+  };
+
+  const handleEditRole = (user: corev1.ContestMemberModel) => {
+    setEditingParticipant({
+      username: user.username,
+      userId: user.user_id,
+      currentRole: user.contest_role,
+    });
+    setModalOpened(true);
+  };
+
+  const handleChangeRole = async (newRole: string) => {
+    if (!editingParticipant) return;
+
+    try {
+      await updateContestMemberRole(
+        contestId,
+        editingParticipant.userId,
+        newRole
+      );
+
+      setModalOpened(false);
+      
+      // Небольшая задержка перед показом сообщения
+      setTimeout(() => {
+        setStatusMessage({
+          type: "success",
+          message: "Роль обновлена успешно",
+        });
+      }, 50);
+
+      router.refresh();
+    } catch (error) {
+      console.error("Failed to change role:", error);
+      setModalOpened(false);
+      
+      // Небольшая задержка перед показом сообщения
+      setTimeout(() => {
+        setStatusMessage({
+          type: "error",
+          message: "Произошла ошибка",
+        });
+      }, 200);
     }
   };
 
@@ -236,9 +285,6 @@ export function ParticipantsSection({ contestId }: ParticipantsSectionProps) {
                       <Text size="sm" fw={500}>
                         {user.username}
                       </Text>
-                      <Text size="xs" c="dimmed">
-                        {user.user_id.toString().slice(0, 8)}
-                      </Text>
                     </Table.Td>
                     <Table.Td style={{ textAlign: 'center' }}>
                       <Badge
@@ -251,14 +297,27 @@ export function ParticipantsSection({ contestId }: ParticipantsSectionProps) {
                       </Badge>
                     </Table.Td>
                     <Table.Td>
-                      <ActionIcon
-                        color="red"
-                        variant="subtle"
-                        onClick={() => handleDeleteParticipant(user.user_id)}
-                        loading={deletingId === user.user_id}
-                      >
-                        <IconTrash size={16} />
-                      </ActionIcon>
+                      <Group gap="xs" wrap="nowrap">
+                        {user.contest_role !== "owner" ? (
+                          <ActionIcon
+                            color="blue"
+                            variant="subtle"
+                            onClick={() => handleEditRole(user)}
+                          >
+                            <IconEdit size={16} />
+                          </ActionIcon>
+                        ) : (
+                          <div style={{ width: 28 }} />
+                        )}
+                        <ActionIcon
+                          color="red"
+                          variant="subtle"
+                          onClick={() => handleDeleteParticipant(user.user_id)}
+                          loading={deletingId === user.user_id}
+                        >
+                          <IconTrash size={16} />
+                        </ActionIcon>
+                      </Group>
                     </Table.Td>
                   </Table.Tr>
                 ))}
@@ -277,6 +336,26 @@ export function ParticipantsSection({ contestId }: ParticipantsSectionProps) {
           </Stack>
         )}
       </Stack>
+
+      {editingParticipant && (
+        <ChangeRoleModal
+          opened={modalOpened}
+          onClose={() => setModalOpened(false)}
+          participant={{
+            username: editingParticipant.username,
+            userId: editingParticipant.userId,
+          }}
+          currentRole={editingParticipant.currentRole}
+          onSubmit={handleChangeRole}
+        />
+      )}
+
+      <StatusMessage
+        type={statusMessage?.type || "success"}
+        message={statusMessage?.message || ""}
+        opened={!!statusMessage}
+        onClose={() => setStatusMessage(null)}
+      />
     </Card>
   );
 }
