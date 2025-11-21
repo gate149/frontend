@@ -12,6 +12,8 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ContestHotbar } from "@/components/ContestHotbar";
 import { SubmitSubmissionClient } from "./SubmitSubmissionClient";
+import { getCurrentUser } from "@/lib/session";
+import { getMyContestRole } from "@/lib/contest-role";
 
 type Props = {
   params: Promise<{ contest_id: string }>;
@@ -54,6 +56,10 @@ const Page = async ({ params }: Props) => {
       notFound();
     }
 
+    // Get user and contest role for permissions
+    const user = await getCurrentUser();
+    const contestRole = user ? await getMyContestRole(contest_id) : null;
+
     return (
       <Layout>
         <AppShellHeader>
@@ -67,7 +73,9 @@ const Page = async ({ params }: Props) => {
             px={{ base: "xs", sm: "md", md: "lg" }}
           >
             <ContestHotbar 
-              contest={response.contest} 
+              contest={response.contest}
+              user={user}
+              contestRole={contestRole}
               activeTab="submit"
             />
             <SubmitSubmissionClient 

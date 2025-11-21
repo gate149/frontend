@@ -20,6 +20,8 @@ import type {
 } from "../../../../contracts/core/v1";
 import { ContestProblemsTable } from "./ContestProblemsTable";
 import { ContestHotbar } from "@/components/ContestHotbar";
+import { getCurrentUser } from "@/lib/session";
+import { getMyContestRole } from "@/lib/contest-role";
 
 type Props = {
   params: Promise<{ contest_id: string }>;
@@ -48,9 +50,11 @@ export const generateMetadata = async ({
 type ContestProps = {
   contest: ContestModel;
   problems: Array<ContestProblemListItemModel>;
+  user: Awaited<ReturnType<typeof getCurrentUser>>;
+  contestRole: Awaited<ReturnType<typeof getMyContestRole>>;
 };
 
-const Contest = ({ contest, problems }: ContestProps) => {
+const Contest = ({ contest, problems, user, contestRole }: ContestProps) => {
   return (
     <Layout>
       <AppShellHeader>
@@ -64,7 +68,12 @@ const Contest = ({ contest, problems }: ContestProps) => {
           px={{ base: "xs", sm: "md", md: "lg" }}
         >
           {/* Header Section */}
-          <ContestHotbar contest={contest} activeTab="tasks" showManageButton={true} />
+          <ContestHotbar 
+            contest={contest} 
+            user={user}
+            contestRole={contestRole}
+            activeTab="tasks" 
+          />
 
           {/* Tasks Section */}
           {problems.length === 0 ? (
@@ -108,10 +117,16 @@ const Page = async ({ params }: Props) => {
       notFound();
     }
 
+    // Get user and contest role for permissions
+    const user = await getCurrentUser();
+    const contestRole = user ? await getMyContestRole(contest_id) : null;
+
     return (
       <Contest 
         contest={response.contest} 
-        problems={response.problems || []} 
+        problems={response.problems || []}
+        user={user}
+        contestRole={contestRole}
       />
     );
   } catch (error) {

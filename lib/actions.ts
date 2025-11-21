@@ -1,6 +1,6 @@
 "use server";
 
-import { ListSubmissionsResponseModel, SubmissionsListItemModel } from '../../contracts/core/v1';
+import { ListContestMembersResponseModel, ListSubmissionsResponseModel, ListUsersResponseModel, SubmissionsListItemModel } from '../../contracts/core/v1';
 import {Call} from './api';
 
 export async function getContests(page: number = 1, pageSize: number = 10, search?: string, owner?: boolean) {
@@ -109,13 +109,13 @@ export async function getContestProblem(problemId: string, contestId: string) {
     }
 }
 
-export async function getParticipants(contestId: string, page: number = 1, pageSize: number = 10) {
+export async function getContestMembers(contestId: string, page: number = 1, pageSize: number = 10): Promise<ListContestMembersResponseModel> {
     try {
-        const response = await Call((client) => client.default.listParticipants({contestId, page, pageSize}));
+        const response = await Call((client) => client.default.listContestMembers({contestId, page, pageSize}));
         return response;
     } catch (error) {
         console.error('Failed to fetch participants:', error);
-        return null;
+        return {members: [], pagination: {page: 1, total: 0}};
     }
 }
 
@@ -245,14 +245,14 @@ export async function removeContestProblem(
     }
 }
 
-export async function addContestParticipant(
+export async function addContestMember(
     contestId: string,
     userId: string
 ) {
     try {
         console.log('📤 Adding participant to contest:', {contestId, userId});
         const response = await Call((client) =>
-            client.default.createParticipant({contestId, userId})
+            client.default.createContestMember({contestId, userId})
         );
         return response;
     } catch (error) {
@@ -261,14 +261,14 @@ export async function addContestParticipant(
     }
 }
 
-export async function removeContestParticipant(
+export async function removeContestMember(
     contestId: string,
     userId: string
 ) {
     try {
         console.log('📤 Removing participant from contest:', {contestId, userId});
         const response = await Call((client) =>
-            client.default.deleteParticipant({userId, contestId})
+            client.default.deleteContestMember({userId, contestId})
         );
         return response;
     } catch (error) {
@@ -303,7 +303,7 @@ export async function searchProblems(title: string, owner?: boolean) {
 }
 
 // NOTE: duplicate of listUsers
-export async function searchUsers(search: string) {
+export async function searchUsers(search: string): Promise<ListUsersResponseModel> {
     try {
         const response = await Call((client) =>
             client.default.listUsers({
@@ -315,7 +315,7 @@ export async function searchUsers(search: string) {
         return response;
     } catch (error) {
         console.error('Failed to search users:', error);
-        return null;
+        return {users: [], pagination: {page: 1, total: 0}};
     }
 }
 

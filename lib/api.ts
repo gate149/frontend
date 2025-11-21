@@ -1,9 +1,15 @@
 "use server";
 
+import { cache } from "react";
 import { cookies } from "next/headers";
 import { core } from "../../contracts/core/v1";
 
-export async function getOrySession() {
+/**
+ * Get Ory Kratos session for the current user
+ * Wrapped in React cache() to avoid duplicate requests during SSR
+ * Multiple calls within the same render will return the cached result
+ */
+export const getOrySession = cache(async () => {
   try {
     const { FrontendApi, Configuration } = await import("@ory/client");
     const cookieStore = await cookies();
@@ -40,7 +46,7 @@ export async function getOrySession() {
     return null;
   }
   return null;
-}
+});
 
 const oryKratosCookieName = "ory_kratos_session";
 

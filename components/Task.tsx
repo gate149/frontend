@@ -24,6 +24,8 @@ import {Footer} from "@/components/Footer";
 import {RecentSubmissionsTable} from "@/components/RecentSubmissionsTable";
 import {submitSubmission} from "@/app/contests/[contest_id]/problems/[problem_id]/actions";
 import {ContestHotbar} from "@/components/ContestHotbar";
+import type {SessionUser} from "@/lib/session";
+import type {ContestRole} from "@/lib/contest-role";
 
 type PageProps = {
     tasks: ContestProblemListItemModel[]
@@ -32,10 +34,12 @@ type PageProps = {
     submissions: SubmissionsListItemModel[],
     problemId: string,
     contestId: string,
+    user: SessionUser,
+    contestRole: { role: ContestRole } | null,
     header: React.ReactNode
 }
 
-const Task = ({tasks, contest, task, submissions, problemId, contestId, header}: PageProps) => {
+const Task = ({tasks, contest, task, submissions, problemId, contestId, user, contestRole, header}: PageProps) => {
     const onSubmit = async (
         submission: FormData,
         language: string
@@ -84,7 +88,11 @@ const Task = ({tasks, contest, task, submissions, problemId, contestId, header}:
                     {/* Main Content */}
                     <Box style={{ flex: 1 }}>
                         <Container size="lg">
-                            <ContestHotbar contest={contest} showManageButton={false} />
+                            <ContestHotbar 
+                                contest={contest}
+                                user={user}
+                                contestRole={contestRole}
+                            />
                             <Problem problem={task} letter={numberToLetters(task.position)}/>
                         </Container>
                     </Box>

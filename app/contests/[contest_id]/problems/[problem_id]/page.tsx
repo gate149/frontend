@@ -9,6 +9,8 @@ import { HeaderWithSession } from "@/components/HeaderWithSession";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Task } from "@/components/Task";
+import { getCurrentUser } from "@/lib/session";
+import { getMyContestRole } from "@/lib/contest-role";
 
 type Props = {
   params: Promise<{ contest_id: string; problem_id: string }>;
@@ -44,7 +46,7 @@ const generateMetadata = async (props: Props): Promise<Metadata> => {
 const Page = async (props: Props) => {
   const params = await props.params;
 
-  const [problemResponse, contestResponse, submissionsResponse] =
+  const [problemResponse, contestResponse, submissionsResponse, user] =
     await Promise.all([
       getCachedContestProblem(params.problem_id, params.contest_id),
       getContest(params.contest_id),
@@ -54,11 +56,15 @@ const Page = async (props: Props) => {
         contestId: params.contest_id,
         order: -1,
       }),
+      getCurrentUser(),
     ]);
 
   if (!problemResponse?.problem || !contestResponse?.contest) {
     notFound();
   }
+
+  // Get contest role for permissions
+  const contestRole = user ? await getMyContestRole(params.contest_id) : null;
 
   // Handle submissions - if null or error, use empty array
   // This can happen if user is not synced in backend DB yet
@@ -72,6 +78,8 @@ const Page = async (props: Props) => {
       submissions={submissions}
       problemId={params.problem_id}
       contestId={params.contest_id}
+      user={user}
+      contestRole={contestRole}
       header={<HeaderWithSession />}
     />
   );

@@ -6,6 +6,8 @@ import {DefaultLayout} from '@/components/Layout';
 import {NextPagination} from '@/components/Pagination';
 import {SubmissionsListWithWS} from '@/components/SubmissionsList';
 import {ContestHotbar} from '@/components/ContestHotbar';
+import { getCurrentUser } from '@/lib/session';
+import { getMyContestRole } from '@/lib/contest-role';
 
 export const metadata: Metadata = {
     title: 'Мои посылки',
@@ -99,8 +101,12 @@ const Page = async ({searchParams}: PageProps) => {
 
     // Load contest if contestId is provided
     let contestData = null;
+    const user = await getCurrentUser();
+    let contestRole = null;
+    
     if (params.contestId) {
         contestData = await getContest(String(params.contestId));
+        contestRole = user ? await getMyContestRole(String(params.contestId)) : null;
     }
 
     return (
@@ -108,9 +114,10 @@ const Page = async ({searchParams}: PageProps) => {
             <Container size="lg" pt="md" pb="xl">
                 {contestData?.contest && (
                     <ContestHotbar 
-                        contest={contestData.contest} 
-                        activeTab="mysubmissions" 
-                        showManageButton={false}
+                        contest={contestData.contest}
+                        user={user}
+                        contestRole={contestRole}
+                        activeTab="mysubmissions"
                     />
                 )}
                 <Stack align="center" w="fit-content" m="auto" gap="16">

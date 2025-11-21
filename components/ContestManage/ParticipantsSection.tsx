@@ -1,9 +1,9 @@
 "use client";
 
 import {
-  addContestParticipant,
-  getParticipants,
-  removeContestParticipant,
+  addContestMember,
+  getContestMembers,
+  removeContestMember,
   searchUsers,
 } from "@/lib/actions";
 import {
@@ -33,7 +33,7 @@ interface ParticipantsSectionProps {
 
 export function ParticipantsSection({ contestId }: ParticipantsSectionProps) {
   const router = useRouter();
-  const [participants, setParticipants] = useState<corev1.UserModel[]>([]);
+  const [participants, setParticipants] = useState<corev1.ContestMemberModel[]>([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -53,9 +53,9 @@ export function ParticipantsSection({ contestId }: ParticipantsSectionProps) {
     const loadParticipants = async () => {
       try {
         setLoading(true);
-        const response = await getParticipants(contestId, page, pageSize);
+        const response = await getContestMembers(contestId, page, pageSize);
 
-        setParticipants(response?.users || []);
+        setParticipants(response.members);
         const total = response?.pagination?.total || 0;
         setTotalPages(Math.ceil(total / pageSize));
       } catch (error) {
@@ -80,7 +80,7 @@ export function ParticipantsSection({ contestId }: ParticipantsSectionProps) {
         setSearching(true);
         const response = await searchUsers(debouncedQuery);
 
-        setSearchResults(response?.users || []);
+        setSearchResults(response.users);
       } catch (error) {
         console.error("Failed to search users:", error);
       } finally {
@@ -97,7 +97,7 @@ export function ParticipantsSection({ contestId }: ParticipantsSectionProps) {
     try {
       setAdding(true);
 
-      await addContestParticipant(contestId, selectedUserId);
+      await addContestMember(contestId, selectedUserId);
 
       notifications.show({
         title: "Успешно",
@@ -127,7 +127,7 @@ export function ParticipantsSection({ contestId }: ParticipantsSectionProps) {
     try {
       setDeletingId(userId);
 
-      await removeContestParticipant(contestId, userId);
+      await removeContestMember(contestId, userId);
 
       notifications.show({
         title: "Успешно",
@@ -220,13 +220,13 @@ export function ParticipantsSection({ contestId }: ParticipantsSectionProps) {
               </Table.Thead>
               <Table.Tbody>
                 {participants.map((user) => (
-                  <Table.Tr key={user.id}>
+                  <Table.Tr key={user.user_id}>
                     <Table.Td>
                       <Text size="sm" fw={500}>
                         {user.username}
                       </Text>
                       <Text size="xs" c="dimmed">
-                        {user.id.toString().slice(0, 8)}
+                        {user.user_id.toString().slice(0, 8)}
                       </Text>
                     </Table.Td>
                     <Table.Td>
@@ -247,8 +247,8 @@ export function ParticipantsSection({ contestId }: ParticipantsSectionProps) {
                       <ActionIcon
                         color="red"
                         variant="subtle"
-                        onClick={() => handleDeleteParticipant(user.id)}
-                        loading={deletingId === user.id}
+                        onClick={() => handleDeleteParticipant(user.user_id)}
+                        loading={deletingId === user.user_id}
                       >
                         <IconTrash size={16} />
                       </ActionIcon>

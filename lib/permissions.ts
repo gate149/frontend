@@ -1,4 +1,6 @@
-import type { ContestModel, Problem, User } from "../../contracts/core/v1/core";
+import type { ContestModel, Problem } from "../../contracts/core/v1/core";
+import type { SessionUser } from "./session";
+import type { ContestRole } from "./contest-role";
 
 /**
  * Permission checker utilities for frontend
@@ -6,11 +8,32 @@ import type { ContestModel, Problem, User } from "../../contracts/core/v1/core";
  * Backend always performs authoritative permission checks
  */
 
-export class PermissionChecker {
-  private user: User | null;
+export type ContestScope = "owner" | "moderator" | "participant";
 
-  constructor(user: User | null) {
+// Иерархия ролей: owner > moderator > participant
+const ROLE_HIERARCHY: Record<ContestRole, number> = {
+  owner: 3,
+  moderator: 2,
+  participant: 1,
+};
+
+/**
+ * Check if user's role meets the required scope
+ * @param userRole - User's role in the contest
+ * @param requiredScope - Required scope/permission level
+ * @returns true if user has required role or higher
+ */
+function hasRequiredRole(userRole: ContestRole, requiredScope: ContestScope): boolean {
+  return ROLE_HIERARCHY[userRole] >= ROLE_HIERARCHY[requiredScope];
+}
+
+export class PermissionChecker {
+  private user: SessionUser;
+  private contestRole: ContestRole | null;
+
+  constructor(user: SessionUser, contestRole: ContestRole | null = null) {
     this.user = user;
+    this.contestRole = contestRole;
   }
 
   isAuthenticated(): boolean {
@@ -21,65 +44,122 @@ export class PermissionChecker {
     return this.user?.role === "admin";
   }
 
-  // ContestModel permissions
+  // Contest permissions
 
   canViewContest(contest: ContestModel): boolean {
     if (!this.isAuthenticated()) {
       return false;
     }
 
-    // Public contests can be viewed by any authenticated user
-    if (!contest.is_private) {
-      return true;
-    }
-
-    // Private contests - need to check role (will be checked by backend)
-    // For UI purposes, show if user is admin
-    return this.isGlobalAdmin();
-  }
-
-  canEditContest(contest: ContestModel): boolean {
-    if (!this.isAuthenticated()) {
-      return false;
-    }
-
-    // Global admin can edit any contest
+    // Global admin can view any contest
     if (this.isGlobalAdmin()) {
       return true;
     }
 
-    // For now, assume backend will check if user is owner/moderator
-    // This is a conservative check for UI purposes
-    return false;
+    // For now, allow authenticated users to view contests
+    // Backend will enforce actual visibility rules
+    return true;
   }
 
-  canDeleteContest(contest: ContestModel): boolean {
-    if (!this.isAuthenticated()) {
+  canViewProblems(contest: ContestModel): boolean {
+    // Global admin всегда может
+    if (this.isGlobalAdmin()) {
+      return true;
+    }
+
+    // TODO: Когда появится problems_view_scope в backend:
+    // if (!this.contestRole) return false;
+    // return hasRequiredRole(this.contestRole, contest.problems_view_scope as ContestScope);
+
+    // Временно: все authenticated могут просматривать задачи
+    return this.isAuthenticated();
+  }
+
+  canSubmitSolution(contest: ContestModel): boolean {
+    // Global admin всегда может
+    if (this.isGlobalAdmin()) {
+      return true;
+    }
+
+    // TODO: Когда появится problems_view_scope в backend:
+    // if (!this.contestRole) return false;
+    // return hasRequiredRole(this.contestRole, contest.problems_view_scope as ContestScope);
+
+    // Временно: все authenticated могут отправлять решения
+    return this.isAuthenticated();
+  }
+
+  canViewMySubmissions(contest: ContestModel): boolean {
+    // Global admin всегда может
+    if (this.isGlobalAdmin()) {
+      return true;
+    }
+
+    // TODO: Когда появится problems_view_scope в backend:
+    // if (!this.contestRole) return false;
+    // return hasRequiredRole(this.contestRole, contest.problems_view_scope as ContestScope);
+
+    // Временно: все authenticated могут просматривать свои посылки
+    return this.isAuthenticated();
+  }
+
+  canViewAllSubmissions(contest: ContestModel): boolean {
+    // Global admin всегда может
+    if (this.isGlobalAdmin()) {
+      return true;
+    }
+
+    // Проверяем роль в контесте
+    if (!this.contestRole) {
       return false;
     }
 
-    // Only admin can delete (conservative check)
-    return this.isGlobalAdmin();
-  }
-
-  canManageContestParticipants(contest: ContestModel): boolean {
-    // Same as edit for now
-    return this.canEditContest(contest);
+    // Проверяем соответствие роли требуемому scope
+    return hasRequiredRole(this.contestRole, contest.submissions_list_scope as ContestScope);
   }
 
   canViewMonitor(contest: ContestModel): boolean {
-    if (!this.isAuthenticated()) {
+    // Global admin всегда может
+    if (this.isGlobalAdmin()) {
+      return true;
+    }
+
+    // Проверяем роль в контесте
+    if (!this.contestRole) {
       return false;
     }
 
-    // If monitor is disabled, only admin/owner/moderator can view
-    // For UI purposes, show if user is admin or monitor is enabled
-    if (!contest.monitor_enabled) {
-      return this.isGlobalAdmin();
+    // Проверяем соответствие роли требуемому scope
+    return hasRequiredRole(this.contestRole, contest.monitor_scope as ContestScope);
+  }
+
+  canManageContest(contest: ContestModel): boolean {
+    // Global admin всегда может управлять
+    if (this.isGlobalAdmin()) {
+      return true;
     }
 
-    // If monitor is enabled, any participant can view
-    return true;
+    // Проверяем роль в контесте - только owner или moderator
+    if (!this.contestRole) {
+      return false;
+    }
+
+    return this.contestRole === "owner" || this.contestRole === "moderator";
+  }
+
+  canDeleteContest(contest: ContestModel): boolean {
+    // Global admin can delete
+    if (this.isGlobalAdmin()) {
+      return true;
+    }
+
+    // Only contest owner can delete
+    return this.contestRole === "owner";
+  }
+
+  canManageContestParticipants(contest: ContestModel): boolean {
+    // Same as manage for now
+    return this.canManageContest(contest);
   }
 
   // Problem permissions
@@ -87,6 +167,11 @@ export class PermissionChecker {
   canViewProblem(problem: Problem): boolean {
     if (!this.isAuthenticated()) {
       return false;
+    }
+
+    // Global admin can view any problem
+    if (this.isGlobalAdmin()) {
+      return true;
     }
 
     // Public problems can be viewed by any authenticated user
@@ -150,9 +235,9 @@ export class PermissionChecker {
 /**
  * Create permission checker instance from user data
  */
-export function createPermissionChecker(user: User | null): PermissionChecker {
-  return new PermissionChecker(user);
+export function createPermissionChecker(
+  user: SessionUser,
+  contestRole: ContestRole | null = null
+): PermissionChecker {
+  return new PermissionChecker(user, contestRole);
 }
-
-
-
