@@ -13,7 +13,7 @@ import { getCurrentUser } from "@/lib/session";
 import { getMyContestRole } from "@/lib/contest-role";
 
 type Props = {
-  params: Promise<{ contest_id: string; problem_id: string }>;
+  params: Promise<{ contest_id: string; problem_id: string; userId: string; sortOrder: string; }>;
 };
 
 // Cache getContestProblem to avoid duplicate calls in generateMetadata and Page
@@ -54,7 +54,7 @@ const Page = async (props: Props) => {
         page: 1,
         pageSize: 20,
         contestId: params.contest_id,
-        order: -1,
+        sortOrder: "desc",
       }),
       getCurrentUser(),
     ]);

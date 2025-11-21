@@ -30,44 +30,32 @@ interface PageProps {
 
 const PAGE_SIZE = 15;
 
-const isValidInteger = (value: unknown): boolean =>
-    typeof value === 'string' && !isNaN(Number(value)) && Number.isInteger(Number(value));
-
-const parseSearchParams = (searchParams: SearchParams) => {
-    const params: any = {page: 1, pageSize: PAGE_SIZE};
-
-    const integerFields: (keyof SearchParams)[] = [
-        'page',
-        'userId',
-        'problemId',
-        'state',
-        'order',
-        'language',
-    ];
-
-    integerFields.forEach((field) => {
-        if (searchParams[field] && isValidInteger(searchParams[field])) {
-            params[field] = Number(searchParams[field]);
-        }
-    });
-
-    // contestId should remain a string
-    if (searchParams.contestId) {
-        params.contestId = searchParams.contestId;
-    }
-
-    return params;
-};
-
 const Page = async ({searchParams}: PageProps) => {
-    const resolvedSearchParams = await searchParams;
-    const params = parseSearchParams(resolvedSearchParams);
+    const params = await searchParams;
     
-    // Always filter by current user
-    // FIXME: Inject right user id
-    const filteredParams = { ...params, /*userId: "eb450cc9-d1de-44ca-8a84-1ad8304ca34b" */ };
-
-    const submissionsData = await getSubmissions(filteredParams);
+    const parsedParams: {
+        page: number;
+        pageSize: number;
+        contestId?: string;
+        userId?: string;
+        problemId?: string;
+        state?: number;
+        sortOrder?: 'asc' | 'desc';
+        language?: number;
+    } = {
+        page: Number(params.page) || 1,
+        pageSize: PAGE_SIZE,
+    };
+    
+    if (params.contestId) parsedParams.contestId = params.contestId;
+    if (params.userId) parsedParams.userId = params.userId;
+    if (params.problemId) parsedParams.problemId = params.problemId;
+    if (params.state) parsedParams.state = Number(params.state);
+    if (params.order === 'asc' || params.order === 'desc') parsedParams.sortOrder = params.order;
+    if (params.language) parsedParams.language = Number(params.language);
+    
+    console.log(parsedParams);
+    const submissionsData = await getSubmissions(parsedParams);
     console.log(submissionsData);
     if (!submissionsData) {
         return (
@@ -86,14 +74,14 @@ const Page = async ({searchParams}: PageProps) => {
     }
 
     const queryParams: Record<string, string | number | undefined> = {
-        page: params.page,
-        pageSize: params.pageSize,
-        contestId: params.contestId,
-        userId: params.userId,
-        problemId: params.problemId,
-        state: params.state,
-        order: params.order,
-        language: params.language,
+        page: parsedParams.page,
+        pageSize: parsedParams.pageSize,
+        contestId: parsedParams.contestId,
+        userId: parsedParams.userId,
+        problemId: parsedParams.problemId,
+        state: parsedParams.state,
+        order: parsedParams.sortOrder,
+        language: parsedParams.language,
     };
 
     const token = 'access-token' in submissionsData ? submissionsData['access-token'] : undefined;
@@ -104,9 +92,9 @@ const Page = async ({searchParams}: PageProps) => {
     const user = await getCurrentUser();
     let contestRole = null;
     
-    if (params.contestId) {
-        contestData = await getContest(String(params.contestId));
-        contestRole = user ? await getMyContestRole(String(params.contestId)) : null;
+    if (parsedParams.contestId) {
+        contestData = await getContest(parsedParams.contestId);
+        contestRole = user ? await getMyContestRole(parsedParams.contestId) : null;
     }
 
     return (

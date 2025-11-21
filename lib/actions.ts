@@ -44,18 +44,25 @@ export async function getSubmissions(params: {
     userId?: string;
     problemId?: string;
     state?: number;
-    order?: number;
+    sortOrder?: "asc" | "desc";
     language?: number;
-} = {}): Promise<ListSubmissionsResponseModel> {
+}): Promise<ListSubmissionsResponseModel> {
     try {
-        const response = await Call((client) => client.default.listSubmissions({
+        // contestId is required for listContestSubmissions
+        if (!params.contestId) {
+            return {submissions: [], pagination: {page: 1, total: 0}};
+        }
+        
+        const contestId = params.contestId; // TypeScript now knows this is a string
+        
+        const response = await Call((client) => client.default.listContestSubmissions({
             page: params.page ?? 1,
             pageSize: params.pageSize ?? 10,
-            contestId: params.contestId,
+            contestId: contestId,
             userId: params.userId,
             problemId: params.problemId,
             state: params.state,
-            order: params.order,
+            sortOrder: params.sortOrder,
             language: params.language,
         }));
         return response;
