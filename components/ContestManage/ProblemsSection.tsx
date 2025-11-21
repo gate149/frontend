@@ -21,11 +21,11 @@ import {
   Title,
 } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
-import { notifications } from "@mantine/notifications";
-import { IconCheck, IconPlus, IconTrash, IconX } from "@tabler/icons-react";
+import { IconPlus, IconTrash } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import type * as corev1 from "../../../contracts/core/v1";
+import { StatusMessage } from "@/components/StatusMessage";
 
 interface ProblemsSectionProps {
   contestId: string;
@@ -47,6 +47,15 @@ export function ProblemsSection({
   );
   const [adding, setAdding] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [statusMessage, setStatusMessage] = useState<{
+    type: "success" | "error";
+    message: string;
+  } | null>(null);
+
+  // Синхронизация списка задач с initialProblems
+  useEffect(() => {
+    setProblems(initialProblems);
+  }, [initialProblems]);
 
   // Search for problems
   useEffect(() => {
@@ -79,11 +88,9 @@ export function ProblemsSection({
 
       await addContestProblem(contestId, selectedProblemId);
 
-      notifications.show({
-        title: "Успешно",
+      setStatusMessage({
+        type: "success",
         message: "Задача добавлена в контест",
-        color: "green",
-        icon: <IconCheck size={16} />,
       });
 
       setSearchQuery("");
@@ -91,11 +98,9 @@ export function ProblemsSection({
       router.refresh();
     } catch (error) {
       console.error("Failed to add problem:", error);
-      notifications.show({
-        title: "Ошибка",
+      setStatusMessage({
+        type: "error",
         message: "Не удалось добавить задачу",
-        color: "red",
-        icon: <IconX size={16} />,
       });
     } finally {
       setAdding(false);
@@ -108,21 +113,17 @@ export function ProblemsSection({
 
       await removeContestProblem(contestId, problemId);
 
-      notifications.show({
-        title: "Успешно",
+      setStatusMessage({
+        type: "success",
         message: "Задача удалена из контеста",
-        color: "green",
-        icon: <IconCheck size={16} />,
       });
 
       router.refresh();
     } catch (error) {
       console.error("Failed to delete problem:", error);
-      notifications.show({
-        title: "Ошибка",
+      setStatusMessage({
+        type: "error",
         message: "Не удалось удалить задачу",
-        color: "red",
-        icon: <IconX size={16} />,
       });
     } finally {
       setDeletingId(null);
@@ -232,6 +233,13 @@ export function ProblemsSection({
           </Table>
         )}
       </Stack>
+
+      <StatusMessage
+        type={statusMessage?.type || "success"}
+        message={statusMessage?.message || ""}
+        opened={!!statusMessage}
+        onClose={() => setStatusMessage(null)}
+      />
     </Card>
   );
 }

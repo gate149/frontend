@@ -15,12 +15,11 @@ import {
   Divider,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { notifications } from "@mantine/notifications";
-import { IconCheck, IconX } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import type * as corev1 from "../../../contracts/core/v1";
 import { APP_COLORS } from "@/lib/theme/colors";
+import { StatusMessage } from "@/components/StatusMessage";
 
 interface SettingsSectionProps {
   contest: corev1.ContestModel;
@@ -84,6 +83,10 @@ function CustomSelect({ label, value, onChange, options, description }: CustomSe
 export function SettingsSection({ contest }: SettingsSectionProps) {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
+  const [statusMessage, setStatusMessage] = useState<{
+    type: "success" | "error";
+    message: string;
+  } | null>(null);
 
   const form = useForm({
     initialValues: {
@@ -100,20 +103,18 @@ export function SettingsSection({ contest }: SettingsSectionProps) {
     try {
       setSaving(true);
       await updateContest(contest.id, values);
-      notifications.show({
-        title: "Успешно",
+      
+      setStatusMessage({
+        type: "success",
         message: "Настройки контеста обновлены",
-        color: "green",
-        icon: <IconCheck size={16} />,
       });
+      
       router.refresh();
     } catch (error) {
       console.error("Failed to update contest:", error);
-      notifications.show({
-        title: "Ошибка",
+      setStatusMessage({
+        type: "error",
         message: "Не удалось обновить настройки",
-        color: "red",
-        icon: <IconX size={16} />,
       });
     } finally {
       setSaving(false);
@@ -176,6 +177,13 @@ export function SettingsSection({ contest }: SettingsSectionProps) {
           </Button>
         </Stack>
       </form>
+
+      <StatusMessage
+        type={statusMessage?.type || "success"}
+        message={statusMessage?.message || ""}
+        opened={!!statusMessage}
+        onClose={() => setStatusMessage(null)}
+      />
     </Card>
   );
 }

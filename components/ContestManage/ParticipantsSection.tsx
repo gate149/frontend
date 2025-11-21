@@ -72,23 +72,24 @@ export function ParticipantsSection({ contestId }: ParticipantsSectionProps) {
 
   const pageSize = 10;
 
-  // Load participants on mount
+  // Load participants
+  const loadParticipants = async () => {
+    try {
+      setLoading(true);
+      const response = await getContestMembers(contestId, page, pageSize);
+
+      setParticipants(response.members);
+      const total = response?.pagination?.total || 0;
+      setTotalPages(Math.ceil(total / pageSize));
+    } catch (error) {
+      console.error("Failed to load participants:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Load participants on mount and when page changes
   useEffect(() => {
-    const loadParticipants = async () => {
-      try {
-        setLoading(true);
-        const response = await getContestMembers(contestId, page, pageSize);
-
-        setParticipants(response.members);
-        const total = response?.pagination?.total || 0;
-        setTotalPages(Math.ceil(total / pageSize));
-      } catch (error) {
-        console.error("Failed to load participants:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     loadParticipants();
   }, [contestId, page]);
 
@@ -130,8 +131,7 @@ export function ParticipantsSection({ contestId }: ParticipantsSectionProps) {
 
       setSearchQuery("");
       setSelectedUserId(null);
-      setPage(1);
-      router.refresh();
+      await loadParticipants();
     } catch (error) {
       console.error("Failed to add participant:", error);
       setStatusMessage({
@@ -154,7 +154,7 @@ export function ParticipantsSection({ contestId }: ParticipantsSectionProps) {
         message: "Участник удален",
       });
 
-      router.refresh();
+      await loadParticipants();
     } catch (error) {
       console.error("Failed to delete participant:", error);
       setStatusMessage({
@@ -195,7 +195,7 @@ export function ParticipantsSection({ contestId }: ParticipantsSectionProps) {
         });
       }, 50);
 
-      router.refresh();
+      await loadParticipants();
     } catch (error) {
       console.error("Failed to change role:", error);
       setModalOpened(false);
