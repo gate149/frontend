@@ -23,9 +23,10 @@ type Props = {
     onSubmit: (submission: FormData, language: string) => Promise<number | null>;
     problemSelect?: React.ReactNode;
     large?: boolean;
+    disabled?: boolean;
 };
 
-const CreateSubmissionForm = ({ onSubmit, problemSelect, large = false }: Props) => {
+const CreateSubmissionForm = ({ onSubmit, problemSelect, large = false, disabled = false }: Props) => {
     const [file, setFile] = useState<File | null>(null);
     const [isDragging, setIsDragging] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -68,6 +69,7 @@ const CreateSubmissionForm = ({ onSubmit, problemSelect, large = false }: Props)
     });
 
     const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (disabled) return;
         const selectedFile = event.target.files?.[0];
         if (selectedFile) {
             setFile(selectedFile);
@@ -77,6 +79,10 @@ const CreateSubmissionForm = ({ onSubmit, problemSelect, large = false }: Props)
 
     const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
+        if (disabled) {
+            setIsDragging(false);
+            return;
+        }
         setIsDragging(false);
 
         const textData = event.dataTransfer.getData("text/plain");
@@ -95,7 +101,9 @@ const CreateSubmissionForm = ({ onSubmit, problemSelect, large = false }: Props)
 
     const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
-        setIsDragging(true);
+        if (!disabled) {
+            setIsDragging(true);
+        }
     };
 
     const handleDragLeave = () => {
@@ -103,6 +111,7 @@ const CreateSubmissionForm = ({ onSubmit, problemSelect, large = false }: Props)
     };
 
     const removeFile = () => {
+        if (disabled) return;
         setFile(null);
         if (fileInputRef.current) {
             fileInputRef.current.value = "";
@@ -127,6 +136,7 @@ const CreateSubmissionForm = ({ onSubmit, problemSelect, large = false }: Props)
                         allowDeselect={false}
                         {...form.getInputProps("language")}
                         style={{ width: "200px" }}
+                        disabled={disabled}
                     />
                     <Button
                         component="label"
@@ -137,6 +147,7 @@ const CreateSubmissionForm = ({ onSubmit, problemSelect, large = false }: Props)
                             section: classes.pinFileSection,
                             root: classes.pinFileRoot,
                         }}
+                        disabled={disabled}
                     >
                         Прикрепить файл
                         <input
@@ -145,6 +156,7 @@ const CreateSubmissionForm = ({ onSubmit, problemSelect, large = false }: Props)
                             ref={fileInputRef}
                             onChange={handleFileSelect}
                             accept=".py,.cpp,.go,.txt"
+                            disabled={disabled}
                         />
                     </Button>
                 </Group>
@@ -171,6 +183,7 @@ const CreateSubmissionForm = ({ onSubmit, problemSelect, large = false }: Props)
                                 color="red"
                                 className={classes.deleteButton}
                                 variant="subtle"
+                                disabled={disabled}
                             >
                                 <IconTrash size={20} />
                             </ActionIcon>
@@ -180,11 +193,17 @@ const CreateSubmissionForm = ({ onSubmit, problemSelect, large = false }: Props)
                             {...form.getInputProps("code")}
                             placeholder="Введите ваше решение здесь, перетащите файл или текст..."
                             classNames={{ input: classes.input }}
+                            disabled={disabled}
                         />
                     )}
                 </div>
 
-                <Button type="submit" loading={mutation.isPending} color={APP_COLORS.submissions}>
+                <Button 
+                    type="submit" 
+                    loading={mutation.isPending} 
+                    disabled={disabled}
+                    color={APP_COLORS.submissions}
+                >
                     Отправить решение
                 </Button>
             </Stack>

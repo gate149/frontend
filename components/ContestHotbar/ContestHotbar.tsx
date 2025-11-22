@@ -79,7 +79,7 @@ export function ContestHotbar({ contest, user, contestRole, activeTab, showManag
         {checker.canViewMySubmissions(contest) && (
           <Button
             component={Link}
-            href={`/mysubmissions?contestId=${contest.id}&order=-1&userId=${user?.id}`}
+            href={`/mysubmissions?contestId=${contest.id}&sortOrder=desc&userId=${user?.id}`}
             variant={activeTab === "mysubmissions" ? "filled" : "default"}
             size="sm"
             leftSection={<IconUser size={16} />}
@@ -91,7 +91,7 @@ export function ContestHotbar({ contest, user, contestRole, activeTab, showManag
         {checker.canViewAllSubmissions(contest) && (
           <Button
             component={Link}
-            href={`/submissions?contestId=${contest.id}&order=-1&userId=${user?.id}`}
+            href={`/submissions?contestId=${contest.id}&sortOrder=desc&userId=${user?.id}`}
             variant={activeTab === "allsubmissions" ? "filled" : "default"}
             size="sm"
             leftSection={<IconMail size={16} />}

@@ -333,27 +333,28 @@ export async function createSolution(
     problemId: string,
     contestId: string,
     language: number,
-    formData: FormData
+    submission: FormData
 ) {
     try {
-        const solutionData = formData.get("solution");
-        let solutionBlob: Blob;
-
+        const solutionData = submission.get("submission");
+        let solutionContent: string;
+        
         if (solutionData instanceof File) {
-            solutionBlob = solutionData;
+            solutionContent = await solutionData.text();
         } else if (typeof solutionData === "string") {
-            solutionBlob = new Blob([solutionData], {type: "text/plain"});
+            solutionContent = solutionData;
         } else {
             throw new Error("Invalid solution data type");
         }
-
+        
+        console.log("Creating submission:", {problemId, contestId, language});
         const response = await Call((client) =>
             client.default.createSubmission({
                 problemId,
                 contestId,
                 language,
                 requestBody: {
-                    submission: solutionBlob.toString(),
+                    submission: solutionContent,
                 },
             })
         );

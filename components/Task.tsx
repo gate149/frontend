@@ -26,6 +26,7 @@ import {submitSubmission} from "@/app/contests/[contest_id]/problems/[problem_id
 import {ContestHotbar} from "@/components/ContestHotbar";
 import type {SessionUser} from "@/lib/session";
 import type {ContestRole} from "@/lib/contest-role";
+import { useRouter } from "next/navigation";
 
 type PageProps = {
     tasks: ContestProblemListItemModel[]
@@ -40,11 +41,20 @@ type PageProps = {
 }
 
 const Task = ({tasks, contest, task, submissions, problemId, contestId, user, contestRole, header}: PageProps) => {
+    const router = useRouter();
+
     const onSubmit = async (
         submission: FormData,
         language: string
     ): Promise<number | null> => {
-        return submitSubmission(problemId, contestId, submission, language);
+        const result = await submitSubmission(problemId, contestId, submission, language);
+        
+        if (result) {
+            // Refresh the page data to update submissions list
+            router.refresh();
+        }
+        
+        return result;
     };
 
     return (
@@ -108,7 +118,7 @@ const Task = ({tasks, contest, task, submissions, problemId, contestId, user, co
                         >
                             <Stack>
                                 <CreateSubmissionForm onSubmit={onSubmit}/>
-                                <RecentSubmissionsTable submissions={submissions} contestId={contest.id} />
+                                <RecentSubmissionsTable submissions={submissions} contestId={contest.id} userId={user?.id}/>
                             </Stack>
                         </Paper>
                     </Box>

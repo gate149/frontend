@@ -81,6 +81,7 @@ const Page = async ({ params }: Props) => {
             <SubmitSubmissionClient 
               contest={response.contest}
               problems={response.problems || []}
+              user={user}
             />
           </Container>
         </AppShellMain>

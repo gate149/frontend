@@ -4,18 +4,23 @@ import { CreateSubmissionForm } from "@/components/CreateSubmissionForm";
 import { numberToLetters } from "@/lib/lib";
 import { Box, Paper, Select, Stack } from "@mantine/core";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import type { ContestModel, ContestProblemListItemModel } from "../../../../../contracts/core/v1";
+import type { SessionUser } from "@/lib/session";
 import { submitSubmission } from "./actions";
 
 type Props = {
   contest: ContestModel;
   problems: ContestProblemListItemModel[];
+  user: SessionUser;
 };
 
-export function SubmitSubmissionClient({ contest, problems }: Props) {
+export function SubmitSubmissionClient({ contest, problems, user }: Props) {
+  const router = useRouter();
   const [selectedProblemId, setSelectedProblemId] = useState<string | null>(
     problems.length > 0 ? problems[0].problem_id : null
   );
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const problemOptions = problems.map((problem) => ({
     value: problem.problem_id,
@@ -28,12 +33,21 @@ export function SubmitSubmissionClient({ contest, problems }: Props) {
       return null;
     }
 
-    return await submitSubmission(
+    const result = await submitSubmission(
       selectedProblemId,
       contest.id,
       submission,
       language
     );
+
+    if (result) {
+      // Mark as submitted to disable form
+      setIsSubmitted(true);
+      // Redirect to "Мои посылки" page after successful submission
+      router.push(`/mysubmissions?contestId=${contest.id}&order=desc&userId=${user?.id}`);
+    }
+
+    return result;
   };
 
   if (problems.length === 0) {
@@ -58,6 +72,7 @@ export function SubmitSubmissionClient({ contest, problems }: Props) {
         <CreateSubmissionForm 
           onSubmit={handleSubmit}
           large={true}
+          disabled={isSubmitted}
           problemSelect={
             <Select
               placeholder="Выберите задачу для отправки решения"
@@ -65,6 +80,7 @@ export function SubmitSubmissionClient({ contest, problems }: Props) {
               value={selectedProblemId}
               onChange={setSelectedProblemId}
               allowDeselect={false}
+              disabled={isSubmitted}
               style={{ width: 200 }}
             />
           }

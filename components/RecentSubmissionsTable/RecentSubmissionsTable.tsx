@@ -8,11 +8,13 @@ import { StateColor, StateString } from "@/lib/lib";
 type RecentSubmissionsTableProps = {
   submissions: SubmissionsListItemModel[];
   contestId: string;
+  userId?: string;
 };
 
 export function RecentSubmissionsTable({
   submissions,
   contestId,
+  userId,
 }: RecentSubmissionsTableProps) {
   if (submissions.length === 0) {
     return null;
@@ -24,7 +26,7 @@ export function RecentSubmissionsTable({
         Последние посылки{" "}
         <Anchor
           component={Link}
-          href={`/submissions?contestId=${contestId}&order=-1`}
+          href={`/mysubmissions?contestId=${contestId}&sortOrder=asc&userId=${userId}`}
           fs="italic"
           c="var(--mantine-color-text)"
           fw={500}
