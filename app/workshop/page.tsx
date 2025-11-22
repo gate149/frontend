@@ -65,7 +65,7 @@ const ContestsView = async ({
   page: number;
   search?: string;
 }) => {
-  const contestsData = await getContests(page, 10, search, true);
+  const contestsData = await getContests(page, 10, search);
 
   if (!contestsData) {
     return (

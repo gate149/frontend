@@ -3,9 +3,9 @@
 import { ListContestMembersResponseModel, ListSubmissionsResponseModel, ListUsersResponseModel, SubmissionsListItemModel } from '../../contracts/core/v1';
 import {Call} from './api';
 
-export async function getContests(page: number = 1, pageSize: number = 10, search?: string, owner?: boolean) {
+export async function getContests(page: number = 1, pageSize: number = 10, search?: string) {
     try {
-        const response = await Call((client) => client.default.listContests({page, pageSize, search, owner}));
+        const response = await Call((client) => client.default.listWorkshopContests({page, pageSize, search}));
         return response;
     } catch (error) {
         console.error('Failed to fetch contests:', error);

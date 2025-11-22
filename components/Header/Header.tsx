@@ -109,6 +109,15 @@ const Header = ({ session }: { session?: any }) => {
             </Anchor>
             <Anchor
               component={Link}
+              href="/contests"
+              className={classes.link}
+              underline="never"
+              visibleFrom="sm"
+            >
+              Контесты
+            </Anchor>
+            <Anchor
+              component={Link}
               href="/workshop"
               className={classes.link}
               underline="never"
@@ -176,6 +185,14 @@ const Header = ({ session }: { session?: any }) => {
               underline="never"
             >
               Главная
+            </Anchor>
+            <Anchor
+              component={Link}
+              href="/contests"
+              className={classes.link}
+              underline="never"
+            >
+              Контесты
             </Anchor>
             <Anchor
               component={Link}
