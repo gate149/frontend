@@ -22,7 +22,7 @@ export function UsersSearchInput() {
       }
 
       const query = params.toString();
-      router.push(`/users${query ? `?${query}` : ""}`);
+      router.push(`/admin${query ? `?${query}` : ""}`);
     },
     [router, searchParams]
   );

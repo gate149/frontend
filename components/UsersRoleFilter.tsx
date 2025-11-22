@@ -24,7 +24,7 @@ export function UsersRoleFilter() {
     params.delete("page"); // Reset to first page on filter change
 
     const query = params.toString();
-    router.push(`/users${query ? `?${query}` : ""}`);
+    router.push(`/admin${query ? `?${query}` : ""}`);
   };
 
   const getSelectedBadge = () => {

@@ -426,7 +426,7 @@ export default function Page() {
                 size="lg"
                 variant="outline"
                 component={Link}
-                href="/users"
+                href="/admin"
               >
                 Лидерборд
               </Button>

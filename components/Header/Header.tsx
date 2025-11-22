@@ -139,7 +139,7 @@ const Header = ({ session }: { session?: any }) => {
             {session?.identity?.metadata_public?.role === "admin" && (
               <Button
                 component={Link}
-                href="/users"
+                href="/admin"
                 variant="filled"
                 visibleFrom="sm"
                 color={APP_COLORS.admin}
@@ -207,7 +207,7 @@ const Header = ({ session }: { session?: any }) => {
             {session?.identity?.metadata_public?.role === "admin" && (
               <Anchor
                 component={Link}
-                href="/users"
+                href="/admin"
                 className={classes.link}
                 underline="never"
               >

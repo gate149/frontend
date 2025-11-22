@@ -93,7 +93,7 @@ export function UsersTable({ users, pagination, search, role }: Props) {
               page: currentPage,
               total: Math.ceil(totalUsers / currentPageSize),
             }}
-            baseUrl="/users"
+            baseUrl="/admin"
             queryParams={queryParams}
           />
         </Stack>
