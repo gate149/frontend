@@ -19,7 +19,7 @@ export default function RootLayout({children}: { children: any }) {
     return (
         <html lang="ru" className={inter.className} {...mantineHtmlProps}>
         <head>
-            <ColorSchemeScript defaultColorScheme="auto"/>
+            <ColorSchemeScript defaultColorScheme="dark"/>
             <link rel="shortcut icon" href="/gate_logo.svg"/>
             <meta
                 name="viewport"
@@ -28,7 +28,7 @@ export default function RootLayout({children}: { children: any }) {
         </head>
         <body>
         <QueryClientProvider client={queryClient}>
-            <MantineProvider theme={theme} defaultColorScheme="auto" withGlobalClasses>
+            <MantineProvider theme={theme} defaultColorScheme="dark" withGlobalClasses>
                 <Notifications/>
                 <Suspense>
                     <SessionProvider>

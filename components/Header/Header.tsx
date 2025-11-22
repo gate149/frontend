@@ -68,7 +68,7 @@ const Header = ({ session }: { session?: any }) => {
     useDisclosure(false);
 
   const { setColorScheme } = useMantineColorScheme();
-  const computedColorScheme = useComputedColorScheme("light", {
+  const computedColorScheme = useComputedColorScheme("dark", {
     getInitialValueInEffect: true,
   });
 
@@ -136,15 +136,17 @@ const Header = ({ session }: { session?: any }) => {
             </Anchor>
           </Group>
           <Group justify="flex-end" style={{ flex: 1 }}>
-            <Button
-              component={Link}
-              href="/users"
-              variant="filled"
-              visibleFrom="sm"
-              color={APP_COLORS.admin}
-            >
-              ADMIN
-            </Button>
+            {session?.identity?.metadata_public?.role === "admin" && (
+              <Button
+                component={Link}
+                href="/users"
+                variant="filled"
+                visibleFrom="sm"
+                color={APP_COLORS.admin}
+              >
+                ADMIN
+              </Button>
+            )}
             <ActionIcon
               onClick={() =>
                 setColorScheme(
@@ -202,14 +204,16 @@ const Header = ({ session }: { session?: any }) => {
             >
               Мастерская
             </Anchor>
-            <Anchor
-              component={Link}
-              href="/users"
-              className={classes.link}
-              underline="never"
-            >
-              Администрирование
-            </Anchor>
+            {session?.identity?.metadata_public?.role === "admin" && (
+              <Anchor
+                component={Link}
+                href="/users"
+                className={classes.link}
+                underline="never"
+              >
+                Администрирование
+              </Anchor>
+            )}
           </Stack>
 
           <Divider my="sm" />

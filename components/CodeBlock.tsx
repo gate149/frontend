@@ -12,7 +12,7 @@ interface CodeBlockProps {
 
 const CodeBlock: React.FC<CodeBlockProps> = ({code, language}) => {
     const [theme, setTheme] = useState(oneDark);
-    const colorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
+    const colorScheme = useComputedColorScheme('dark', { getInitialValueInEffect: true });
 
     useEffect(() => {
         setTheme(colorScheme === 'dark' ? oneDark : oneLight);
