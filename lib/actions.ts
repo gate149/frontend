@@ -13,6 +13,26 @@ export async function getContests(page: number = 1, pageSize: number = 10, searc
     }
 }
 
+export async function getPublicContests(page: number = 1, pageSize: number = 10, search?: string) {
+    try {
+        const response = await Call((client) => client.default.listPublicContests({page, pageSize, search}));
+        return response;
+    } catch (error) {
+        console.error('Failed to fetch public contests:', error);
+        return null;
+    }
+}
+
+export async function getUserContests(userId: string, page: number = 1, pageSize: number = 10, search?: string) {
+    try {
+        const response = await Call((client) => client.default.listUserContests({id: userId, page, pageSize, search}));
+        return response;
+    } catch (error) {
+        console.error('Failed to fetch user contests:', error);
+        return null;
+    }
+}
+
 export async function getProblems(page: number = 1, pageSize: number = 10, search?: string, order?: number, owner?: boolean) {
     try {
         const params: {
